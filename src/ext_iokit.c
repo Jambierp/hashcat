@@ -40,7 +40,7 @@ void hm_IOKIT_ultostr (char *str, UInt32 val)
   snprintf (str, 5, "%c%c%c%c", (unsigned int) (val >> 24), (unsigned int) (val >> 16), (unsigned int) (val >> 8), (unsigned int) (val));
 }
 
-kern_return_t hm_IOKIT_SMCOpen (void *hashcat_ctx, io_connect_t *conn)
+kern_return_t hm_IOKIT_SMCOpen (void *supercrack_ctx, io_connect_t *conn)
 {
   kern_return_t result;
   io_iterator_t iterator;
@@ -52,7 +52,7 @@ kern_return_t hm_IOKIT_SMCOpen (void *hashcat_ctx, io_connect_t *conn)
 
   if (result != kIOReturnSuccess)
   {
-    event_log_error (hashcat_ctx, "IOServiceGetMatchingServices(): %08x", result);
+    event_log_error (supercrack_ctx, "IOServiceGetMatchingServices(): %08x", result);
 
     return 1;
   }
@@ -63,7 +63,7 @@ kern_return_t hm_IOKIT_SMCOpen (void *hashcat_ctx, io_connect_t *conn)
 
   if (device == 0)
   {
-    event_log_error (hashcat_ctx, "hm_IOKIT_SMCOpen(): no SMC found.");
+    event_log_error (supercrack_ctx, "hm_IOKIT_SMCOpen(): no SMC found.");
 
     return 1;
   }
@@ -74,7 +74,7 @@ kern_return_t hm_IOKIT_SMCOpen (void *hashcat_ctx, io_connect_t *conn)
 
   if (result != kIOReturnSuccess)
   {
-    event_log_error (hashcat_ctx, "IOServiceOpen(): %08x", result);
+    event_log_error (supercrack_ctx, "IOServiceOpen(): %08x", result);
 
     return 1;
   }
@@ -129,9 +129,9 @@ kern_return_t hm_IOKIT_SMCReadKey (UInt32Char_t key, SMCVal_t *val, io_connect_t
   return kIOReturnSuccess;
 }
 
-int hm_IOKIT_SMCGetSensorGraphicHot (void *hashcat_ctx)
+int hm_IOKIT_SMCGetSensorGraphicHot (void *supercrack_ctx)
 {
-  hwmon_ctx_t *hwmon_ctx = ((hashcat_ctx_t *) hashcat_ctx)->hwmon_ctx;
+  hwmon_ctx_t *hwmon_ctx = ((supercrack_ctx_t *) supercrack_ctx)->hwmon_ctx;
 
   IOKIT_PTR *iokit = hwmon_ctx->hm_iokit;
 
@@ -157,9 +157,9 @@ int hm_IOKIT_SMCGetSensorGraphicHot (void *hashcat_ctx)
   return -1;
 }
 
-int hm_IOKIT_SMCGetTemperature (void *hashcat_ctx, char *key, double *temp)
+int hm_IOKIT_SMCGetTemperature (void *supercrack_ctx, char *key, double *temp)
 {
-  hwmon_ctx_t *hwmon_ctx = ((hashcat_ctx_t *) hashcat_ctx)->hwmon_ctx;
+  hwmon_ctx_t *hwmon_ctx = ((supercrack_ctx_t *) supercrack_ctx)->hwmon_ctx;
 
   IOKIT_PTR *iokit = hwmon_ctx->hm_iokit;
 
@@ -223,7 +223,7 @@ bool hm_IOKIT_SMCGetFanRPM (char *key, io_connect_t conn, float *ret)
   return false;
 }
 
-int hm_IOKIT_get_utilization_current (void *hashcat_ctx, int *utilization)
+int hm_IOKIT_get_utilization_current (void *supercrack_ctx, int *utilization)
 {
   bool rc = false;
 
@@ -233,7 +233,7 @@ int hm_IOKIT_get_utilization_current (void *hashcat_ctx, int *utilization)
 
   if (IOServiceGetMatchingServices (hc_IOMasterPortDefault, matching, &iterator) != kIOReturnSuccess)
   {
-    event_log_error (hashcat_ctx, "IOServiceGetMatchingServices(): failure");
+    event_log_error (supercrack_ctx, "IOServiceGetMatchingServices(): failure");
 
     return rc;
   }
@@ -283,9 +283,9 @@ int hm_IOKIT_get_utilization_current (void *hashcat_ctx, int *utilization)
   return rc;
 }
 
-int hm_IOKIT_get_fan_speed_current (void *hashcat_ctx, char *fan_speed_buf)
+int hm_IOKIT_get_fan_speed_current (void *supercrack_ctx, char *fan_speed_buf)
 {
-  hwmon_ctx_t *hwmon_ctx = ((hashcat_ctx_t *) hashcat_ctx)->hwmon_ctx;
+  hwmon_ctx_t *hwmon_ctx = ((supercrack_ctx_t *) supercrack_ctx)->hwmon_ctx;
 
   IOKIT_PTR *iokit = hwmon_ctx->hm_iokit;
 
@@ -337,15 +337,15 @@ int hm_IOKIT_get_fan_speed_current (void *hashcat_ctx, char *fan_speed_buf)
   return 1;
 }
 
-bool iokit_init (void *hashcat_ctx)
+bool iokit_init (void *supercrack_ctx)
 {
-  hwmon_ctx_t *hwmon_ctx = ((hashcat_ctx_t *) hashcat_ctx)->hwmon_ctx;
+  hwmon_ctx_t *hwmon_ctx = ((supercrack_ctx_t *) supercrack_ctx)->hwmon_ctx;
 
   IOKIT_PTR *iokit = hwmon_ctx->hm_iokit;
 
   memset (iokit, 0, sizeof (IOKIT_PTR));
 
-  if (hm_IOKIT_SMCOpen (hashcat_ctx, &iokit->conn) == kIOReturnSuccess) return true;
+  if (hm_IOKIT_SMCOpen (supercrack_ctx, &iokit->conn) == kIOReturnSuccess) return true;
 
   hcfree (hwmon_ctx->hm_iokit);
 
@@ -354,9 +354,9 @@ bool iokit_init (void *hashcat_ctx)
   return false;
 }
 
-bool iokit_close (void *hashcat_ctx)
+bool iokit_close (void *supercrack_ctx)
 {
-  hwmon_ctx_t *hwmon_ctx = ((hashcat_ctx_t *) hashcat_ctx)->hwmon_ctx;
+  hwmon_ctx_t *hwmon_ctx = ((supercrack_ctx_t *) supercrack_ctx)->hwmon_ctx;
 
   IOKIT_PTR *iokit = hwmon_ctx->hm_iokit;
 

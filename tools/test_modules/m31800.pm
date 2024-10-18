@@ -24,7 +24,7 @@ sub module_generate_hash
   my $iv          = shift // (random_number (0,1) ? random_hex_string (32) : random_hex_string (24));
   my $ct          = shift;
   my $tag         = shift;
-  my $email       = shift // "31800\@hashcat.net";
+  my $email       = shift // "31800\@supercrack.net";
 
   my $hkdf_salt_bin = pack ("H*", $hkdf_salt);
 

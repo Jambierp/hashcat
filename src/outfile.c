@@ -112,15 +112,15 @@ u32 outfile_format_parse (const char *format_string)
   return outfile_format;
 }
 
-int build_plain (hashcat_ctx_t *hashcat_ctx, hc_device_param_t *device_param, plain_t *plain, u32 *plain_buf, int *out_len)
+int build_plain (supercrack_ctx_t *supercrack_ctx, hc_device_param_t *device_param, plain_t *plain, u32 *plain_buf, int *out_len)
 {
-  const combinator_ctx_t     *combinator_ctx     = hashcat_ctx->combinator_ctx;
-  const hashconfig_t         *hashconfig         = hashcat_ctx->hashconfig;
-  const hashes_t             *hashes             = hashcat_ctx->hashes;
-  const mask_ctx_t           *mask_ctx           = hashcat_ctx->mask_ctx;
-  const straight_ctx_t       *straight_ctx       = hashcat_ctx->straight_ctx;
-  const user_options_t       *user_options       = hashcat_ctx->user_options;
-  const user_options_extra_t *user_options_extra = hashcat_ctx->user_options_extra;
+  const combinator_ctx_t     *combinator_ctx     = supercrack_ctx->combinator_ctx;
+  const hashconfig_t         *hashconfig         = supercrack_ctx->hashconfig;
+  const hashes_t             *hashes             = supercrack_ctx->hashes;
+  const mask_ctx_t           *mask_ctx           = supercrack_ctx->mask_ctx;
+  const straight_ctx_t       *straight_ctx       = supercrack_ctx->straight_ctx;
+  const user_options_t       *user_options       = supercrack_ctx->user_options;
+  const user_options_extra_t *user_options_extra = supercrack_ctx->user_options_extra;
 
   const u64 gidvid = plain->gidvid;
   const u32 il_pos = plain->il_pos;
@@ -133,7 +133,7 @@ int build_plain (hashcat_ctx_t *hashcat_ctx, hc_device_param_t *device_param, pl
   {
     pw_t pw;
 
-    const int rc = gidd_to_pw_t (hashcat_ctx, device_param, gidvid, &pw);
+    const int rc = gidd_to_pw_t (supercrack_ctx, device_param, gidvid, &pw);
 
     if (rc == -1) return -1;
 
@@ -147,7 +147,7 @@ int build_plain (hashcat_ctx_t *hashcat_ctx, hc_device_param_t *device_param, pl
     {
       pw_t pw;
 
-      const int rc = gidd_to_pw_t (hashcat_ctx, device_param, gidvid, &pw);
+      const int rc = gidd_to_pw_t (supercrack_ctx, device_param, gidvid, &pw);
 
       if (rc == -1) return -1;
 
@@ -188,7 +188,7 @@ int build_plain (hashcat_ctx_t *hashcat_ctx, hc_device_param_t *device_param, pl
     {
       pw_t pw;
 
-      const int rc = gidd_to_pw_t (hashcat_ctx, device_param, gidvid, &pw);
+      const int rc = gidd_to_pw_t (supercrack_ctx, device_param, gidvid, &pw);
 
       if (rc == -1) return -1;
 
@@ -235,7 +235,7 @@ int build_plain (hashcat_ctx_t *hashcat_ctx, hc_device_param_t *device_param, pl
     {
       pw_t pw;
 
-      const int rc = gidd_to_pw_t (hashcat_ctx, device_param, gidvid, &pw);
+      const int rc = gidd_to_pw_t (supercrack_ctx, device_param, gidvid, &pw);
 
       if (rc == -1) return -1;
 
@@ -261,7 +261,7 @@ int build_plain (hashcat_ctx_t *hashcat_ctx, hc_device_param_t *device_param, pl
       {
         pw_t pw;
 
-        const int rc = gidd_to_pw_t (hashcat_ctx, device_param, gidvid, &pw);
+        const int rc = gidd_to_pw_t (supercrack_ctx, device_param, gidvid, &pw);
 
         if (rc == -1) return -1;
 
@@ -287,7 +287,7 @@ int build_plain (hashcat_ctx_t *hashcat_ctx, hc_device_param_t *device_param, pl
       {
         pw_t pw;
 
-        const int rc = gidd_to_pw_t (hashcat_ctx, device_param, gidvid, &pw);
+        const int rc = gidd_to_pw_t (supercrack_ctx, device_param, gidvid, &pw);
 
         if (rc == -1) return -1;
 
@@ -347,7 +347,7 @@ int build_plain (hashcat_ctx_t *hashcat_ctx, hc_device_param_t *device_param, pl
 
   // pw_max is per pw_t element but in combinator we have two pw_t elements.
   // therefore we can support up to 64 in combinator in optimized mode (but limited by general hash limit 55)
-  // or full 512 in pure mode (but limited by hashcat buffer size limit 256).
+  // or full 512 in pure mode (but limited by supercrack buffer size limit 256).
   // some algorithms do not support general default pw_max = 31,
   // therefore we need to use pw_max as a base and not hardcode it.
 
@@ -375,13 +375,13 @@ int build_plain (hashcat_ctx_t *hashcat_ctx, hc_device_param_t *device_param, pl
   return 0;
 }
 
-int build_crackpos (hashcat_ctx_t *hashcat_ctx, hc_device_param_t *device_param, plain_t *plain, u64 *out_pos)
+int build_crackpos (supercrack_ctx_t *supercrack_ctx, hc_device_param_t *device_param, plain_t *plain, u64 *out_pos)
 {
-  const combinator_ctx_t      *combinator_ctx     = hashcat_ctx->combinator_ctx;
-  const mask_ctx_t            *mask_ctx           = hashcat_ctx->mask_ctx;
-  const straight_ctx_t        *straight_ctx       = hashcat_ctx->straight_ctx;
-  const user_options_t        *user_options       = hashcat_ctx->user_options;
-  const user_options_extra_t  *user_options_extra = hashcat_ctx->user_options_extra;
+  const combinator_ctx_t      *combinator_ctx     = supercrack_ctx->combinator_ctx;
+  const mask_ctx_t            *mask_ctx           = supercrack_ctx->mask_ctx;
+  const straight_ctx_t        *straight_ctx       = supercrack_ctx->straight_ctx;
+  const user_options_t        *user_options       = supercrack_ctx->user_options;
+  const user_options_extra_t  *user_options_extra = supercrack_ctx->user_options_extra;
 
   const u64 gidvid = plain->gidvid;
   const u32 il_pos = plain->il_pos;
@@ -419,11 +419,11 @@ int build_crackpos (hashcat_ctx_t *hashcat_ctx, hc_device_param_t *device_param,
   return 0;
 }
 
-int build_debugdata (hashcat_ctx_t *hashcat_ctx, hc_device_param_t *device_param, plain_t *plain, u8 *debug_rule_buf, int *debug_rule_len, u8 *debug_plain_ptr, int *debug_plain_len)
+int build_debugdata (supercrack_ctx_t *supercrack_ctx, hc_device_param_t *device_param, plain_t *plain, u8 *debug_rule_buf, int *debug_rule_len, u8 *debug_plain_ptr, int *debug_plain_len)
 {
-  const debugfile_ctx_t *debugfile_ctx = hashcat_ctx->debugfile_ctx;
-  const straight_ctx_t  *straight_ctx  = hashcat_ctx->straight_ctx;
-  const user_options_t  *user_options  = hashcat_ctx->user_options;
+  const debugfile_ctx_t *debugfile_ctx = supercrack_ctx->debugfile_ctx;
+  const straight_ctx_t  *straight_ctx  = supercrack_ctx->straight_ctx;
+  const user_options_t  *user_options  = supercrack_ctx->user_options;
 
   const u64 gidvid = plain->gidvid;
   const u32 il_pos = plain->il_pos;
@@ -462,7 +462,7 @@ int build_debugdata (hashcat_ctx_t *hashcat_ctx, hc_device_param_t *device_param
   {
     pw_t pw;
 
-    const int rc = gidd_to_pw_t (hashcat_ctx, device_param, gidvid, &pw);
+    const int rc = gidd_to_pw_t (supercrack_ctx, device_param, gidvid, &pw);
 
     if (rc == -1) return -1;
 
@@ -494,10 +494,10 @@ int build_debugdata (hashcat_ctx_t *hashcat_ctx, hc_device_param_t *device_param
   return 0;
 }
 
-int outfile_init (hashcat_ctx_t *hashcat_ctx)
+int outfile_init (supercrack_ctx_t *supercrack_ctx)
 {
-  outfile_ctx_t  *outfile_ctx  = hashcat_ctx->outfile_ctx;
-  user_options_t *user_options = hashcat_ctx->user_options;
+  outfile_ctx_t  *outfile_ctx  = supercrack_ctx->outfile_ctx;
+  user_options_t *user_options = supercrack_ctx->user_options;
 
   outfile_ctx->fp.pfp          = NULL;
   outfile_ctx->filename        = user_options->outfile;
@@ -509,9 +509,9 @@ int outfile_init (hashcat_ctx_t *hashcat_ctx)
   return 0;
 }
 
-void outfile_destroy (hashcat_ctx_t *hashcat_ctx)
+void outfile_destroy (supercrack_ctx_t *supercrack_ctx)
 {
-  outfile_ctx_t *outfile_ctx = hashcat_ctx->outfile_ctx;
+  outfile_ctx_t *outfile_ctx = supercrack_ctx->outfile_ctx;
 
   if (outfile_ctx->is_fifo == true && outfile_ctx->fp.pfp != NULL)
   {
@@ -523,9 +523,9 @@ void outfile_destroy (hashcat_ctx_t *hashcat_ctx)
   memset (outfile_ctx, 0, sizeof (outfile_ctx_t));
 }
 
-int outfile_write_open (hashcat_ctx_t *hashcat_ctx)
+int outfile_write_open (supercrack_ctx_t *supercrack_ctx)
 {
-  outfile_ctx_t *outfile_ctx = hashcat_ctx->outfile_ctx;
+  outfile_ctx_t *outfile_ctx = supercrack_ctx->outfile_ctx;
 
   if (outfile_ctx->filename == NULL) return 0;
 
@@ -533,7 +533,7 @@ int outfile_write_open (hashcat_ctx_t *hashcat_ctx)
   {
     if (hc_fopen (&outfile_ctx->fp, outfile_ctx->filename, "ab") == false)
     {
-      event_log_error (hashcat_ctx, "%s: %s", outfile_ctx->filename, strerror (errno));
+      event_log_error (supercrack_ctx, "%s: %s", outfile_ctx->filename, strerror (errno));
 
       return -1;
     }
@@ -542,7 +542,7 @@ int outfile_write_open (hashcat_ctx_t *hashcat_ctx)
     {
       hc_fclose (&outfile_ctx->fp);
 
-      event_log_error (hashcat_ctx, "%s: %s", outfile_ctx->filename, strerror (errno));
+      event_log_error (supercrack_ctx, "%s: %s", outfile_ctx->filename, strerror (errno));
 
       return -1;
     }
@@ -551,9 +551,9 @@ int outfile_write_open (hashcat_ctx_t *hashcat_ctx)
   return 0;
 }
 
-void outfile_write_close (hashcat_ctx_t *hashcat_ctx)
+void outfile_write_close (supercrack_ctx_t *supercrack_ctx)
 {
-  outfile_ctx_t *outfile_ctx = hashcat_ctx->outfile_ctx;
+  outfile_ctx_t *outfile_ctx = supercrack_ctx->outfile_ctx;
 
   if (outfile_ctx->fp.pfp == NULL) return;
 
@@ -568,13 +568,13 @@ void outfile_write_close (hashcat_ctx_t *hashcat_ctx)
   hc_fclose (&outfile_ctx->fp);
 }
 
-int outfile_write (hashcat_ctx_t *hashcat_ctx, const char *out_buf, const int out_len, const unsigned char *plain_ptr, const u32 plain_len, const u64 crackpos, const unsigned char *username, const u32 user_len, const bool print_eol, char *tmp_buf)
+int outfile_write (supercrack_ctx_t *supercrack_ctx, const char *out_buf, const int out_len, const unsigned char *plain_ptr, const u32 plain_len, const u64 crackpos, const unsigned char *username, const u32 user_len, const bool print_eol, char *tmp_buf)
 {
-  const hashconfig_t   *hashconfig   = hashcat_ctx->hashconfig;
-  const hashes_t       *hashes       = hashcat_ctx->hashes;
-  const user_options_t *user_options = hashcat_ctx->user_options;
-  outfile_ctx_t        *outfile_ctx  = hashcat_ctx->outfile_ctx;
-  status_ctx_t         *status_ctx   = hashcat_ctx->status_ctx;
+  const hashconfig_t   *hashconfig   = supercrack_ctx->hashconfig;
+  const hashes_t       *hashes       = supercrack_ctx->hashes;
+  const user_options_t *user_options = supercrack_ctx->user_options;
+  outfile_ctx_t        *outfile_ctx  = supercrack_ctx->outfile_ctx;
+  status_ctx_t         *status_ctx   = supercrack_ctx->status_ctx;
 
   int tmp_len = 0;
 

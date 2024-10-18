@@ -8,9 +8,9 @@
 #include "thread.h"
 #include "event.h"
 
-void event_call (const u32 id, hashcat_ctx_t *hashcat_ctx, const void *buf, const size_t len)
+void event_call (const u32 id, supercrack_ctx_t *supercrack_ctx, const void *buf, const size_t len)
 {
-  event_ctx_t *event_ctx = hashcat_ctx->event_ctx;
+  event_ctx_t *event_ctx = supercrack_ctx->event_ctx;
 
   bool is_log = false;
 
@@ -27,7 +27,7 @@ void event_call (const u32 id, hashcat_ctx_t *hashcat_ctx, const void *buf, cons
     hc_thread_mutex_lock (event_ctx->mux_event);
   }
 
-  hashcat_ctx->event (id, hashcat_ctx, buf, len);
+  supercrack_ctx->event (id, supercrack_ctx, buf, len);
 
   if (is_log == false)
   {
@@ -75,9 +75,9 @@ static int event_log (const char *fmt, va_list ap, char *s, const size_t sz)
   return (int) length;
 }
 
-size_t event_log_advice_nn (hashcat_ctx_t *hashcat_ctx, const char *fmt, ...)
+size_t event_log_advice_nn (supercrack_ctx_t *supercrack_ctx, const char *fmt, ...)
 {
-  event_ctx_t *event_ctx = hashcat_ctx->event_ctx;
+  event_ctx_t *event_ctx = supercrack_ctx->event_ctx;
 
   if (fmt == NULL)
   {
@@ -98,14 +98,14 @@ size_t event_log_advice_nn (hashcat_ctx_t *hashcat_ctx, const char *fmt, ...)
 
   event_ctx->msg_newline = false;
 
-  event_call (EVENT_LOG_ADVICE, hashcat_ctx, NULL, 0);
+  event_call (EVENT_LOG_ADVICE, supercrack_ctx, NULL, 0);
 
   return event_ctx->msg_len;
 }
 
-size_t event_log_info_nn (hashcat_ctx_t *hashcat_ctx, const char *fmt, ...)
+size_t event_log_info_nn (supercrack_ctx_t *supercrack_ctx, const char *fmt, ...)
 {
-  event_ctx_t *event_ctx = hashcat_ctx->event_ctx;
+  event_ctx_t *event_ctx = supercrack_ctx->event_ctx;
 
   if (fmt == NULL)
   {
@@ -126,14 +126,14 @@ size_t event_log_info_nn (hashcat_ctx_t *hashcat_ctx, const char *fmt, ...)
 
   event_ctx->msg_newline = false;
 
-  event_call (EVENT_LOG_INFO, hashcat_ctx, NULL, 0);
+  event_call (EVENT_LOG_INFO, supercrack_ctx, NULL, 0);
 
   return event_ctx->msg_len;
 }
 
-size_t event_log_warning_nn (hashcat_ctx_t *hashcat_ctx, const char *fmt, ...)
+size_t event_log_warning_nn (supercrack_ctx_t *supercrack_ctx, const char *fmt, ...)
 {
-  event_ctx_t *event_ctx = hashcat_ctx->event_ctx;
+  event_ctx_t *event_ctx = supercrack_ctx->event_ctx;
 
   if (fmt == NULL)
   {
@@ -154,14 +154,14 @@ size_t event_log_warning_nn (hashcat_ctx_t *hashcat_ctx, const char *fmt, ...)
 
   event_ctx->msg_newline = false;
 
-  event_call (EVENT_LOG_WARNING, hashcat_ctx, NULL, 0);
+  event_call (EVENT_LOG_WARNING, supercrack_ctx, NULL, 0);
 
   return event_ctx->msg_len;
 }
 
-size_t event_log_error_nn (hashcat_ctx_t *hashcat_ctx, const char *fmt, ...)
+size_t event_log_error_nn (supercrack_ctx_t *supercrack_ctx, const char *fmt, ...)
 {
-  event_ctx_t *event_ctx = hashcat_ctx->event_ctx;
+  event_ctx_t *event_ctx = supercrack_ctx->event_ctx;
 
   if (fmt == NULL)
   {
@@ -182,14 +182,14 @@ size_t event_log_error_nn (hashcat_ctx_t *hashcat_ctx, const char *fmt, ...)
 
   event_ctx->msg_newline = false;
 
-  event_call (EVENT_LOG_ERROR, hashcat_ctx, NULL, 0);
+  event_call (EVENT_LOG_ERROR, supercrack_ctx, NULL, 0);
 
   return event_ctx->msg_len;
 }
 
-size_t event_log_advice (hashcat_ctx_t *hashcat_ctx, const char *fmt, ...)
+size_t event_log_advice (supercrack_ctx_t *supercrack_ctx, const char *fmt, ...)
 {
-  event_ctx_t *event_ctx = hashcat_ctx->event_ctx;
+  event_ctx_t *event_ctx = supercrack_ctx->event_ctx;
 
   if (fmt == NULL)
   {
@@ -210,14 +210,14 @@ size_t event_log_advice (hashcat_ctx_t *hashcat_ctx, const char *fmt, ...)
 
   event_ctx->msg_newline = true;
 
-  event_call (EVENT_LOG_ADVICE, hashcat_ctx, NULL, 0);
+  event_call (EVENT_LOG_ADVICE, supercrack_ctx, NULL, 0);
 
   return event_ctx->msg_len;
 }
 
-size_t event_log_info (hashcat_ctx_t *hashcat_ctx, const char *fmt, ...)
+size_t event_log_info (supercrack_ctx_t *supercrack_ctx, const char *fmt, ...)
 {
-  event_ctx_t *event_ctx = hashcat_ctx->event_ctx;
+  event_ctx_t *event_ctx = supercrack_ctx->event_ctx;
 
   if (fmt == NULL)
   {
@@ -238,14 +238,14 @@ size_t event_log_info (hashcat_ctx_t *hashcat_ctx, const char *fmt, ...)
 
   event_ctx->msg_newline = true;
 
-  event_call (EVENT_LOG_INFO, hashcat_ctx, NULL, 0);
+  event_call (EVENT_LOG_INFO, supercrack_ctx, NULL, 0);
 
   return event_ctx->msg_len;
 }
 
-size_t event_log_warning (hashcat_ctx_t *hashcat_ctx, const char *fmt, ...)
+size_t event_log_warning (supercrack_ctx_t *supercrack_ctx, const char *fmt, ...)
 {
-  event_ctx_t *event_ctx = hashcat_ctx->event_ctx;
+  event_ctx_t *event_ctx = supercrack_ctx->event_ctx;
 
   if (fmt == NULL)
   {
@@ -266,14 +266,14 @@ size_t event_log_warning (hashcat_ctx_t *hashcat_ctx, const char *fmt, ...)
 
   event_ctx->msg_newline = true;
 
-  event_call (EVENT_LOG_WARNING, hashcat_ctx, NULL, 0);
+  event_call (EVENT_LOG_WARNING, supercrack_ctx, NULL, 0);
 
   return event_ctx->msg_len;
 }
 
-size_t event_log_error (hashcat_ctx_t *hashcat_ctx, const char *fmt, ...)
+size_t event_log_error (supercrack_ctx_t *supercrack_ctx, const char *fmt, ...)
 {
-  event_ctx_t *event_ctx = hashcat_ctx->event_ctx;
+  event_ctx_t *event_ctx = supercrack_ctx->event_ctx;
 
   if (fmt == NULL)
   {
@@ -294,14 +294,14 @@ size_t event_log_error (hashcat_ctx_t *hashcat_ctx, const char *fmt, ...)
 
   event_ctx->msg_newline = true;
 
-  event_call (EVENT_LOG_ERROR, hashcat_ctx, NULL, 0);
+  event_call (EVENT_LOG_ERROR, supercrack_ctx, NULL, 0);
 
   return event_ctx->msg_len;
 }
 
-int event_ctx_init (hashcat_ctx_t *hashcat_ctx)
+int event_ctx_init (supercrack_ctx_t *supercrack_ctx)
 {
-  event_ctx_t *event_ctx = hashcat_ctx->event_ctx;
+  event_ctx_t *event_ctx = supercrack_ctx->event_ctx;
 
   memset (event_ctx, 0, sizeof (event_ctx_t));
 
@@ -310,9 +310,9 @@ int event_ctx_init (hashcat_ctx_t *hashcat_ctx)
   return 0;
 }
 
-void event_ctx_destroy (hashcat_ctx_t *hashcat_ctx)
+void event_ctx_destroy (supercrack_ctx_t *supercrack_ctx)
 {
-  event_ctx_t *event_ctx = hashcat_ctx->event_ctx;
+  event_ctx_t *event_ctx = supercrack_ctx->event_ctx;
 
   hc_thread_mutex_delete (event_ctx->mux_event);
 }

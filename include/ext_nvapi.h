@@ -239,15 +239,15 @@ typedef struct hm_nvapi_lib
 
 typedef hm_nvapi_lib_t NVAPI_PTR;
 
-int nvapi_init (void *hashcat_ctx);
-void nvapi_close (void *hashcat_ctx);
+int nvapi_init (void *supercrack_ctx);
+void nvapi_close (void *supercrack_ctx);
 void hm_NvAPI_GetErrorMessage (NVAPI_PTR *nvapi, const NvAPI_Status NvAPI_rc, NvAPI_ShortString string);
-int hm_NvAPI_Initialize (void *hashcat_ctx);
-int hm_NvAPI_Unload (void *hashcat_ctx);
-int hm_NvAPI_EnumPhysicalGPUs (void *hashcat_ctx, NvPhysicalGpuHandle nvGPUHandle[NVAPI_MAX_PHYSICAL_GPUS], NvU32 *pGpuCount);
-int hm_NvAPI_GPU_GetPerfPoliciesInfo (void *hashcat_ctx, NvPhysicalGpuHandle hPhysicalGpu, NV_GPU_PERF_POLICIES_INFO_PARAMS_V1 *perfPolicies_info);
-int hm_NvAPI_GPU_GetPerfPoliciesStatus (void *hashcat_ctx, NvPhysicalGpuHandle hPhysicalGpu, NV_GPU_PERF_POLICIES_STATUS_PARAMS_V1 *perfPolicies_status);
-int hm_NvAPI_GPU_GetBusId (void *hashcat_ctx, NvPhysicalGpuHandle hPhysicalGpu, NvU32 *pBusId);
-int hm_NvAPI_GPU_GetBusSlotId (void *hashcat_ctx, NvPhysicalGpuHandle hPhysicalGpu, NvU32 *pBusSlotId);
+int hm_NvAPI_Initialize (void *supercrack_ctx);
+int hm_NvAPI_Unload (void *supercrack_ctx);
+int hm_NvAPI_EnumPhysicalGPUs (void *supercrack_ctx, NvPhysicalGpuHandle nvGPUHandle[NVAPI_MAX_PHYSICAL_GPUS], NvU32 *pGpuCount);
+int hm_NvAPI_GPU_GetPerfPoliciesInfo (void *supercrack_ctx, NvPhysicalGpuHandle hPhysicalGpu, NV_GPU_PERF_POLICIES_INFO_PARAMS_V1 *perfPolicies_info);
+int hm_NvAPI_GPU_GetPerfPoliciesStatus (void *supercrack_ctx, NvPhysicalGpuHandle hPhysicalGpu, NV_GPU_PERF_POLICIES_STATUS_PARAMS_V1 *perfPolicies_status);
+int hm_NvAPI_GPU_GetBusId (void *supercrack_ctx, NvPhysicalGpuHandle hPhysicalGpu, NvU32 *pBusId);
+int hm_NvAPI_GPU_GetBusSlotId (void *supercrack_ctx, NvPhysicalGpuHandle hPhysicalGpu, NvU32 *pBusSlotId);
 
 #endif // HC_EXT_NVAPI_H

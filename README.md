@@ -1,28 +1,28 @@
-## *hashcat* ##
+## *supercrack* ##
 
-**hashcat** is the world's fastest and most advanced password recovery utility, supporting five unique modes of attack for over 300 highly-optimized hashing algorithms. hashcat currently supports CPUs, GPUs, and other hardware accelerators on Linux, Windows, and macOS, and has facilities to help enable distributed password cracking.
+**supercrack** is the world's fastest and most advanced password recovery utility, supporting five unique modes of attack for over 300 highly-optimized hashing algorithms. supercrack currently supports CPUs, GPUs, and other hardware accelerators on Linux, Windows, and macOS, and has facilities to help enable distributed password cracking.
 
 ### License ###
 
-**hashcat** is licensed under the MIT license. Refer to [docs/license.txt](docs/license.txt) for more information.
+**supercrack** is licensed under the MIT license. Refer to [docs/license.txt](docs/license.txt) for more information.
 
 ### Installation ###
 
-Download the [latest release](https://hashcat.net/hashcat/) and unpack it in the desired location. Please remember to use `7z x` when unpacking the archive from the command line to ensure full file paths remain intact.
+Download the [latest release](https://supercrack.net/supercrack/) and unpack it in the desired location. Please remember to use `7z x` when unpacking the archive from the command line to ensure full file paths remain intact.
 
 ### Usage/Help ###
 
-Please refer to the [Hashcat Wiki](https://hashcat.net/wiki/) and the output of `--help` for usage information and general help. A list of frequently asked questions may also be found [here](https://hashcat.net/wiki/doku.php?id=frequently_asked_questions). The [Hashcat Forum](https://hashcat.net/forum/) also contains a plethora of information. If you still think you need help by a real human come to [Discord](https://discord.gg/HFS523HGBT).
+Please refer to the [Supercrack Wiki](https://supercrack.net/wiki/) and the output of `--help` for usage information and general help. A list of frequently asked questions may also be found [here](https://supercrack.net/wiki/doku.php?id=frequently_asked_questions). The [Supercrack Forum](https://supercrack.net/forum/) also contains a plethora of information. If you still think you need help by a real human come to [Discord](https://discord.gg/HFS523HGBT).
 
 ### Building ###
 
-Refer to [BUILD.md](BUILD.md) for instructions on how to build **hashcat** from source.
+Refer to [BUILD.md](BUILD.md) for instructions on how to build **supercrack** from source.
 
 Tests:
 
 Travis | Coverity | GitHub Actions
 ------ | -------- | --------------
-[![Hashcat Travis Build status](https://travis-ci.org/hashcat/hashcat.svg?branch=master)](https://travis-ci.org/hashcat/hashcat) | [![Coverity Scan Build Status](https://scan.coverity.com/projects/11753/badge.svg)](https://scan.coverity.com/projects/hashcat) | [![Hashcat GitHub Actions Build status](https://github.com/hashcat/hashcat/actions/workflows/build.yml/badge.svg)](https://github.com/hashcat/hashcat/actions/workflows/build.yml)
+[![Supercrack Travis Build status](https://travis-ci.org/supercrack/supercrack.svg?branch=master)](https://travis-ci.org/supercrack/supercrack) | [![Coverity Scan Build Status](https://scan.coverity.com/projects/11753/badge.svg)](https://scan.coverity.com/projects/supercrack) | [![Supercrack GitHub Actions Build status](https://github.com/supercrack/supercrack/actions/workflows/build.yml/badge.svg)](https://github.com/supercrack/supercrack/actions/workflows/build.yml)
 
 ### Contributing ###
 
@@ -47,8 +47,8 @@ Your pull request should fully describe the functionality you are adding/removin
 
 Solve only one problem in each pull request. If you're fixing a bug and adding a new feature, you need to make two separate pull requests. If you're fixing three bugs, you need to make three separate pull requests. If you're adding four new features, you need to make four separate pull requests. So on, and so forth.
 
-If your patch fixes a bug, please be sure there is an [issue](https://github.com/hashcat/hashcat/issues) open for the bug before submitting a pull request. If your patch aims to improve performance or optimize an algorithm, be sure to quantify your optimizations and document the trade-offs, and back up your claims with benchmarks and metrics.
+If your patch fixes a bug, please be sure there is an [issue](https://github.com/supercrack/supercrack/issues) open for the bug before submitting a pull request. If your patch aims to improve performance or optimize an algorithm, be sure to quantify your optimizations and document the trade-offs, and back up your claims with benchmarks and metrics.
 
-In order to maintain the quality and integrity of the **hashcat** source tree, all pull requests must be reviewed and signed off by at least two [board members](https://github.com/orgs/hashcat/people) before being merged. The [project lead](https://github.com/jsteube) has the ultimate authority in deciding whether to accept or reject a pull request. Do not be discouraged if your pull request is rejected!
+In order to maintain the quality and integrity of the **supercrack** source tree, all pull requests must be reviewed and signed off by at least two [board members](https://github.com/orgs/supercrack/people) before being merged. The [project lead](https://github.com/jsteube) has the ultimate authority in deciding whether to accept or reject a pull request. Do not be discouraged if your pull request is rejected!
 
 ### Happy Cracking!

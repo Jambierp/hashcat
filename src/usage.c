@@ -12,7 +12,7 @@
 
 static const char *const USAGE_MINI[] =
 {
-  "Usage: hashcat [options]... hash|hashfile|hccapxfile [dictionary|mask|directory]...",
+  "Usage: supercrack [options]... hash|hashfile|hccapxfile [dictionary|mask|directory]...",
   "",
   "Try --help for more help.",
   NULL
@@ -20,7 +20,7 @@ static const char *const USAGE_MINI[] =
 
 static const char *const USAGE_BIG_PRE_HASHMODES[] =
 {
-  "Usage: hashcat [options]... hash|hashfile|hccapxfile [dictionary|mask|directory]...",
+  "Usage: supercrack [options]... hash|hashfile|hccapxfile [dictionary|mask|directory]...",
   "",
   "- [ Options ] -",
   "",
@@ -245,7 +245,7 @@ static const char *const USAGE_BIG_POST_HASHMODES[] =
   "",
   "- [ License ] -",
   "",
-  "  hashcat is licensed under the MIT license",
+  "  supercrack is licensed under the MIT license",
   "  Copyright and license terms are listed in docs/license.txt",
   "",
   "- [ Basic Examples ] -",
@@ -253,20 +253,20 @@ static const char *const USAGE_BIG_POST_HASHMODES[] =
   "  Attack-          | Hash- |",
   "  Mode             | Type  | Example command",
   " ==================+=======+==================================================================",
-  "  Wordlist         | $P$   | hashcat -a 0 -m 400 example400.hash example.dict",
-  "  Wordlist + Rules | MD5   | hashcat -a 0 -m 0 example0.hash example.dict -r rules/best64.rule",
-  "  Brute-Force      | MD5   | hashcat -a 3 -m 0 example0.hash ?a?a?a?a?a?a",
-  "  Combinator       | MD5   | hashcat -a 1 -m 0 example0.hash example.dict example.dict",
-  "  Association      | $1$   | hashcat -a 9 -m 500 example500.hash 1word.dict -r rules/best64.rule",
+  "  Wordlist         | $P$   | supercrack -a 0 -m 400 example400.hash example.dict",
+  "  Wordlist + Rules | MD5   | supercrack -a 0 -m 0 example0.hash example.dict -r rules/best64.rule",
+  "  Brute-Force      | MD5   | supercrack -a 3 -m 0 example0.hash ?a?a?a?a?a?a",
+  "  Combinator       | MD5   | supercrack -a 1 -m 0 example0.hash example.dict example.dict",
+  "  Association      | $1$   | supercrack -a 9 -m 500 example500.hash 1word.dict -r rules/best64.rule",
   "",
   "If you still have no idea what just happened, try the following pages:",
   "",
-  "* https://hashcat.net/wiki/#howtos_videos_papers_articles_etc_in_the_wild",
-  "* https://hashcat.net/faq/",
+  "* https://supercrack.net/wiki/#howtos_videos_papers_articles_etc_in_the_wild",
+  "* https://supercrack.net/faq/",
   "",
-  "If you think you need help by a real human come to the hashcat Discord:",
+  "If you think you need help by a real human come to the supercrack Discord:",
   "",
-  "* https://hashcat.net/discord",
+  "* https://supercrack.net/discord",
   NULL
 };
 
@@ -309,7 +309,7 @@ void usage_mini_print (const char *progname)
 
   #if defined (_WIN)
   printf ("\n");
-  printf ("For more info, see https://hashcat.net/faq/ubernoobs\n");
+  printf ("For more info, see https://supercrack.net/faq/ubernoobs\n");
   printf ("\n");
   printf ("Press any key to exit\n");
 
@@ -317,11 +317,11 @@ void usage_mini_print (const char *progname)
   #endif
 }
 
-void usage_big_print (hashcat_ctx_t *hashcat_ctx)
+void usage_big_print (supercrack_ctx_t *supercrack_ctx)
 {
-  const folder_config_t *folder_config = hashcat_ctx->folder_config;
-  const hashconfig_t    *hashconfig    = hashcat_ctx->hashconfig;
-        user_options_t  *user_options  = hashcat_ctx->user_options;
+  const folder_config_t *folder_config = supercrack_ctx->folder_config;
+  const hashconfig_t    *hashconfig    = supercrack_ctx->hashconfig;
+        user_options_t  *user_options  = supercrack_ctx->user_options;
 
   int usage_sort_cnt = 0;
 
@@ -341,7 +341,7 @@ void usage_big_print (hashcat_ctx_t *hashcat_ctx)
 
       if (hc_path_exist (modulefile) == false) continue;
 
-      const int rc = hashconfig_init (hashcat_ctx);
+      const int rc = hashconfig_init (supercrack_ctx);
 
       if (rc == 0)
       {
@@ -352,7 +352,7 @@ void usage_big_print (hashcat_ctx_t *hashcat_ctx)
         usage_sort_cnt++;
       }
 
-      hashconfig_destroy (hashcat_ctx);
+      hashconfig_destroy (supercrack_ctx);
     }
 
     hcfree (modulefile);
@@ -380,7 +380,7 @@ void usage_big_print (hashcat_ctx_t *hashcat_ctx)
 
     for (int i = 0; i < usage_sort_cnt; i++)
     {
-      printf ("%7u | %-58s | %s", usage_sort_buf[i].hash_mode, usage_sort_buf[i].hash_name, strhashcategory (usage_sort_buf[i].hash_category));
+      printf ("%7u | %-58s | %s", usage_sort_buf[i].hash_mode, usage_sort_buf[i].hash_name, strsupercrackegory (usage_sort_buf[i].hash_category));
 
       fwrite (EOL, strlen (EOL), 1, stdout);
     }

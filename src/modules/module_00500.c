@@ -24,7 +24,7 @@ static const u64   OPTS_TYPE      = OPTS_TYPE_STOCK_MODULE
                                   | OPTS_TYPE_PT_GENERATE_LE
                                   | OPTS_TYPE_DEEP_COMP_KERNEL;
 static const u32   SALT_TYPE      = SALT_TYPE_EMBEDDED;
-static const char *ST_PASS        = "hashcat";
+static const char *ST_PASS        = "supercrack";
 static const char *ST_HASH        = "$1$38652870$DUjsu4TTlTsOe/xxZ05uf/";
 
 typedef struct md5crypt_tmp

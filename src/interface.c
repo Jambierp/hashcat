@@ -27,9 +27,9 @@ int module_filename (const folder_config_t *folder_config, const int hash_mode, 
   #endif
 }
 
-bool module_load (hashcat_ctx_t *hashcat_ctx, module_ctx_t *module_ctx, const u32 hash_mode)
+bool module_load (supercrack_ctx_t *supercrack_ctx, module_ctx_t *module_ctx, const u32 hash_mode)
 {
-  const folder_config_t *folder_config = hashcat_ctx->folder_config;
+  const folder_config_t *folder_config = supercrack_ctx->folder_config;
 
   memset (module_ctx, 0, sizeof (module_ctx_t));
 
@@ -43,10 +43,10 @@ bool module_load (hashcat_ctx_t *hashcat_ctx, module_ctx_t *module_ctx, const u3
 
   if (stat (module_file, &s) == -1)
   {
-    event_log_warning (hashcat_ctx, "Either the specified hash mode does not exist in the official repository,");
-    event_log_warning (hashcat_ctx, "or the file(s) could not be found. Please check that the hash mode number is");
-    event_log_warning (hashcat_ctx, "correct and that the files are in the correct place.");
-    event_log_warning (hashcat_ctx, NULL);
+    event_log_warning (supercrack_ctx, "Either the specified hash mode does not exist in the official repository,");
+    event_log_warning (supercrack_ctx, "or the file(s) could not be found. Please check that the hash mode number is");
+    event_log_warning (supercrack_ctx, "correct and that the files are in the correct place.");
+    event_log_warning (supercrack_ctx, NULL);
   }
 
   module_ctx->module_handle = hc_dlopen (module_file);
@@ -54,9 +54,9 @@ bool module_load (hashcat_ctx_t *hashcat_ctx, module_ctx_t *module_ctx, const u3
   if (module_ctx->module_handle == NULL)
   {
     #if defined (_WIN)
-    event_log_error (hashcat_ctx, "Cannot load module %s", module_file); // todo: maybe there's a dlerror () equivalent
+    event_log_error (supercrack_ctx, "Cannot load module %s", module_file); // todo: maybe there's a dlerror () equivalent
     #else
-    event_log_error (hashcat_ctx, "%s", dlerror ());
+    event_log_error (supercrack_ctx, "%s", dlerror ());
     #endif
 
     return false;
@@ -66,7 +66,7 @@ bool module_load (hashcat_ctx_t *hashcat_ctx, module_ctx_t *module_ctx, const u3
 
   if (module_ctx->module_init == NULL)
   {
-    event_log_error (hashcat_ctx, "Cannot load symbol 'module_init' in module %s", module_file);
+    event_log_error (supercrack_ctx, "Cannot load symbol 'module_init' in module %s", module_file);
 
     return false;
   }
@@ -84,14 +84,14 @@ void module_unload (module_ctx_t *module_ctx)
   }
 }
 
-int hashconfig_init (hashcat_ctx_t *hashcat_ctx)
+int hashconfig_init (supercrack_ctx_t *supercrack_ctx)
 {
-  const backend_ctx_t        *backend_ctx        = hashcat_ctx->backend_ctx;
-  const folder_config_t      *folder_config      = hashcat_ctx->folder_config;
-        hashconfig_t         *hashconfig         = hashcat_ctx->hashconfig;
-        module_ctx_t         *module_ctx         = hashcat_ctx->module_ctx;
-  const user_options_t       *user_options       = hashcat_ctx->user_options;
-  const user_options_extra_t *user_options_extra = hashcat_ctx->user_options_extra;
+  const backend_ctx_t        *backend_ctx        = supercrack_ctx->backend_ctx;
+  const folder_config_t      *folder_config      = supercrack_ctx->folder_config;
+        hashconfig_t         *hashconfig         = supercrack_ctx->hashconfig;
+        module_ctx_t         *module_ctx         = supercrack_ctx->module_ctx;
+  const user_options_t       *user_options       = supercrack_ctx->user_options;
+  const user_options_extra_t *user_options_extra = supercrack_ctx->user_options_extra;
 
   // set some boring defaults
 
@@ -117,7 +117,7 @@ int hashconfig_init (hashcat_ctx_t *hashcat_ctx)
 
   // finally, the real stuff
 
-  const bool rc_load = module_load (hashcat_ctx, module_ctx, user_options->hash_mode);
+  const bool rc_load = module_load (supercrack_ctx, module_ctx, user_options->hash_mode);
 
   if (rc_load == false) return -1;
 
@@ -125,14 +125,14 @@ int hashconfig_init (hashcat_ctx_t *hashcat_ctx)
 
   if (module_ctx->module_context_size != MODULE_CONTEXT_SIZE_CURRENT)
   {
-    event_log_error (hashcat_ctx, "module context size is invalid. Old template?");
+    event_log_error (supercrack_ctx, "module context size is invalid. Old template?");
 
     return -1;
   }
 
   if (module_ctx->module_interface_version < MODULE_INTERFACE_VERSION_MINIMUM)
   {
-    event_log_error (hashcat_ctx, "module interface version is outdated, please compile");
+    event_log_error (supercrack_ctx, "module interface version is outdated, please compile");
 
     return -1;
   }
@@ -142,7 +142,7 @@ int hashconfig_init (hashcat_ctx_t *hashcat_ctx)
   #define CHECK_DEFINED(func)                                                     \
     if ((func) == NULL)                                                           \
     {                                                                             \
-      event_log_error (hashcat_ctx, "Missing symbol definitions module for in hash-mode '%d'. Old template?", user_options->hash_mode); \
+      event_log_error (supercrack_ctx, "Missing symbol definitions module for in hash-mode '%d'. Old template?", user_options->hash_mode); \
                                                                                   \
       return -1;                                                                  \
     }
@@ -228,7 +228,7 @@ int hashconfig_init (hashcat_ctx_t *hashcat_ctx)
   #define CHECK_MANDATORY(func)                                               \
     if ((func) == MODULE_DEFAULT)                                             \
     {                                                                         \
-      event_log_error (hashcat_ctx, "Missing mandatory symbol definitions");  \
+      event_log_error (supercrack_ctx, "Missing mandatory symbol definitions");  \
                                                                               \
       return -1;                                                              \
     }
@@ -276,7 +276,7 @@ int hashconfig_init (hashcat_ctx_t *hashcat_ctx)
   {
     if ((hashconfig->opts_type & OPTS_TYPE_KEYBOARD_MAPPING) == 0)
     {
-      if (user_options->autodetect == false) event_log_error (hashcat_ctx, "Parameter --keyboard-layout-mapping not valid for hash-type %u", hashconfig->hash_mode);
+      if (user_options->autodetect == false) event_log_error (supercrack_ctx, "Parameter --keyboard-layout-mapping not valid for hash-type %u", hashconfig->hash_mode);
 
       return -1;
     }
@@ -310,7 +310,7 @@ int hashconfig_init (hashcat_ctx_t *hashcat_ctx)
     }
     else
     {
-      if (user_options->autodetect == false) event_log_error (hashcat_ctx, "Parameter --hex-salt not valid for hash-type %u", hashconfig->hash_mode);
+      if (user_options->autodetect == false) event_log_error (supercrack_ctx, "Parameter --hex-salt not valid for hash-type %u", hashconfig->hash_mode);
 
       return -1;
     }
@@ -326,9 +326,9 @@ int hashconfig_init (hashcat_ctx_t *hashcat_ctx)
     {
       if (user_options->quiet == false && user_options->autodetect == false)
       {
-        event_log_warning (hashcat_ctx, "This hash-mode is known to emit multiple valid candidates for the same hash.");
-        event_log_warning (hashcat_ctx, "Use --keep-guessing to continue attack after finding the first crack.");
-        event_log_warning (hashcat_ctx, NULL);
+        event_log_warning (supercrack_ctx, "This hash-mode is known to emit multiple valid candidates for the same hash.");
+        event_log_warning (supercrack_ctx, "Use --keep-guessing to continue attack after finding the first crack.");
+        event_log_warning (supercrack_ctx, NULL);
       }
     }
   }
@@ -338,7 +338,7 @@ int hashconfig_init (hashcat_ctx_t *hashcat_ctx)
 
   if (module_ctx->module_kern_type_dynamic != MODULE_DEFAULT)
   {
-    // some hash modes tell hashcat about their exact hash-mode inside the parser (eg. luks and jwt)
+    // some hash modes tell supercrack about their exact hash-mode inside the parser (eg. luks and jwt)
   }
   else
   {
@@ -363,10 +363,10 @@ int hashconfig_init (hashcat_ctx_t *hashcat_ctx)
         {
           if (user_options->quiet == false)
           {
-            event_log_warning (hashcat_ctx, "Kernel %s:", source_file);
-            event_log_warning (hashcat_ctx, "Optimized kernel requested, but not available or not required");
-            event_log_warning (hashcat_ctx, "Falling back to pure kernel");
-            event_log_warning (hashcat_ctx, NULL);
+            event_log_warning (supercrack_ctx, "Kernel %s:", source_file);
+            event_log_warning (supercrack_ctx, "Optimized kernel requested, but not available or not required");
+            event_log_warning (supercrack_ctx, "Falling back to pure kernel");
+            event_log_warning (supercrack_ctx, NULL);
           }
         }
         else
@@ -378,7 +378,7 @@ int hashconfig_init (hashcat_ctx_t *hashcat_ctx)
       {
         if (hashconfig->has_pure_kernel == false)
         {
-          if (user_options->quiet == false) event_log_warning (hashcat_ctx, "%s: Pure kernel not found, falling back to optimized kernel", source_file);
+          if (user_options->quiet == false) event_log_warning (supercrack_ctx, "%s: Pure kernel not found, falling back to optimized kernel", source_file);
 
           hashconfig->opti_type |= OPTI_TYPE_OPTIMIZED_KERNEL;
         }
@@ -498,15 +498,15 @@ int hashconfig_init (hashcat_ctx_t *hashcat_ctx)
   return 0;
 }
 
-void hashconfig_destroy (hashcat_ctx_t *hashcat_ctx)
+void hashconfig_destroy (supercrack_ctx_t *supercrack_ctx)
 {
-  const backend_ctx_t        *backend_ctx        = hashcat_ctx->backend_ctx;
-  const folder_config_t      *folder_config      = hashcat_ctx->folder_config;
-  const user_options_t       *user_options       = hashcat_ctx->user_options;
-  const user_options_extra_t *user_options_extra = hashcat_ctx->user_options_extra;
+  const backend_ctx_t        *backend_ctx        = supercrack_ctx->backend_ctx;
+  const folder_config_t      *folder_config      = supercrack_ctx->folder_config;
+  const user_options_t       *user_options       = supercrack_ctx->user_options;
+  const user_options_extra_t *user_options_extra = supercrack_ctx->user_options_extra;
 
-  hashconfig_t *hashconfig = hashcat_ctx->hashconfig;
-  module_ctx_t *module_ctx = hashcat_ctx->module_ctx;
+  hashconfig_t *hashconfig = supercrack_ctx->hashconfig;
+  module_ctx_t *module_ctx = supercrack_ctx->module_ctx;
 
   if (module_ctx->module_hook_extra_param_term != MODULE_DEFAULT)
   {

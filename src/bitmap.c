@@ -70,12 +70,12 @@ static bool generate_bitmaps (const u32 digests_cnt, const u32 dgst_size, const 
   return false;
 }
 
-int bitmap_ctx_init (hashcat_ctx_t *hashcat_ctx)
+int bitmap_ctx_init (supercrack_ctx_t *supercrack_ctx)
 {
-  hashes_t       *hashes       = hashcat_ctx->hashes;
-  bitmap_ctx_t   *bitmap_ctx   = hashcat_ctx->bitmap_ctx;
-  hashconfig_t   *hashconfig   = hashcat_ctx->hashconfig;
-  user_options_t *user_options = hashcat_ctx->user_options;
+  hashes_t       *hashes       = supercrack_ctx->hashes;
+  bitmap_ctx_t   *bitmap_ctx   = supercrack_ctx->bitmap_ctx;
+  hashconfig_t   *hashconfig   = supercrack_ctx->hashconfig;
+  user_options_t *user_options = supercrack_ctx->user_options;
 
   bitmap_ctx->enabled = false;
 
@@ -166,9 +166,9 @@ int bitmap_ctx_init (hashcat_ctx_t *hashcat_ctx)
   return 0;
 }
 
-void bitmap_ctx_destroy (hashcat_ctx_t *hashcat_ctx)
+void bitmap_ctx_destroy (supercrack_ctx_t *supercrack_ctx)
 {
-  bitmap_ctx_t *bitmap_ctx = hashcat_ctx->bitmap_ctx;
+  bitmap_ctx_t *bitmap_ctx = supercrack_ctx->bitmap_ctx;
 
   if (bitmap_ctx->enabled == false) return;
 

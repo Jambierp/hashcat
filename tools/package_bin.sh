@@ -5,8 +5,8 @@
 ## License.....: MIT
 ##
 
-export IN=$HOME/hashcat
-export OUT=$HOME/xy/hashcat-6.2.6
+export IN=$HOME/supercrack
+export OUT=$HOME/xy/supercrack-6.2.6
 
 rm -rf $OUT
 rm -rf $OUT.7z
@@ -15,9 +15,9 @@ mkdir -p $OUT
 
 mkdir -p $OUT/tools
 
-cp    $IN/hashcat.exe                   $OUT/
-cp    $IN/hashcat.bin                   $OUT/
-cp    $IN/hashcat.hcstat2               $OUT/
+cp    $IN/supercrack.exe                   $OUT/
+cp    $IN/supercrack.bin                   $OUT/
+cp    $IN/supercrack.hcstat2               $OUT/
 
 cp -r $IN/docs                          $OUT/
 cp -r $IN/charsets                      $OUT/
@@ -31,15 +31,15 @@ cp    $IN/example.dict                  $OUT/
 cp    $IN/example[0123456789]*.hash     $OUT/
 cp    $IN/example[0123456789]*.cmd      $OUT/
 cp -r $IN/OpenCL                        $OUT/
-cp    $IN/tools/*hashcat.pl             $OUT/tools/
-cp    $IN/tools/*hashcat.py             $OUT/tools/
+cp    $IN/tools/*supercrack.pl             $OUT/tools/
+cp    $IN/tools/*supercrack.py             $OUT/tools/
 
 # since for the binary distribution we still use .bin, we need to rewrite the commands
 # within the example*.sh files
 
 for example in example[0123456789]*.sh; do
 
-  sed 's!./hashcat !./hashcat.bin !' $IN/${example} > $OUT/${example}
+  sed 's!./supercrack !./supercrack.bin !' $IN/${example} > $OUT/${example}
 
 done
 
@@ -92,8 +92,8 @@ chmod 755 $OUT/tunings
 chmod 644 $OUT/tunings/*
 chmod 644 $OUT/*.exe
 chmod 755 $OUT/*.bin
-chmod 644 $OUT/hashcat.hcstat2
-chmod 755 $OUT/tools/*hashcat.pl
-chmod 755 $OUT/tools/*hashcat.py
+chmod 644 $OUT/supercrack.hcstat2
+chmod 755 $OUT/tools/*supercrack.pl
+chmod 755 $OUT/tools/*supercrack.py
 
 time 7z a -t7z -m0=lzma2:d31 -mx=9 -mmt=8 -ms=on $OUT.7z $OUT

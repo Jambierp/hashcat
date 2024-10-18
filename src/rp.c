@@ -717,9 +717,9 @@ bool kernel_rules_has_noop (const kernel_rule_t *kernel_rules_buf, const u32 ker
   return false;
 }
 
-int kernel_rules_load (hashcat_ctx_t *hashcat_ctx, kernel_rule_t **out_buf, u32 *out_cnt)
+int kernel_rules_load (supercrack_ctx_t *supercrack_ctx, kernel_rule_t **out_buf, u32 *out_cnt)
 {
-  const user_options_t *user_options = hashcat_ctx->user_options;
+  const user_options_t *user_options = supercrack_ctx->user_options;
 
   /**
    * load rules
@@ -756,7 +756,7 @@ int kernel_rules_load (hashcat_ctx_t *hashcat_ctx, kernel_rule_t **out_buf, u32 
 
     if (hc_fopen (&fp, rp_file, "rb") == false)
     {
-      event_log_error (hashcat_ctx, "%s: %s", rp_file, strerror (errno));
+      event_log_error (supercrack_ctx, "%s: %s", rp_file, strerror (errno));
 
       hcfree (all_kernel_rules_cnt);
       hcfree (all_kernel_rules_buf);
@@ -772,7 +772,7 @@ int kernel_rules_load (hashcat_ctx_t *hashcat_ctx, kernel_rule_t **out_buf, u32 
 
       if (rule_line == (u32) -1)
       {
-        event_log_error (hashcat_ctx, "Unsupported number of lines in rule file %s.", rp_file);
+        event_log_error (supercrack_ctx, "Unsupported number of lines in rule file %s.", rp_file);
 
         hcfree (all_kernel_rules_cnt);
         hcfree (all_kernel_rules_buf);
@@ -798,7 +798,7 @@ int kernel_rules_load (hashcat_ctx_t *hashcat_ctx, kernel_rule_t **out_buf, u32 
 
         if (kernel_rules_avail < kernel_rules_avail_old) // u32 overflow
         {
-          event_log_error (hashcat_ctx, "Unsupported number of rules in rule file %s.", rp_file);
+          event_log_error (supercrack_ctx, "Unsupported number of rules in rule file %s.", rp_file);
 
           hcfree (all_kernel_rules_cnt);
           hcfree (all_kernel_rules_buf);
@@ -819,14 +819,14 @@ int kernel_rules_load (hashcat_ctx_t *hashcat_ctx, kernel_rule_t **out_buf, u32 
 
       if (result == -1)
       {
-        event_log_warning (hashcat_ctx, "Skipping invalid or unsupported rule in file %s on line %u: %s", rp_file, rule_line, rule_buf);
+        event_log_warning (supercrack_ctx, "Skipping invalid or unsupported rule in file %s on line %u: %s", rp_file, rule_line, rule_buf);
 
         continue;
       }
 
       if (cpu_rule_to_kernel_rule (rule_buf, rule_len, &kernel_rules_buf[kernel_rules_cnt]) == -1)
       {
-        event_log_warning (hashcat_ctx, "Cannot convert rule for use on OpenCL device in file %s on line %u: %s", rp_file, rule_line, rule_buf);
+        event_log_warning (supercrack_ctx, "Cannot convert rule for use on OpenCL device in file %s on line %u: %s", rp_file, rule_line, rule_buf);
 
         memset (&kernel_rules_buf[kernel_rules_cnt], 0, sizeof (kernel_rule_t)); // needs to be cleared otherwise we could have some remaining data
 
@@ -835,7 +835,7 @@ int kernel_rules_load (hashcat_ctx_t *hashcat_ctx, kernel_rule_t **out_buf, u32 
 
       if (kernel_rules_cnt == (u32) -1)
       {
-        event_log_error (hashcat_ctx, "Unsupported number of rules in rule file %s.", rp_file);
+        event_log_error (supercrack_ctx, "Unsupported number of rules in rule file %s.", rp_file);
 
         hcfree (all_kernel_rules_cnt);
         hcfree (all_kernel_rules_buf);
@@ -876,7 +876,7 @@ int kernel_rules_load (hashcat_ctx_t *hashcat_ctx, kernel_rule_t **out_buf, u32 
     {
       if (all_kernel_rules_cnt[i] > 0) // at least one "valid" rule
       {
-        event_log_error (hashcat_ctx, "Unsupported number of rules used in rule chaining.");
+        event_log_error (supercrack_ctx, "Unsupported number of rules used in rule chaining.");
 
         hcfree (all_kernel_rules_cnt);
         hcfree (all_kernel_rules_buf);
@@ -895,7 +895,7 @@ int kernel_rules_load (hashcat_ctx_t *hashcat_ctx, kernel_rule_t **out_buf, u32 
 
   if (kernel_rules_buf == NULL)
   {
-    event_log_error (hashcat_ctx, "Not enough allocatable memory (RAM) for this ruleset.");
+    event_log_error (supercrack_ctx, "Not enough allocatable memory (RAM) for this ruleset.");
 
     hcfree (all_kernel_rules_cnt);
     hcfree (all_kernel_rules_buf);
@@ -924,7 +924,7 @@ int kernel_rules_load (hashcat_ctx_t *hashcat_ctx, kernel_rule_t **out_buf, u32 
       {
         if (out_pos == RULES_MAX - 1)
         {
-          event_log_warning (hashcat_ctx, "Maximum functions per rule exceeded during chaining of rules, skipping...");
+          event_log_warning (supercrack_ctx, "Maximum functions per rule exceeded during chaining of rules, skipping...");
 
           invalid_cnt++;
 
@@ -945,7 +945,7 @@ int kernel_rules_load (hashcat_ctx_t *hashcat_ctx, kernel_rule_t **out_buf, u32 
 
   if (kernel_rules_cnt == 0)
   {
-    event_log_error (hashcat_ctx, "No valid rules left.");
+    event_log_error (supercrack_ctx, "No valid rules left.");
 
     hcfree (kernel_rules_buf);
 
@@ -958,9 +958,9 @@ int kernel_rules_load (hashcat_ctx_t *hashcat_ctx, kernel_rule_t **out_buf, u32 
   return 0;
 }
 
-int kernel_rules_generate (hashcat_ctx_t *hashcat_ctx, kernel_rule_t **out_buf, u32 *out_cnt, const char *rp_gen_func_selection)
+int kernel_rules_generate (supercrack_ctx_t *supercrack_ctx, kernel_rule_t **out_buf, u32 *out_cnt, const char *rp_gen_func_selection)
 {
-  const user_options_t *user_options = hashcat_ctx->user_options;
+  const user_options_t *user_options = supercrack_ctx->user_options;
 
   u32            kernel_rules_cnt = 0;
   kernel_rule_t *kernel_rules_buf = (kernel_rule_t *) hccalloc (user_options->rp_gen, sizeof (kernel_rule_t));

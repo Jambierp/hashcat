@@ -8,7 +8,7 @@
 
 #include <string.h>
 
-int  bitmap_ctx_init    (hashcat_ctx_t *hashcat_ctx);
-void bitmap_ctx_destroy (hashcat_ctx_t *hashcat_ctx);
+int  bitmap_ctx_init    (supercrack_ctx_t *supercrack_ctx);
+void bitmap_ctx_destroy (supercrack_ctx_t *supercrack_ctx);
 
 #endif // HC_BITMAP_H

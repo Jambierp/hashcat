@@ -3,7 +3,7 @@ The files in this folder are used to override autotune settings
 You can override configuration settings for Vector-Width, Kernel-Accel and/or Kernel-Loops values
 You can filter by Device-Name, Device-Name alias, Attack-Mode and/or Hash-Type
 
-Each file in this folder with the filename suffix .hctune will be automatically loaded by hashcat on startup with random order
+Each file in this folder with the filename suffix .hctune will be automatically loaded by supercrack on startup with random order
 
 - A valid line consists of the following fields (in that order):
   - Device-Name
@@ -18,7 +18,7 @@ Each file in this folder with the filename suffix .hctune will be automatically 
 - A line can not start with a space or a tab
 - Comment lines are allowed, use a # as first character
 - Invalid lines are ignored
-- The Device-Name is the OpenCL Device-Name. It's shown on hashcat startup.
+- The Device-Name is the OpenCL Device-Name. It's shown on supercrack startup.
   - If the device contains spaces, replace all spaces with _ character.
   - Device Names prefixed with 'NVIDIA' will be matched with or without 'NVIDIA' present in the alias. e.g. 'NVIDIA_Tesla_T4' vs 'Tesla_T4'
 - The Device-Name can be assigned an alias. This is useful if many devices share the same chip

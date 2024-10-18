@@ -28,13 +28,13 @@
 #endif // ! __linux__
 #endif // ! _WIN && | __CYGWIN__ && ! __MSYS__
 
-void welcome_screen (hashcat_ctx_t *hashcat_ctx, const char *version_tag);
-void goodbye_screen (hashcat_ctx_t *hashcat_ctx, const time_t proc_start, const time_t proc_stop);
+void welcome_screen (supercrack_ctx_t *supercrack_ctx, const char *version_tag);
+void goodbye_screen (supercrack_ctx_t *supercrack_ctx, const time_t proc_start, const time_t proc_stop);
 
 int setup_console (void);
 
-void send_prompt  (hashcat_ctx_t *hashcat_ctx);
-void clear_prompt (hashcat_ctx_t *hashcat_ctx);
+void send_prompt  (supercrack_ctx_t *supercrack_ctx);
+void clear_prompt (supercrack_ctx_t *supercrack_ctx);
 
 HC_API_CALL void *thread_keypress (void *p);
 
@@ -50,18 +50,18 @@ bool is_stdout_terminal (void);
 
 void compress_terminal_line_length (char *out_buf, const size_t keep_from_beginning, const size_t keep_from_end);
 
-void hash_info                          (hashcat_ctx_t *hashcat_ctx);
+void hash_info                          (supercrack_ctx_t *supercrack_ctx);
 
-void backend_info                       (hashcat_ctx_t *hashcat_ctx);
-void backend_info_compact               (hashcat_ctx_t *hashcat_ctx);
+void backend_info                       (supercrack_ctx_t *supercrack_ctx);
+void backend_info_compact               (supercrack_ctx_t *supercrack_ctx);
 
-void status_progress_machine_readable   (hashcat_ctx_t *hashcat_ctx);
-void status_progress                    (hashcat_ctx_t *hashcat_ctx);
-void status_speed_machine_readable      (hashcat_ctx_t *hashcat_ctx);
-void status_speed                       (hashcat_ctx_t *hashcat_ctx);
-void status_display_machine_readable    (hashcat_ctx_t *hashcat_ctx);
-void status_display                     (hashcat_ctx_t *hashcat_ctx);
-void status_benchmark_machine_readable  (hashcat_ctx_t *hashcat_ctx);
-void status_benchmark                   (hashcat_ctx_t *hashcat_ctx);
+void status_progress_machine_readable   (supercrack_ctx_t *supercrack_ctx);
+void status_progress                    (supercrack_ctx_t *supercrack_ctx);
+void status_speed_machine_readable      (supercrack_ctx_t *supercrack_ctx);
+void status_speed                       (supercrack_ctx_t *supercrack_ctx);
+void status_display_machine_readable    (supercrack_ctx_t *supercrack_ctx);
+void status_display                     (supercrack_ctx_t *supercrack_ctx);
+void status_benchmark_machine_readable  (supercrack_ctx_t *supercrack_ctx);
+void status_benchmark                   (supercrack_ctx_t *supercrack_ctx);
 
 #endif // HC_TERMINAL_H

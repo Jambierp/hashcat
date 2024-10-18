@@ -84,16 +84,16 @@ typedef hc_nvrtc_lib_t NVRTC_PTR;
 
 int nvrtc_make_options_array_from_string (char *string, char **options);
 
-int  nvrtc_init                (void *hashcat_ctx);
-void nvrtc_close               (void *hashcat_ctx);
+int  nvrtc_init                (void *supercrack_ctx);
+void nvrtc_close               (void *supercrack_ctx);
 
-int hc_nvrtcCreateProgram      (void *hashcat_ctx, nvrtcProgram *prog, const char *src, const char *name, int numHeaders, const char * const *headers, const char * const *includeNames);
-int hc_nvrtcDestroyProgram     (void *hashcat_ctx, nvrtcProgram *prog);
-int hc_nvrtcCompileProgram     (void *hashcat_ctx, nvrtcProgram prog, int numOptions, const char * const *options);
-int hc_nvrtcGetProgramLogSize  (void *hashcat_ctx, nvrtcProgram prog, size_t *logSizeRet);
-int hc_nvrtcGetProgramLog      (void *hashcat_ctx, nvrtcProgram prog, char *log);
-int hc_nvrtcGetPTXSize         (void *hashcat_ctx, nvrtcProgram prog, size_t *ptxSizeRet);
-int hc_nvrtcGetPTX             (void *hashcat_ctx, nvrtcProgram prog, char *ptx);
-int hc_nvrtcVersion            (void *hashcat_ctx, int *major, int *minor);
+int hc_nvrtcCreateProgram      (void *supercrack_ctx, nvrtcProgram *prog, const char *src, const char *name, int numHeaders, const char * const *headers, const char * const *includeNames);
+int hc_nvrtcDestroyProgram     (void *supercrack_ctx, nvrtcProgram *prog);
+int hc_nvrtcCompileProgram     (void *supercrack_ctx, nvrtcProgram prog, int numOptions, const char * const *options);
+int hc_nvrtcGetProgramLogSize  (void *supercrack_ctx, nvrtcProgram prog, size_t *logSizeRet);
+int hc_nvrtcGetProgramLog      (void *supercrack_ctx, nvrtcProgram prog, char *log);
+int hc_nvrtcGetPTXSize         (void *supercrack_ctx, nvrtcProgram prog, size_t *ptxSizeRet);
+int hc_nvrtcGetPTX             (void *supercrack_ctx, nvrtcProgram prog, char *ptx);
+int hc_nvrtcVersion            (void *supercrack_ctx, int *major, int *minor);
 
 #endif // HC_EXT_NVRTC_H

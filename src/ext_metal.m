@@ -41,7 +41,7 @@ typedef NS_ENUM(NSUInteger, hc_mtlLanguageVersion)
 
 } metalLanguageVersion_t;
 
-static bool iokit_getGPUCore (void *hashcat_ctx, int *gpu_core)
+static bool iokit_getGPUCore (void *supercrack_ctx, int *gpu_core)
 {
   bool rc = false;
 
@@ -51,7 +51,7 @@ static bool iokit_getGPUCore (void *hashcat_ctx, int *gpu_core)
 
   if (!service)
   {
-    event_log_error (hashcat_ctx, "IOServiceGetMatchingService(): %08x", service);
+    event_log_error (supercrack_ctx, "IOServiceGetMatchingService(): %08x", service);
 
     return rc;
   }
@@ -64,7 +64,7 @@ static bool iokit_getGPUCore (void *hashcat_ctx, int *gpu_core)
 
   if (num == nil || CFNumberGetValue (num, kCFNumberIntType, &gc) == false)
   {
-    //event_log_error (hashcat_ctx, "IORegistryEntryCreateCFProperty(): 'gpu-core-count' entry not found");
+    //event_log_error (supercrack_ctx, "IORegistryEntryCreateCFProperty(): 'gpu-core-count' entry not found");
   }
   else
   {
@@ -104,17 +104,17 @@ static int hc_mtlInvocationHelper (id target, SEL selector, void *returnValue)
   return -1;
 }
 
-static int hc_mtlBuildOptionsToDict (void *hashcat_ctx, const char *build_options_buf, const char *include_path, NSMutableDictionary *build_options_dict)
+static int hc_mtlBuildOptionsToDict (void *supercrack_ctx, const char *build_options_buf, const char *include_path, NSMutableDictionary *build_options_dict)
 {
   if (build_options_buf == nil)
   {
-    event_log_error (hashcat_ctx, "%s(): build_options_buf is NULL", __func__);
+    event_log_error (supercrack_ctx, "%s(): build_options_buf is NULL", __func__);
     return -1;
   }
 
   if (build_options_dict == nil)
   {
-    event_log_error (hashcat_ctx, "%s(): build_options_dict is NULL", __func__);
+    event_log_error (supercrack_ctx, "%s(): build_options_dict is NULL", __func__);
     return -1;
   }
 
@@ -124,7 +124,7 @@ static int hc_mtlBuildOptionsToDict (void *hashcat_ctx, const char *build_option
 
   if (options == nil)
   {
-    event_log_error (hashcat_ctx, "%s(): stringWithCString failed", __func__);
+    event_log_error (supercrack_ctx, "%s(): stringWithCString failed", __func__);
     return -1;
   }
 
@@ -134,7 +134,7 @@ static int hc_mtlBuildOptionsToDict (void *hashcat_ctx, const char *build_option
 
   if (options == nil)
   {
-    event_log_error (hashcat_ctx, "%s(): stringByReplacingOccurrencesOfString(-D) failed", __func__);
+    event_log_error (supercrack_ctx, "%s(): stringByReplacingOccurrencesOfString(-D) failed", __func__);
     return -1;
   }
 
@@ -144,7 +144,7 @@ static int hc_mtlBuildOptionsToDict (void *hashcat_ctx, const char *build_option
 
   if (options == nil)
   {
-    event_log_error (hashcat_ctx, "%s(): stringByReplacingOccurrencesOfString(-I OpenCL) failed", __func__);
+    event_log_error (supercrack_ctx, "%s(): stringByReplacingOccurrencesOfString(-I OpenCL) failed", __func__);
     return -1;
   }
 
@@ -179,7 +179,7 @@ static int hc_mtlBuildOptionsToDict (void *hashcat_ctx, const char *build_option
 
         if (tmp != nil && strlen (tmp) > 0)
         {
-          event_log_warning (hashcat_ctx, "%s(): skipping malformed build option: '%s'", __func__, tmp);
+          event_log_warning (supercrack_ctx, "%s(): skipping malformed build option: '%s'", __func__, tmp);
         }
         #endif
 
@@ -210,9 +210,9 @@ static int hc_mtlBuildOptionsToDict (void *hashcat_ctx, const char *build_option
   return 0;
 }
 
-int mtl_init (void *hashcat_ctx)
+int mtl_init (void *supercrack_ctx)
 {
-  backend_ctx_t *backend_ctx = ((hashcat_ctx_t *) hashcat_ctx)->backend_ctx;
+  backend_ctx_t *backend_ctx = ((supercrack_ctx_t *) supercrack_ctx)->backend_ctx;
 
   MTL_PTR *mtl = (MTL_PTR *) backend_ctx->mtl;
 
@@ -222,7 +222,7 @@ int mtl_init (void *hashcat_ctx)
 
   if (MTLCreateSystemDefaultDevice () == nil)
   {
-    event_log_error (hashcat_ctx, "Metal is not supported on this computer");
+    event_log_error (supercrack_ctx, "Metal is not supported on this computer");
 
     return -1;
   }
@@ -230,9 +230,9 @@ int mtl_init (void *hashcat_ctx)
   return 0;
 }
 
-void mtl_close (void *hashcat_ctx)
+void mtl_close (void *supercrack_ctx)
 {
-  backend_ctx_t *backend_ctx = ((hashcat_ctx_t *) hashcat_ctx)->backend_ctx;
+  backend_ctx_t *backend_ctx = ((supercrack_ctx_t *) supercrack_ctx)->backend_ctx;
 
   MTL_PTR *mtl = (MTL_PTR *) backend_ctx->mtl;
 
@@ -246,7 +246,7 @@ void mtl_close (void *hashcat_ctx)
         mtl_device_id device = (mtl_device_id) CFArrayGetValueAtIndex (mtl->devices, i);
         if (device != nil)
         {
-          hc_mtlReleaseDevice (hashcat_ctx, device);
+          hc_mtlReleaseDevice (supercrack_ctx, device);
         }
       }
       mtl->devices = nil;
@@ -258,9 +258,9 @@ void mtl_close (void *hashcat_ctx)
   }
 }
 
-int hc_mtlDeviceGetCount (void *hashcat_ctx, int *count)
+int hc_mtlDeviceGetCount (void *supercrack_ctx, int *count)
 {
-  backend_ctx_t *backend_ctx = ((hashcat_ctx_t *) hashcat_ctx)->backend_ctx;
+  backend_ctx_t *backend_ctx = ((supercrack_ctx_t *) supercrack_ctx)->backend_ctx;
 
   MTL_PTR *mtl = (MTL_PTR *) backend_ctx->mtl;
 
@@ -270,7 +270,7 @@ int hc_mtlDeviceGetCount (void *hashcat_ctx, int *count)
 
   if (devices == nil)
   {
-    event_log_error (hashcat_ctx, "metalDeviceGetCount(): empty device objects");
+    event_log_error (supercrack_ctx, "metalDeviceGetCount(): empty device objects");
 
     return -1;
   }
@@ -282,9 +282,9 @@ int hc_mtlDeviceGetCount (void *hashcat_ctx, int *count)
   return 0;
 }
 
-int hc_mtlDeviceGet (void *hashcat_ctx, mtl_device_id *metal_device, int ordinal)
+int hc_mtlDeviceGet (void *supercrack_ctx, mtl_device_id *metal_device, int ordinal)
 {
-  backend_ctx_t *backend_ctx = ((hashcat_ctx_t *) hashcat_ctx)->backend_ctx;
+  backend_ctx_t *backend_ctx = ((supercrack_ctx_t *) supercrack_ctx)->backend_ctx;
 
   MTL_PTR *mtl = (MTL_PTR *) backend_ctx->mtl;
 
@@ -292,7 +292,7 @@ int hc_mtlDeviceGet (void *hashcat_ctx, mtl_device_id *metal_device, int ordinal
 
   if (mtl->devices == nil)
   {
-    event_log_error (hashcat_ctx, "%s(): invalid devices pointer", __func__);
+    event_log_error (supercrack_ctx, "%s(): invalid devices pointer", __func__);
 
     return -1;
   }
@@ -301,7 +301,7 @@ int hc_mtlDeviceGet (void *hashcat_ctx, mtl_device_id *metal_device, int ordinal
 
   if (device == nil)
   {
-    event_log_error (hashcat_ctx, "metalDeviceGet(): invalid index");
+    event_log_error (supercrack_ctx, "metalDeviceGet(): invalid index");
 
     return -1;
   }
@@ -311,9 +311,9 @@ int hc_mtlDeviceGet (void *hashcat_ctx, mtl_device_id *metal_device, int ordinal
   return 0;
 }
 
-int hc_mtlDeviceGetName (void *hashcat_ctx, char *name, size_t len, mtl_device_id metal_device)
+int hc_mtlDeviceGetName (void *supercrack_ctx, char *name, size_t len, mtl_device_id metal_device)
 {
-  backend_ctx_t *backend_ctx = ((hashcat_ctx_t *) hashcat_ctx)->backend_ctx;
+  backend_ctx_t *backend_ctx = ((supercrack_ctx_t *) supercrack_ctx)->backend_ctx;
 
   MTL_PTR *mtl = (MTL_PTR *) backend_ctx->mtl;
 
@@ -321,14 +321,14 @@ int hc_mtlDeviceGetName (void *hashcat_ctx, char *name, size_t len, mtl_device_i
 
   if (metal_device == nil)
   {
-    event_log_error (hashcat_ctx, "%s(): invalid device", __func__);
+    event_log_error (supercrack_ctx, "%s(): invalid device", __func__);
 
     return -1;
   }
 
   if (len <= 0)
   {
-    event_log_error (hashcat_ctx, "%s(): buffer length", __func__);
+    event_log_error (supercrack_ctx, "%s(): buffer length", __func__);
 
     return -1;
   }
@@ -337,7 +337,7 @@ int hc_mtlDeviceGetName (void *hashcat_ctx, char *name, size_t len, mtl_device_i
 
   if (device_name_ptr == nil)
   {
-    event_log_error (hashcat_ctx, "%s(): failed to get device name", __func__);
+    event_log_error (supercrack_ctx, "%s(): failed to get device name", __func__);
 
     return -1;
   }
@@ -346,7 +346,7 @@ int hc_mtlDeviceGetName (void *hashcat_ctx, char *name, size_t len, mtl_device_i
 
   if (device_name_str == nil)
   {
-    event_log_error (hashcat_ctx, "%s(): failed to get UTF8String from device name", __func__);
+    event_log_error (supercrack_ctx, "%s(): failed to get UTF8String from device name", __func__);
 
     return -1;
   }
@@ -355,14 +355,14 @@ int hc_mtlDeviceGetName (void *hashcat_ctx, char *name, size_t len, mtl_device_i
 
   if (device_name_len <= 0)
   {
-    event_log_error (hashcat_ctx, "%s(): invalid device name length", __func__);
+    event_log_error (supercrack_ctx, "%s(): invalid device name length", __func__);
 
     return -1;
   }
 
   if (strncpy (name, device_name_str, (device_name_len > len) ? len : device_name_len) != name)
   {
-    event_log_error (hashcat_ctx, "%s(): strncpy failed", __func__);
+    event_log_error (supercrack_ctx, "%s(): strncpy failed", __func__);
 
     return -1;
   }
@@ -370,9 +370,9 @@ int hc_mtlDeviceGetName (void *hashcat_ctx, char *name, size_t len, mtl_device_i
   return 0;
 }
 
-int hc_mtlDeviceGetAttribute (void *hashcat_ctx, int *pi, metalDeviceAttribute_t attrib, mtl_device_id metal_device)
+int hc_mtlDeviceGetAttribute (void *supercrack_ctx, int *pi, metalDeviceAttribute_t attrib, mtl_device_id metal_device)
 {
-  backend_ctx_t *backend_ctx = ((hashcat_ctx_t *) hashcat_ctx)->backend_ctx;
+  backend_ctx_t *backend_ctx = ((supercrack_ctx_t *) supercrack_ctx)->backend_ctx;
 
   MTL_PTR *mtl = (MTL_PTR *) backend_ctx->mtl;
 
@@ -380,7 +380,7 @@ int hc_mtlDeviceGetAttribute (void *hashcat_ctx, int *pi, metalDeviceAttribute_t
 
   if (metal_device == nil)
   {
-    event_log_error (hashcat_ctx, "%s(): invalid device", __func__);
+    event_log_error (supercrack_ctx, "%s(): invalid device", __func__);
 
     return -1;
   }
@@ -393,7 +393,7 @@ int hc_mtlDeviceGetAttribute (void *hashcat_ctx, int *pi, metalDeviceAttribute_t
   {
     case MTL_DEVICE_ATTRIBUTE_MULTIPROCESSOR_COUNT:
       // works only with Apple Silicon
-      if (iokit_getGPUCore (hashcat_ctx, pi) == false) *pi = 1;
+      if (iokit_getGPUCore (supercrack_ctx, pi) == false) *pi = 1;
       break;
 
     case MTL_DEVICE_ATTRIBUTE_UNIFIED_MEMORY:
@@ -424,7 +424,7 @@ int hc_mtlDeviceGetAttribute (void *hashcat_ctx, int *pi, metalDeviceAttribute_t
 
       if (*pi == 0)
       {
-        //event_log_error (hashcat_ctx, "%s(): no feature sets supported", __func__);
+        //event_log_error (supercrack_ctx, "%s(): no feature sets supported", __func__);
         return -1;
       }
 
@@ -443,7 +443,7 @@ int hc_mtlDeviceGetAttribute (void *hashcat_ctx, int *pi, metalDeviceAttribute_t
 
       if (*pi == 0)
       {
-        //event_log_error (hashcat_ctx, "%s(): no feature sets supported", __func__);
+        //event_log_error (supercrack_ctx, "%s(): no feature sets supported", __func__);
         return -1;
       }
 
@@ -527,16 +527,16 @@ int hc_mtlDeviceGetAttribute (void *hashcat_ctx, int *pi, metalDeviceAttribute_t
       break;
 
     default:
-      event_log_error (hashcat_ctx, "%s(): unknown attribute (%d)", __func__, attrib);
+      event_log_error (supercrack_ctx, "%s(): unknown attribute (%d)", __func__, attrib);
       return -1;
   }
 
   return 0;
 }
 
-int hc_mtlMemGetInfo (void *hashcat_ctx, size_t *mem_free, size_t *mem_total)
+int hc_mtlMemGetInfo (void *supercrack_ctx, size_t *mem_free, size_t *mem_total)
 {
-  backend_ctx_t *backend_ctx = ((hashcat_ctx_t *) hashcat_ctx)->backend_ctx;
+  backend_ctx_t *backend_ctx = ((supercrack_ctx_t *) supercrack_ctx)->backend_ctx;
 
   MTL_PTR *mtl = (MTL_PTR *) backend_ctx->mtl;
 
@@ -550,14 +550,14 @@ int hc_mtlMemGetInfo (void *hashcat_ctx, size_t *mem_free, size_t *mem_total)
 
   if (host_page_size (port, &page_size) != KERN_SUCCESS)
   {
-    event_log_error (hashcat_ctx, "metalMemGetInfo(): cannot get page_size");
+    event_log_error (supercrack_ctx, "metalMemGetInfo(): cannot get page_size");
 
     return -1;
   }
 
   if (host_statistics64 (port, HOST_VM_INFO64, (host_info64_t) &vm_stats, &count) != KERN_SUCCESS)
   {
-    event_log_error (hashcat_ctx, "metalMemGetInfo(): cannot get vm_stats");
+    event_log_error (supercrack_ctx, "metalMemGetInfo(): cannot get vm_stats");
 
     return -1;
   }
@@ -571,9 +571,9 @@ int hc_mtlMemGetInfo (void *hashcat_ctx, size_t *mem_free, size_t *mem_total)
   return 0;
 }
 
-int hc_mtlDeviceMaxMemAlloc (void *hashcat_ctx, size_t *bytes, mtl_device_id metal_device)
+int hc_mtlDeviceMaxMemAlloc (void *supercrack_ctx, size_t *bytes, mtl_device_id metal_device)
 {
-  backend_ctx_t *backend_ctx = ((hashcat_ctx_t *) hashcat_ctx)->backend_ctx;
+  backend_ctx_t *backend_ctx = ((supercrack_ctx_t *) supercrack_ctx)->backend_ctx;
 
   MTL_PTR *mtl = (MTL_PTR *) backend_ctx->mtl;
 
@@ -581,7 +581,7 @@ int hc_mtlDeviceMaxMemAlloc (void *hashcat_ctx, size_t *bytes, mtl_device_id met
 
   if (metal_device == nil)
   {
-    event_log_error (hashcat_ctx, "%s(): invalid device", __func__);
+    event_log_error (supercrack_ctx, "%s(): invalid device", __func__);
 
     return -1;
   }
@@ -594,7 +594,7 @@ int hc_mtlDeviceMaxMemAlloc (void *hashcat_ctx, size_t *bytes, mtl_device_id met
 
   if (memsize == 0)
   {
-    event_log_error (hashcat_ctx, "%s(): invalid maxBufferLength", __func__);
+    event_log_error (supercrack_ctx, "%s(): invalid maxBufferLength", __func__);
 
     return -1;
   }
@@ -604,9 +604,9 @@ int hc_mtlDeviceMaxMemAlloc (void *hashcat_ctx, size_t *bytes, mtl_device_id met
   return 0;
 }
 
-int hc_mtlDeviceTotalMem (void *hashcat_ctx, size_t *bytes, mtl_device_id metal_device)
+int hc_mtlDeviceTotalMem (void *supercrack_ctx, size_t *bytes, mtl_device_id metal_device)
 {
-  backend_ctx_t *backend_ctx = ((hashcat_ctx_t *) hashcat_ctx)->backend_ctx;
+  backend_ctx_t *backend_ctx = ((supercrack_ctx_t *) supercrack_ctx)->backend_ctx;
 
   MTL_PTR *mtl = (MTL_PTR *) backend_ctx->mtl;
 
@@ -614,7 +614,7 @@ int hc_mtlDeviceTotalMem (void *hashcat_ctx, size_t *bytes, mtl_device_id metal_
 
   if (metal_device == nil)
   {
-    event_log_error (hashcat_ctx, "%s(): invalid device", __func__);
+    event_log_error (supercrack_ctx, "%s(): invalid device", __func__);
 
     return -1;
   }
@@ -631,7 +631,7 @@ int hc_mtlDeviceTotalMem (void *hashcat_ctx, size_t *bytes, mtl_device_id metal_
 
     if (sysctlbyname ("hw.memsize", &memsize, &len, NULL, 0) != 0)
     {
-      event_log_error (hashcat_ctx, "%s(): sysctlbyname(hw.memsize) failed", __func__);
+      event_log_error (supercrack_ctx, "%s(): sysctlbyname(hw.memsize) failed", __func__);
 
       return -1;
     }
@@ -639,7 +639,7 @@ int hc_mtlDeviceTotalMem (void *hashcat_ctx, size_t *bytes, mtl_device_id metal_
 
   if (memsize == 0)
   {
-    event_log_error (hashcat_ctx, "%s(): invalid memory size", __func__);
+    event_log_error (supercrack_ctx, "%s(): invalid memory size", __func__);
 
     return -1;
   }
@@ -649,9 +649,9 @@ int hc_mtlDeviceTotalMem (void *hashcat_ctx, size_t *bytes, mtl_device_id metal_
   return 0;
 }
 
-int hc_mtlCreateCommandQueue (void *hashcat_ctx, mtl_device_id metal_device, mtl_command_queue *command_queue)
+int hc_mtlCreateCommandQueue (void *supercrack_ctx, mtl_device_id metal_device, mtl_command_queue *command_queue)
 {
-  backend_ctx_t *backend_ctx = ((hashcat_ctx_t *) hashcat_ctx)->backend_ctx;
+  backend_ctx_t *backend_ctx = ((supercrack_ctx_t *) supercrack_ctx)->backend_ctx;
 
   MTL_PTR *mtl = (MTL_PTR *) backend_ctx->mtl;
 
@@ -659,7 +659,7 @@ int hc_mtlCreateCommandQueue (void *hashcat_ctx, mtl_device_id metal_device, mtl
 
   if (metal_device == nil)
   {
-    event_log_error (hashcat_ctx, "%s(): invalid device", __func__);
+    event_log_error (supercrack_ctx, "%s(): invalid device", __func__);
 
     return -1;
   }
@@ -668,7 +668,7 @@ int hc_mtlCreateCommandQueue (void *hashcat_ctx, mtl_device_id metal_device, mtl
 
   if (queue == nil)
   {
-    event_log_error (hashcat_ctx, "%s(): failed to create newCommandQueue", __func__);
+    event_log_error (supercrack_ctx, "%s(): failed to create newCommandQueue", __func__);
 
     return -1;
   }
@@ -679,10 +679,10 @@ int hc_mtlCreateCommandQueue (void *hashcat_ctx, mtl_device_id metal_device, mtl
 
 }
 
-int hc_mtlCreateKernel (void *hashcat_ctx, mtl_device_id metal_device, mtl_library metal_library, const char *func_name, mtl_function *metal_function, mtl_pipeline *metal_pipeline)
+int hc_mtlCreateKernel (void *supercrack_ctx, mtl_device_id metal_device, mtl_library metal_library, const char *func_name, mtl_function *metal_function, mtl_pipeline *metal_pipeline)
 {
-  backend_ctx_t  *backend_ctx  = ((hashcat_ctx_t *) hashcat_ctx)->backend_ctx;
-  user_options_t *user_options = ((hashcat_ctx_t *) hashcat_ctx)->user_options;
+  backend_ctx_t  *backend_ctx  = ((supercrack_ctx_t *) supercrack_ctx)->backend_ctx;
+  user_options_t *user_options = ((supercrack_ctx_t *) supercrack_ctx)->user_options;
 
   MTL_PTR *mtl = (MTL_PTR *) backend_ctx->mtl;
 
@@ -690,21 +690,21 @@ int hc_mtlCreateKernel (void *hashcat_ctx, mtl_device_id metal_device, mtl_libra
 
   if (metal_device == nil)
   {
-    event_log_error (hashcat_ctx, "%s(): invalid device", __func__);
+    event_log_error (supercrack_ctx, "%s(): invalid device", __func__);
 
     return -1;
   }
 
   if (metal_library == nil)
   {
-    event_log_error (hashcat_ctx, "%s(): invalid library", __func__);
+    event_log_error (supercrack_ctx, "%s(): invalid library", __func__);
 
     return -1;
   }
 
   if (func_name == nil)
   {
-    event_log_error (hashcat_ctx, "%s(): invalid function name", __func__);
+    event_log_error (supercrack_ctx, "%s(): invalid function name", __func__);
 
     return -1;
   }
@@ -717,7 +717,7 @@ int hc_mtlCreateKernel (void *hashcat_ctx, mtl_device_id metal_device, mtl_libra
 
   if (mtl_func == nil)
   {
-    event_log_error (hashcat_ctx, "%s(): failed to create '%s' function", __func__, func_name);
+    event_log_error (supercrack_ctx, "%s(): failed to create '%s' function", __func__, func_name);
 
     return -1;
   }
@@ -729,7 +729,7 @@ int hc_mtlCreateKernel (void *hashcat_ctx, mtl_device_id metal_device, mtl_libra
 
   if (error != nil)
   {
-    event_log_error (hashcat_ctx, "%s(): failed to create '%s' pipeline, %s", __func__, func_name, [[error localizedDescription] UTF8String]);
+    event_log_error (supercrack_ctx, "%s(): failed to create '%s' pipeline, %s", __func__, func_name, [[error localizedDescription] UTF8String]);
 
     return -1;
   }
@@ -755,7 +755,7 @@ int hc_mtlCreateKernel (void *hashcat_ctx, mtl_device_id metal_device, mtl_libra
 
     if (error != nil)
     {
-      event_log_error (hashcat_ctx, "%s(): failed to create '%s' pipeline, %s", __func__, func_name, [[error localizedDescription] UTF8String]);
+      event_log_error (supercrack_ctx, "%s(): failed to create '%s' pipeline, %s", __func__, func_name, [[error localizedDescription] UTF8String]);
 
       rc_async_err = -1;
     }
@@ -769,14 +769,14 @@ int hc_mtlCreateKernel (void *hashcat_ctx, mtl_device_id metal_device, mtl_libra
 
   if (rc_queue != 0)
   {
-    event_log_error (hashcat_ctx, "%s(): failed to create '%s' pipeline, timeout reached (status %ld)", __func__, func_name, rc_queue);
+    event_log_error (supercrack_ctx, "%s(): failed to create '%s' pipeline, timeout reached (status %ld)", __func__, func_name, rc_queue);
 
     return -1;
   }
 
   if (mtl_pipe == nil)
   {
-    event_log_error (hashcat_ctx, "%s(): failed to create '%s' pipeline", __func__, func_name);
+    event_log_error (supercrack_ctx, "%s(): failed to create '%s' pipeline", __func__, func_name);
 
     return -1;
   }
@@ -787,9 +787,9 @@ int hc_mtlCreateKernel (void *hashcat_ctx, mtl_device_id metal_device, mtl_libra
   return 0;
 }
 
-int hc_mtlGetMaxTotalThreadsPerThreadgroup (void *hashcat_ctx, mtl_pipeline metal_pipeline, unsigned int *maxTotalThreadsPerThreadgroup)
+int hc_mtlGetMaxTotalThreadsPerThreadgroup (void *supercrack_ctx, mtl_pipeline metal_pipeline, unsigned int *maxTotalThreadsPerThreadgroup)
 {
-  backend_ctx_t *backend_ctx = ((hashcat_ctx_t *) hashcat_ctx)->backend_ctx;
+  backend_ctx_t *backend_ctx = ((supercrack_ctx_t *) supercrack_ctx)->backend_ctx;
 
   MTL_PTR *mtl = (MTL_PTR *) backend_ctx->mtl;
 
@@ -797,7 +797,7 @@ int hc_mtlGetMaxTotalThreadsPerThreadgroup (void *hashcat_ctx, mtl_pipeline meta
 
   if (metal_pipeline == nil)
   {
-    event_log_error (hashcat_ctx, "%s(): invalid pipeline", __func__);
+    event_log_error (supercrack_ctx, "%s(): invalid pipeline", __func__);
 
     return -1;
   }
@@ -807,9 +807,9 @@ int hc_mtlGetMaxTotalThreadsPerThreadgroup (void *hashcat_ctx, mtl_pipeline meta
   return 0;
 }
 
-int hc_mtlGetThreadExecutionWidth (void *hashcat_ctx, mtl_pipeline metal_pipeline, unsigned int *threadExecutionWidth)
+int hc_mtlGetThreadExecutionWidth (void *supercrack_ctx, mtl_pipeline metal_pipeline, unsigned int *threadExecutionWidth)
 {
-  backend_ctx_t *backend_ctx = ((hashcat_ctx_t *) hashcat_ctx)->backend_ctx;
+  backend_ctx_t *backend_ctx = ((supercrack_ctx_t *) supercrack_ctx)->backend_ctx;
 
   MTL_PTR *mtl = (MTL_PTR *) backend_ctx->mtl;
 
@@ -817,7 +817,7 @@ int hc_mtlGetThreadExecutionWidth (void *hashcat_ctx, mtl_pipeline metal_pipelin
 
   if (metal_pipeline == nil)
   {
-    event_log_error (hashcat_ctx, "%s(): invalid pipeline", __func__);
+    event_log_error (supercrack_ctx, "%s(): invalid pipeline", __func__);
 
     return -1;
   }
@@ -827,9 +827,9 @@ int hc_mtlGetThreadExecutionWidth (void *hashcat_ctx, mtl_pipeline metal_pipelin
   return 0;
 }
 
-int hc_mtlCreateBuffer (void *hashcat_ctx, mtl_device_id metal_device, size_t size, void *ptr, mtl_mem *metal_buffer)
+int hc_mtlCreateBuffer (void *supercrack_ctx, mtl_device_id metal_device, size_t size, void *ptr, mtl_mem *metal_buffer)
 {
-  backend_ctx_t *backend_ctx = ((hashcat_ctx_t *) hashcat_ctx)->backend_ctx;
+  backend_ctx_t *backend_ctx = ((supercrack_ctx_t *) supercrack_ctx)->backend_ctx;
 
   MTL_PTR *mtl = (MTL_PTR *) backend_ctx->mtl;
 
@@ -837,7 +837,7 @@ int hc_mtlCreateBuffer (void *hashcat_ctx, mtl_device_id metal_device, size_t si
 
   if (metal_device == nil)
   {
-    event_log_error (hashcat_ctx, "%s(): invalid device", __func__);
+    event_log_error (supercrack_ctx, "%s(): invalid device", __func__);
 
     return -1;
   }
@@ -857,7 +857,7 @@ int hc_mtlCreateBuffer (void *hashcat_ctx, mtl_device_id metal_device, size_t si
 
   if (buf == nil)
   {
-    event_log_error (hashcat_ctx, "%s(): %s failed (size: %zu)", __func__, (ptr == NULL) ? "newBufferWithLength" : "newBufferWithBytes", size);
+    event_log_error (supercrack_ctx, "%s(): %s failed (size: %zu)", __func__, (ptr == NULL) ? "newBufferWithLength" : "newBufferWithBytes", size);
 
     return -1;
   }
@@ -867,9 +867,9 @@ int hc_mtlCreateBuffer (void *hashcat_ctx, mtl_device_id metal_device, size_t si
   return 0;
 }
 
-int hc_mtlReleaseMemObject (void *hashcat_ctx, mtl_mem metal_buffer)
+int hc_mtlReleaseMemObject (void *supercrack_ctx, mtl_mem metal_buffer)
 {
-  backend_ctx_t *backend_ctx = ((hashcat_ctx_t *) hashcat_ctx)->backend_ctx;
+  backend_ctx_t *backend_ctx = ((supercrack_ctx_t *) supercrack_ctx)->backend_ctx;
 
   MTL_PTR *mtl = (MTL_PTR *) backend_ctx->mtl;
 
@@ -877,7 +877,7 @@ int hc_mtlReleaseMemObject (void *hashcat_ctx, mtl_mem metal_buffer)
 
   if (metal_buffer == nil)
   {
-    event_log_error (hashcat_ctx, "%s(): invalid metal buffer", __func__);
+    event_log_error (supercrack_ctx, "%s(): invalid metal buffer", __func__);
 
     return -1;
   }
@@ -888,11 +888,11 @@ int hc_mtlReleaseMemObject (void *hashcat_ctx, mtl_mem metal_buffer)
   return 0;
 }
 
-int hc_mtlReleaseFunction (void *hashcat_ctx, mtl_function metal_function)
+int hc_mtlReleaseFunction (void *supercrack_ctx, mtl_function metal_function)
 {
   if (metal_function == nil)
   {
-    event_log_error (hashcat_ctx, "%s(): invalid metal function", __func__);
+    event_log_error (supercrack_ctx, "%s(): invalid metal function", __func__);
 
     return -1;
   }
@@ -902,11 +902,11 @@ int hc_mtlReleaseFunction (void *hashcat_ctx, mtl_function metal_function)
   return 0;
 }
 
-int hc_mtlReleaseLibrary (void *hashcat_ctx, mtl_library metal_library)
+int hc_mtlReleaseLibrary (void *supercrack_ctx, mtl_library metal_library)
 {
   if (metal_library == nil)
   {
-    event_log_error (hashcat_ctx, "%s(): invalid metal library", __func__);
+    event_log_error (supercrack_ctx, "%s(): invalid metal library", __func__);
 
     return -1;
   }
@@ -917,11 +917,11 @@ int hc_mtlReleaseLibrary (void *hashcat_ctx, mtl_library metal_library)
   return 0;
 }
 
-int hc_mtlReleaseCommandQueue (void *hashcat_ctx, mtl_command_queue command_queue)
+int hc_mtlReleaseCommandQueue (void *supercrack_ctx, mtl_command_queue command_queue)
 {
   if (command_queue == nil)
   {
-    event_log_error (hashcat_ctx, "%s(): invalid metal command queue", __func__);
+    event_log_error (supercrack_ctx, "%s(): invalid metal command queue", __func__);
 
     return -1;
   }
@@ -932,11 +932,11 @@ int hc_mtlReleaseCommandQueue (void *hashcat_ctx, mtl_command_queue command_queu
   return 0;
 }
 
-int hc_mtlReleaseDevice (void *hashcat_ctx, mtl_device_id metal_device)
+int hc_mtlReleaseDevice (void *supercrack_ctx, mtl_device_id metal_device)
 {
   if (metal_device == nil)
   {
-    event_log_error (hashcat_ctx, "%s(): invalid metal device", __func__);
+    event_log_error (supercrack_ctx, "%s(): invalid metal device", __func__);
 
     return -1;
   }
@@ -949,41 +949,41 @@ int hc_mtlReleaseDevice (void *hashcat_ctx, mtl_device_id metal_device)
 
 // device to device
 
-int hc_mtlMemcpyDtoD (void *hashcat_ctx, mtl_command_queue command_queue, mtl_mem buf_dst, size_t buf_dst_off, mtl_mem buf_src, size_t buf_src_off, size_t buf_size)
+int hc_mtlMemcpyDtoD (void *supercrack_ctx, mtl_command_queue command_queue, mtl_mem buf_dst, size_t buf_dst_off, mtl_mem buf_src, size_t buf_src_off, size_t buf_size)
 {
   if (command_queue == nil)
   {
-    event_log_error (hashcat_ctx, "%s(): metal command queue is invalid", __func__);
+    event_log_error (supercrack_ctx, "%s(): metal command queue is invalid", __func__);
     return -1;
   }
 
   if (buf_src == nil)
   {
-    event_log_error (hashcat_ctx, "%s(): metal src buffer is invalid", __func__);
+    event_log_error (supercrack_ctx, "%s(): metal src buffer is invalid", __func__);
     return -1;
   }
 
   if (buf_src_off < 0)
   {
-    event_log_error (hashcat_ctx, "%s(): src buffer offset is invalid", __func__);
+    event_log_error (supercrack_ctx, "%s(): src buffer offset is invalid", __func__);
     return -1;
   }
 
   if (buf_dst == nil)
   {
-    event_log_error (hashcat_ctx, "%s(): metal dst buffer is invalid", __func__);
+    event_log_error (supercrack_ctx, "%s(): metal dst buffer is invalid", __func__);
     return -1;
   }
 
   if (buf_dst_off < 0)
   {
-    event_log_error (hashcat_ctx, "%s(): dst buffer offset is invalid", __func__);
+    event_log_error (supercrack_ctx, "%s(): dst buffer offset is invalid", __func__);
     return -1;
   }
 
   if (buf_size <= 0)
   {
-    event_log_error (hashcat_ctx, "%s(): buffer size is invalid", __func__);
+    event_log_error (supercrack_ctx, "%s(): buffer size is invalid", __func__);
     return -1;
   }
 
@@ -991,7 +991,7 @@ int hc_mtlMemcpyDtoD (void *hashcat_ctx, mtl_command_queue command_queue, mtl_me
 
   if (command_buffer == nil)
   {
-    event_log_error (hashcat_ctx, "%s(): failed to create a new command buffer", __func__);
+    event_log_error (supercrack_ctx, "%s(): failed to create a new command buffer", __func__);
     return -1;
   }
 
@@ -999,7 +999,7 @@ int hc_mtlMemcpyDtoD (void *hashcat_ctx, mtl_command_queue command_queue, mtl_me
 
   if (blit_encoder == nil)
   {
-    event_log_error (hashcat_ctx, "%s(): failed to create a blit command encoder", __func__);
+    event_log_error (supercrack_ctx, "%s(): failed to create a blit command encoder", __func__);
     return -1;
   }
 
@@ -1021,35 +1021,35 @@ int hc_mtlMemcpyDtoD (void *hashcat_ctx, mtl_command_queue command_queue, mtl_me
 
 // host to device
 
-int hc_mtlMemcpyHtoD (void *hashcat_ctx, mtl_command_queue command_queue, mtl_mem buf_dst, size_t buf_dst_off, const void *buf_src, size_t buf_size)
+int hc_mtlMemcpyHtoD (void *supercrack_ctx, mtl_command_queue command_queue, mtl_mem buf_dst, size_t buf_dst_off, const void *buf_src, size_t buf_size)
 {
   if (command_queue == nil)
   {
-    event_log_error (hashcat_ctx, "%s(): metal command queue is invalid", __func__);
+    event_log_error (supercrack_ctx, "%s(): metal command queue is invalid", __func__);
     return -1;
   }
 
   if (buf_src == nil)
   {
-    event_log_error (hashcat_ctx, "%s(): metal src buffer is invalid", __func__);
+    event_log_error (supercrack_ctx, "%s(): metal src buffer is invalid", __func__);
     return -1;
   }
 
   if (buf_dst == nil)
   {
-    event_log_error (hashcat_ctx, "%s(): host dst buffer is invalid", __func__);
+    event_log_error (supercrack_ctx, "%s(): host dst buffer is invalid", __func__);
     return -1;
   }
 
   if (buf_size <= 0)
   {
-    event_log_error (hashcat_ctx, "%s(): buffer size is invalid", __func__);
+    event_log_error (supercrack_ctx, "%s(): buffer size is invalid", __func__);
     return -1;
   }
 
   if (buf_dst_off < 0)
   {
-    event_log_error (hashcat_ctx, "%s(): buffer dst offset is invalid", __func__);
+    event_log_error (supercrack_ctx, "%s(): buffer dst offset is invalid", __func__);
     return -1;
   }
 
@@ -1057,14 +1057,14 @@ int hc_mtlMemcpyHtoD (void *hashcat_ctx, mtl_command_queue command_queue, mtl_me
 
   if (buf_dst_ptr == nil)
   {
-    event_log_error (hashcat_ctx, "%s(): failed to get metal buffer data pointer", __func__);
+    event_log_error (supercrack_ctx, "%s(): failed to get metal buffer data pointer", __func__);
 
     return -1;
   }
 
   if (memcpy (buf_dst_ptr + buf_dst_off, buf_src, buf_size) != buf_dst_ptr + buf_dst_off)
   {
-    event_log_error (hashcat_ctx, "%s(): memcpy failed", __func__);
+    event_log_error (supercrack_ctx, "%s(): memcpy failed", __func__);
 
     return -1;
   }
@@ -1076,29 +1076,29 @@ int hc_mtlMemcpyHtoD (void *hashcat_ctx, mtl_command_queue command_queue, mtl_me
 
 // device to host
 
-int hc_mtlMemcpyDtoH (void *hashcat_ctx, mtl_command_queue command_queue, void *buf_dst, mtl_mem buf_src, size_t buf_src_off, size_t buf_size)
+int hc_mtlMemcpyDtoH (void *supercrack_ctx, mtl_command_queue command_queue, void *buf_dst, mtl_mem buf_src, size_t buf_src_off, size_t buf_size)
 {
   if (command_queue == nil)
   {
-    event_log_error (hashcat_ctx, "%s(): metal command queue is invalid", __func__);
+    event_log_error (supercrack_ctx, "%s(): metal command queue is invalid", __func__);
     return -1;
   }
 
   if (buf_src == nil)
   {
-    event_log_error (hashcat_ctx, "%s(): metal src buffer is invalid", __func__);
+    event_log_error (supercrack_ctx, "%s(): metal src buffer is invalid", __func__);
     return -1;
   }
 
   if (buf_dst == nil)
   {
-    event_log_error (hashcat_ctx, "%s(): host dst buffer is invalid", __func__);
+    event_log_error (supercrack_ctx, "%s(): host dst buffer is invalid", __func__);
     return -1;
   }
 
   if (buf_size <= 0)
   {
-    event_log_error (hashcat_ctx, "%s(): buffer size is invalid", __func__);
+    event_log_error (supercrack_ctx, "%s(): buffer size is invalid", __func__);
     return -1;
   }
 
@@ -1106,7 +1106,7 @@ int hc_mtlMemcpyDtoH (void *hashcat_ctx, mtl_command_queue command_queue, void *
 
   if (command_buffer == nil)
   {
-    event_log_error (hashcat_ctx, "%s(): failed to create a new command buffer", __func__);
+    event_log_error (supercrack_ctx, "%s(): failed to create a new command buffer", __func__);
     return -1;
   }
 
@@ -1129,14 +1129,14 @@ int hc_mtlMemcpyDtoH (void *hashcat_ctx, mtl_command_queue command_queue, void *
 
   if (buf_src_ptr == nil)
   {
-    event_log_error (hashcat_ctx, "%s(): failed to get metal buffer data pointer", __func__);
+    event_log_error (supercrack_ctx, "%s(): failed to get metal buffer data pointer", __func__);
 
     return -1;
   }
 
   if (memcpy (buf_dst, buf_src_ptr + buf_src_off, buf_size) != buf_dst)
   {
-    event_log_error (hashcat_ctx, "%s(): memcpy failed", __func__);
+    event_log_error (supercrack_ctx, "%s(): memcpy failed", __func__);
 
     return -1;
   }
@@ -1144,13 +1144,13 @@ int hc_mtlMemcpyDtoH (void *hashcat_ctx, mtl_command_queue command_queue, void *
   return 0;
 }
 
-int hc_mtlRuntimeGetVersionString (void *hashcat_ctx, char *runtimeVersion_str, size_t *size)
+int hc_mtlRuntimeGetVersionString (void *supercrack_ctx, char *runtimeVersion_str, size_t *size)
 {
   CFURLRef plist_url = CFURLCreateWithFileSystemPath (kCFAllocatorDefault, CFSTR ("/System/Library/Frameworks/Metal.framework/Versions/Current/Resources/version.plist"), kCFURLPOSIXPathStyle, false);
 
   if (plist_url == NULL)
   {
-    event_log_error (hashcat_ctx, "%s(): CFURLCreateWithFileSystemPath() failed\n", __func__);
+    event_log_error (supercrack_ctx, "%s(): CFURLCreateWithFileSystemPath() failed\n", __func__);
 
     return -1;
   }
@@ -1159,7 +1159,7 @@ int hc_mtlRuntimeGetVersionString (void *hashcat_ctx, char *runtimeVersion_str, 
 
   if (plist_stream == NULL)
   {
-    event_log_error (hashcat_ctx, "%s(): CFReadStreamCreateWithFile() failed\n", __func__);
+    event_log_error (supercrack_ctx, "%s(): CFReadStreamCreateWithFile() failed\n", __func__);
 
     CFRelease (plist_url);
 
@@ -1168,7 +1168,7 @@ int hc_mtlRuntimeGetVersionString (void *hashcat_ctx, char *runtimeVersion_str, 
 
   if (CFReadStreamOpen (plist_stream) == false)
   {
-    event_log_error (hashcat_ctx, "%s(): CFReadStreamOpen() failed\n", __func__);
+    event_log_error (supercrack_ctx, "%s(): CFReadStreamOpen() failed\n", __func__);
 
     CFRelease (plist_stream);
     CFRelease (plist_url);
@@ -1180,7 +1180,7 @@ int hc_mtlRuntimeGetVersionString (void *hashcat_ctx, char *runtimeVersion_str, 
 
   if (plist_prop == NULL)
   {
-    event_log_error (hashcat_ctx, "%s(): CFPropertyListCreateWithStream() failed\n", __func__);
+    event_log_error (supercrack_ctx, "%s(): CFPropertyListCreateWithStream() failed\n", __func__);
 
     CFReadStreamClose (plist_stream);
 
@@ -1205,7 +1205,7 @@ int hc_mtlRuntimeGetVersionString (void *hashcat_ctx, char *runtimeVersion_str, 
 
     if (CFStringGetCString (runtime_version_str, runtimeVersion_str, maxSize, kCFStringEncodingUTF8) == false)
     {
-      event_log_error (hashcat_ctx, "%s(): CFStringGetCString() failed\n", __func__);
+      event_log_error (supercrack_ctx, "%s(): CFStringGetCString() failed\n", __func__);
 
       hcfree (runtimeVersion_str);
 
@@ -1218,18 +1218,18 @@ int hc_mtlRuntimeGetVersionString (void *hashcat_ctx, char *runtimeVersion_str, 
   return -1;
 }
 
-int hc_mtlEncodeComputeCommand_pre (void *hashcat_ctx, mtl_pipeline metal_pipeline, mtl_command_queue metal_command_queue, mtl_command_buffer *metal_command_buffer, mtl_command_encoder *metal_command_encoder)
+int hc_mtlEncodeComputeCommand_pre (void *supercrack_ctx, mtl_pipeline metal_pipeline, mtl_command_queue metal_command_queue, mtl_command_buffer *metal_command_buffer, mtl_command_encoder *metal_command_encoder)
 {
   if (metal_pipeline == nil)
   {
-    event_log_error (hashcat_ctx, "%s(): invalid metal_pipeline", __func__);
+    event_log_error (supercrack_ctx, "%s(): invalid metal_pipeline", __func__);
 
     return -1;
   }
 
   if (metal_command_queue == nil)
   {
-    event_log_error (hashcat_ctx, "%s(): invalid metal_command_queue", __func__);
+    event_log_error (supercrack_ctx, "%s(): invalid metal_command_queue", __func__);
 
     return -1;
   }
@@ -1238,7 +1238,7 @@ int hc_mtlEncodeComputeCommand_pre (void *hashcat_ctx, mtl_pipeline metal_pipeli
 
   if (metal_commandBuffer == nil)
   {
-    event_log_error (hashcat_ctx, "%s(): invalid metal_commandBuffer", __func__);
+    event_log_error (supercrack_ctx, "%s(): invalid metal_commandBuffer", __func__);
 
     return -1;
   }
@@ -1247,7 +1247,7 @@ int hc_mtlEncodeComputeCommand_pre (void *hashcat_ctx, mtl_pipeline metal_pipeli
 
   if (metal_commandEncoder == nil)
   {
-    event_log_error (hashcat_ctx, "%s(): invalid metal_commandBuffer", __func__);
+    event_log_error (supercrack_ctx, "%s(): invalid metal_commandBuffer", __func__);
 
     return -1;
   }
@@ -1260,18 +1260,18 @@ int hc_mtlEncodeComputeCommand_pre (void *hashcat_ctx, mtl_pipeline metal_pipeli
   return 0;
 }
 
-int hc_mtlSetCommandEncoderArg (void *hashcat_ctx, mtl_command_encoder metal_command_encoder, size_t off, size_t idx, mtl_mem buf, void *host_data, size_t host_data_size)
+int hc_mtlSetCommandEncoderArg (void *supercrack_ctx, mtl_command_encoder metal_command_encoder, size_t off, size_t idx, mtl_mem buf, void *host_data, size_t host_data_size)
 {
   if (metal_command_encoder == nil)
   {
-    event_log_error (hashcat_ctx, "%s(): invalid metal_command_encoder", __func__);
+    event_log_error (supercrack_ctx, "%s(): invalid metal_command_encoder", __func__);
 
     return -1;
   }
 
   if (buf == nil && host_data == nil)
   {
-    event_log_error (hashcat_ctx, "%s(): invalid buf/host_data", __func__);
+    event_log_error (supercrack_ctx, "%s(): invalid buf/host_data", __func__);
 
     return -1;
   }
@@ -1280,7 +1280,7 @@ int hc_mtlSetCommandEncoderArg (void *hashcat_ctx, mtl_command_encoder metal_com
   {
     if (host_data_size <= 0)
     {
-      event_log_error (hashcat_ctx, "%s(): invalid host_data size", __func__);
+      event_log_error (supercrack_ctx, "%s(): invalid host_data size", __func__);
 
       return -1;
     }
@@ -1289,7 +1289,7 @@ int hc_mtlSetCommandEncoderArg (void *hashcat_ctx, mtl_command_encoder metal_com
   {
     if (off < 0)
     {
-      event_log_error (hashcat_ctx, "%s(): invalid buf off", __func__);
+      event_log_error (supercrack_ctx, "%s(): invalid buf off", __func__);
 
       return -1;
     }
@@ -1297,7 +1297,7 @@ int hc_mtlSetCommandEncoderArg (void *hashcat_ctx, mtl_command_encoder metal_com
 
   if (idx < 0)
   {
-    event_log_error (hashcat_ctx, "%s(): invalid buf/host_data idx", __func__);
+    event_log_error (supercrack_ctx, "%s(): invalid buf/host_data idx", __func__);
 
     return -1;
   }
@@ -1314,21 +1314,21 @@ int hc_mtlSetCommandEncoderArg (void *hashcat_ctx, mtl_command_encoder metal_com
   return 0;
 }
 
-int hc_mtlEncodeComputeCommand (void *hashcat_ctx, mtl_command_encoder metal_command_encoder, mtl_command_buffer metal_command_buffer, size_t global_work_size, size_t local_work_size, double *ms)
+int hc_mtlEncodeComputeCommand (void *supercrack_ctx, mtl_command_encoder metal_command_encoder, mtl_command_buffer metal_command_buffer, size_t global_work_size, size_t local_work_size, double *ms)
 {
   MTLSize numThreadgroups = {local_work_size, 1, 1};
   MTLSize threadsGroup = {global_work_size, 1, 1};
 
   if (metal_command_encoder == nil)
   {
-    event_log_error (hashcat_ctx, "%s(): invalid metal_command_encoder", __func__);
+    event_log_error (supercrack_ctx, "%s(): invalid metal_command_encoder", __func__);
 
     return -1;
   }
 
   if (metal_command_buffer == nil)
   {
-    event_log_error (hashcat_ctx, "%s(): invalid metal_command_buffer", __func__);
+    event_log_error (supercrack_ctx, "%s(): invalid metal_command_buffer", __func__);
 
     return -1;
   }
@@ -1355,20 +1355,20 @@ int hc_mtlEncodeComputeCommand (void *hashcat_ctx, mtl_command_encoder metal_com
   return 0;
 }
 
-int hc_mtlCreateLibraryWithFile (void *hashcat_ctx, mtl_device_id metal_device, const char *cached_file, mtl_library *metal_library)
+int hc_mtlCreateLibraryWithFile (void *supercrack_ctx, mtl_device_id metal_device, const char *cached_file, mtl_library *metal_library)
 {
   NSError *error = nil;
 
   if (metal_device == nil)
   {
-    event_log_error (hashcat_ctx, "%s(): invalid metal device", __func__);
+    event_log_error (supercrack_ctx, "%s(): invalid metal device", __func__);
 
     return -1;
   }
 
   if (cached_file == nil)
   {
-    event_log_error (hashcat_ctx, "%s(): invalid metallib", __func__);
+    event_log_error (supercrack_ctx, "%s(): invalid metallib", __func__);
 
     return -1;
   }
@@ -1381,7 +1381,7 @@ int hc_mtlCreateLibraryWithFile (void *hashcat_ctx, mtl_device_id metal_device, 
 
     if (error != nil)
     {
-      event_log_error (hashcat_ctx, "%s(): failed to create metal library from metallib, %s", __func__, [[error localizedDescription] UTF8String]);
+      event_log_error (supercrack_ctx, "%s(): failed to create metal library from metallib, %s", __func__, [[error localizedDescription] UTF8String]);
       return -1;
     }
 
@@ -1393,7 +1393,7 @@ int hc_mtlCreateLibraryWithFile (void *hashcat_ctx, mtl_device_id metal_device, 
   return -1;
 }
 
-int hc_mtlCreateLibraryWithSource (void *hashcat_ctx, mtl_device_id metal_device, const char *kernel_sources, const char *build_options_buf, const char *cpath, mtl_library *metal_library)
+int hc_mtlCreateLibraryWithSource (void *supercrack_ctx, mtl_device_id metal_device, const char *kernel_sources, const char *build_options_buf, const char *cpath, mtl_library *metal_library)
 {
   NSError *error = nil;
 
@@ -1411,9 +1411,9 @@ int hc_mtlCreateLibraryWithSource (void *hashcat_ctx, mtl_device_id metal_device
 
       build_options_dict = [NSMutableDictionary dictionary]; //[[NSMutableDictionary alloc] init];
 
-      if (hc_mtlBuildOptionsToDict (hashcat_ctx, build_options_buf, cpath, build_options_dict) == -1)
+      if (hc_mtlBuildOptionsToDict (supercrack_ctx, build_options_buf, cpath, build_options_dict) == -1)
       {
-        event_log_error (hashcat_ctx, "%s(): failed to build options dictionary", __func__);
+        event_log_error (supercrack_ctx, "%s(): failed to build options dictionary", __func__);
 
         [build_options_dict release];
         return -1;
@@ -1467,7 +1467,7 @@ int hc_mtlCreateLibraryWithSource (void *hashcat_ctx, mtl_device_id metal_device
 
     if (error != nil)
     {
-      event_log_error (hashcat_ctx, "%s(): failed to create metal library, %s", __func__, [[error localizedDescription] UTF8String]);
+      event_log_error (supercrack_ctx, "%s(): failed to create metal library, %s", __func__, [[error localizedDescription] UTF8String]);
 
       return -1;
     }

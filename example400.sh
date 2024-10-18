@@ -1,1 +1,1 @@
-cat example.dict | ./hashcat -m 400 example400.hash
+cat example.dict | ./supercrack -m 400 example400.hash

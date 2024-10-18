@@ -2264,12 +2264,12 @@ DECLSPEC int hc_enc_next (PRIVATE_AS hc_enc_t *hc_enc, PRIVATE_AS const u32 *src
 
     if (c >= 0xfc)
     {
-      // old version, doesnt work with https://github.com/hashcat/hashcat/issues/3592
+      // old version, doesnt work with https://github.com/supercrack/supercrack/issues/3592
       //extraBytesToRead = 5;
     }
     else if (c >= 0xf8)
     {
-      // old version, doesnt work with https://github.com/hashcat/hashcat/issues/3592
+      // old version, doesnt work with https://github.com/supercrack/supercrack/issues/3592
       //extraBytesToRead = 4;
     }
     else if (c >= 0xf0)
@@ -2307,7 +2307,7 @@ DECLSPEC int hc_enc_next (PRIVATE_AS hc_enc_t *hc_enc, PRIVATE_AS const u32 *src
 
     switch (extraBytesToRead)
     {
-      // old version, doesnt work with https://github.com/hashcat/hashcat/issues/3592
+      // old version, doesnt work with https://github.com/supercrack/supercrack/issues/3592
       /*
       case 5:
         ch += src_ptr[src_pos++]; ch <<= 6; // remember, illegal UTF-8
@@ -2415,12 +2415,12 @@ DECLSPEC int hc_enc_next_global (PRIVATE_AS hc_enc_t *hc_enc, GLOBAL_AS const u3
 
     if (c >= 0xfc)
     {
-      // old version, doesnt work with https://github.com/hashcat/hashcat/issues/3592
+      // old version, doesnt work with https://github.com/supercrack/supercrack/issues/3592
       //extraBytesToRead = 5;
     }
     else if (c >= 0xf8)
     {
-      // old version, doesnt work with https://github.com/hashcat/hashcat/issues/3592
+      // old version, doesnt work with https://github.com/supercrack/supercrack/issues/3592
       //extraBytesToRead = 4;
     }
     else if (c >= 0xf0)
@@ -2458,7 +2458,7 @@ DECLSPEC int hc_enc_next_global (PRIVATE_AS hc_enc_t *hc_enc, GLOBAL_AS const u3
 
     switch (extraBytesToRead)
     {
-      // old version, doesnt work with https://github.com/hashcat/hashcat/issues/3592
+      // old version, doesnt work with https://github.com/supercrack/supercrack/issues/3592
       /*
       case 5:
         ch += src_ptr[src_pos++]; ch <<= 6; // remember, illegal UTF-8
@@ -2815,7 +2815,7 @@ DECLSPEC int is_valid_base58_8 (const u8 v)
   if ((v > (u8) '9') && (v < (u8) 'A')) return 0;
   if ((v > (u8) 'Z') && (v < (u8) 'a')) return 0;
 
-  // https://github.com/hashcat/hashcat/issues/3878
+  // https://github.com/supercrack/supercrack/issues/3878
   if (v == 'O') return 0;
   if (v == 'I') return 0;
   if (v == 'l') return 0;

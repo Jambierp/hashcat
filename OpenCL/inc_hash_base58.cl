@@ -6,7 +6,7 @@
 /**
  * Based on bitcoin/libbase58 implementation
  * by Luke Dashjr
- * adapted by b0lek to run on GPUs as part of hashcat
+ * adapted by b0lek to run on GPUs as part of supercrack
  */
 
 #include "inc_vendor.h"

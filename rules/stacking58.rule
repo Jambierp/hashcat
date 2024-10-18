@@ -1,6 +1,6 @@
 ## This rule file is designed to act as a base for usage in a rule stacking runs.
 ##
-## For instance: $ hashcat hash.txt word.txt -r stacking58.rule -r stacking58.rule -r stacking58.rule
+## For instance: $ supercrack hash.txt word.txt -r stacking58.rule -r stacking58.rule -r stacking58.rule
 ##
 ## This automatically produces a rule set of 195112 rules. These include well known efficient rules like:
 ##

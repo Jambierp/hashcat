@@ -6,7 +6,7 @@
 #ifndef HC_COMMON_H
 #define HC_COMMON_H
 
-#define PROGNAME "hashcat"
+#define PROGNAME "supercrack"
 
 #if defined (__unix__) || defined (__APPLE__)
 #define _POSIX

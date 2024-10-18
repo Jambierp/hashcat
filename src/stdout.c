@@ -50,14 +50,14 @@ static void out_push (out_t *out, const u8 *pw_buf, const int pw_len)
   }
 }
 
-int process_stdout (hashcat_ctx_t *hashcat_ctx, hc_device_param_t *device_param, const u64 pws_cnt)
+int process_stdout (supercrack_ctx_t *supercrack_ctx, hc_device_param_t *device_param, const u64 pws_cnt)
 {
-  combinator_ctx_t *combinator_ctx = hashcat_ctx->combinator_ctx;
-  hashconfig_t     *hashconfig     = hashcat_ctx->hashconfig;
-  mask_ctx_t       *mask_ctx       = hashcat_ctx->mask_ctx;
-  outfile_ctx_t    *outfile_ctx    = hashcat_ctx->outfile_ctx;
-  straight_ctx_t   *straight_ctx   = hashcat_ctx->straight_ctx;
-  user_options_t   *user_options   = hashcat_ctx->user_options;
+  combinator_ctx_t *combinator_ctx = supercrack_ctx->combinator_ctx;
+  hashconfig_t     *hashconfig     = supercrack_ctx->hashconfig;
+  mask_ctx_t       *mask_ctx       = supercrack_ctx->mask_ctx;
+  outfile_ctx_t    *outfile_ctx    = supercrack_ctx->outfile_ctx;
+  straight_ctx_t   *straight_ctx   = supercrack_ctx->straight_ctx;
+  user_options_t   *user_options   = supercrack_ctx->user_options;
 
   char *filename = outfile_ctx->filename;
 
@@ -67,7 +67,7 @@ int process_stdout (hashcat_ctx_t *hashcat_ctx, hc_device_param_t *device_param,
   {
     if (hc_fopen (&out.fp, filename, "ab") == false)
     {
-      event_log_error (hashcat_ctx, "%s: %s", filename, strerror (errno));
+      event_log_error (supercrack_ctx, "%s: %s", filename, strerror (errno));
 
       return -1;
     }
@@ -76,7 +76,7 @@ int process_stdout (hashcat_ctx_t *hashcat_ctx, hc_device_param_t *device_param,
     {
       hc_fclose (&out.fp);
 
-      event_log_error (hashcat_ctx, "%s: %s", filename, strerror (errno));
+      event_log_error (supercrack_ctx, "%s: %s", filename, strerror (errno));
 
       return -1;
     }
@@ -178,7 +178,7 @@ int process_stdout (hashcat_ctx_t *hashcat_ctx, hc_device_param_t *device_param,
       u64 remain  = pws_cnt - gidvid_blk;
       u64 blk_cnt = MIN (remain, blk_cnt_max);
 
-      rc = copy_pws_idx (hashcat_ctx, device_param, gidvid_blk, blk_cnt, pws_idx_blk);
+      rc = copy_pws_idx (supercrack_ctx, device_param, gidvid_blk, blk_cnt, pws_idx_blk);
 
       if (rc == -1) break;
 
@@ -191,7 +191,7 @@ int process_stdout (hashcat_ctx_t *hashcat_ctx, hc_device_param_t *device_param,
 
       u32 copy_cnt = (pw_idx_last->off + pw_idx_last->cnt) - pws_idx_blk->off;
 
-      rc = copy_pws_comp (hashcat_ctx, device_param, off_blk, copy_cnt, pws_comp_blk);
+      rc = copy_pws_comp (supercrack_ctx, device_param, off_blk, copy_cnt, pws_comp_blk);
 
       if (rc == -1) break;
 

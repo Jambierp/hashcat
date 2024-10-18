@@ -10,16 +10,16 @@ use warnings;
 
 my $nvidia_cache     = "~/.nv";
 my $amd_cache        = "~/.AMD";
-my $hashcat_path     = ".";
-my $kernels_cache    = "$hashcat_path/kernels";
-my $hashcat_bin      = "$hashcat_path/hashcat";
+my $supercrack_path     = ".";
+my $kernels_cache    = "$supercrack_path/kernels";
+my $supercrack_bin      = "$supercrack_path/supercrack";
 my $device           = 3;
 my $workload_profile = 3;
 my $runtime          = 24;
 my $sleep_sec        = 12;
 my $default_mask     = "?b?b?b?b?b?b?b";
 my $result           = "result.txt";
-my $old_hashcat      = 0; # requires to have ran with new hashcat before to create the hashfiles
+my $old_supercrack      = 0; # requires to have ran with new supercrack before to create the hashfiles
 my $repeats          = 0;
 my $cpu_benchmark    = 0;
 
@@ -375,7 +375,7 @@ if (scalar @ARGV)
 
 unlink ($result);
 
-chdir ($hashcat_path);
+chdir ($supercrack_path);
 
 for my $hash_type (@hash_types)
 {
@@ -383,7 +383,7 @@ for my $hash_type (@hash_types)
 
   my $mask = $default_mask;
 
-  if ($old_hashcat == 0)
+  if ($old_supercrack == 0)
   {
     my $module = get_module ($hash_type);
 
@@ -408,7 +408,7 @@ for my $hash_type (@hash_types)
 
   my @command =
   (
-    $hashcat_bin, "-D2",
+    $supercrack_bin, "-D2",
     "--quiet",
     "tmp.hash.$hash_type",
     "--keep-guessing",

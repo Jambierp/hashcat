@@ -1,2 +1,2 @@
-hashcat.exe -m 500 example500.hash example.dict
+supercrack.exe -m 500 example500.hash example.dict
 pause

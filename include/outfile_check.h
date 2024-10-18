@@ -13,7 +13,7 @@
 
 HC_API_CALL void *thread_outfile_remove (void *p);
 
-int  outcheck_ctx_init    (hashcat_ctx_t *hashcat_ctx);
-void outcheck_ctx_destroy (hashcat_ctx_t *hashcat_ctx);
+int  outcheck_ctx_init    (supercrack_ctx_t *supercrack_ctx);
+void outcheck_ctx_destroy (supercrack_ctx_t *supercrack_ctx);
 
 #endif // HC_OUTFILE_CHECK_H

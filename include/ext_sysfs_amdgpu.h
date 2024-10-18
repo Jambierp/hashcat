@@ -24,15 +24,15 @@ typedef struct hm_sysfs_amdgpu_lib
 
 typedef hm_sysfs_amdgpu_lib_t SYSFS_AMDGPU_PTR;
 
-bool sysfs_amdgpu_init (void *hashcat_ctx);
-void sysfs_amdgpu_close (void *hashcat_ctx);
-char *hm_SYSFS_AMDGPU_get_syspath_device (void *hashcat_ctx, const int backend_device_idx);
-char *hm_SYSFS_AMDGPU_get_syspath_hwmon (void *hashcat_ctx, const int backend_device_idx);
-int hm_SYSFS_AMDGPU_get_fan_speed_current (void *hashcat_ctx, const int backend_device_idx, int *val);
-int hm_SYSFS_AMDGPU_get_temperature_current (void *hashcat_ctx, const int backend_device_idx, int *val);
-int hm_SYSFS_AMDGPU_get_pp_dpm_sclk (void *hashcat_ctx, const int backend_device_idx, int *val);
-int hm_SYSFS_AMDGPU_get_pp_dpm_mclk (void *hashcat_ctx, const int backend_device_idx, int *val);
-int hm_SYSFS_AMDGPU_get_pp_dpm_pcie (void *hashcat_ctx, const int backend_device_idx, int *val);
-int hm_SYSFS_AMDGPU_get_gpu_busy_percent (void *hashcat_ctx, const int backend_device_idx, int *val);
+bool sysfs_amdgpu_init (void *supercrack_ctx);
+void sysfs_amdgpu_close (void *supercrack_ctx);
+char *hm_SYSFS_AMDGPU_get_syspath_device (void *supercrack_ctx, const int backend_device_idx);
+char *hm_SYSFS_AMDGPU_get_syspath_hwmon (void *supercrack_ctx, const int backend_device_idx);
+int hm_SYSFS_AMDGPU_get_fan_speed_current (void *supercrack_ctx, const int backend_device_idx, int *val);
+int hm_SYSFS_AMDGPU_get_temperature_current (void *supercrack_ctx, const int backend_device_idx, int *val);
+int hm_SYSFS_AMDGPU_get_pp_dpm_sclk (void *supercrack_ctx, const int backend_device_idx, int *val);
+int hm_SYSFS_AMDGPU_get_pp_dpm_mclk (void *supercrack_ctx, const int backend_device_idx, int *val);
+int hm_SYSFS_AMDGPU_get_pp_dpm_pcie (void *supercrack_ctx, const int backend_device_idx, int *val);
+int hm_SYSFS_AMDGPU_get_gpu_busy_percent (void *supercrack_ctx, const int backend_device_idx, int *val);
 
 #endif // HC_EXT_SYSFS_AMDGPU_H

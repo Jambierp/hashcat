@@ -30,9 +30,9 @@ int hiprtc_make_options_array_from_string (char *string, char **options)
   return cnt;
 }
 
-int hiprtc_init (void *hashcat_ctx)
+int hiprtc_init (void *supercrack_ctx)
 {
-  backend_ctx_t *backend_ctx = ((hashcat_ctx_t *) hashcat_ctx)->backend_ctx;
+  backend_ctx_t *backend_ctx = ((supercrack_ctx_t *) supercrack_ctx)->backend_ctx;
 
   HIPRTC_PTR *hiprtc = (HIPRTC_PTR *) backend_ctx->hiprtc;
 
@@ -68,9 +68,9 @@ int hiprtc_init (void *hashcat_ctx)
   return 0;
 }
 
-void hiprtc_close (void *hashcat_ctx)
+void hiprtc_close (void *supercrack_ctx)
 {
-  backend_ctx_t *backend_ctx = ((hashcat_ctx_t *) hashcat_ctx)->backend_ctx;
+  backend_ctx_t *backend_ctx = ((supercrack_ctx_t *) supercrack_ctx)->backend_ctx;
 
   HIPRTC_PTR *hiprtc = (HIPRTC_PTR *) backend_ctx->hiprtc;
 
@@ -87,9 +87,9 @@ void hiprtc_close (void *hashcat_ctx)
   }
 }
 
-int hc_hiprtcCreateProgram (void *hashcat_ctx, hiprtcProgram *prog, const char *src, const char *name, int numHeaders, const char * const *headers, const char * const *includeNames)
+int hc_hiprtcCreateProgram (void *supercrack_ctx, hiprtcProgram *prog, const char *src, const char *name, int numHeaders, const char * const *headers, const char * const *includeNames)
 {
-  backend_ctx_t *backend_ctx = ((hashcat_ctx_t *) hashcat_ctx)->backend_ctx;
+  backend_ctx_t *backend_ctx = ((supercrack_ctx_t *) supercrack_ctx)->backend_ctx;
 
   HIPRTC_PTR *hiprtc = (HIPRTC_PTR *) backend_ctx->hiprtc;
 
@@ -97,7 +97,7 @@ int hc_hiprtcCreateProgram (void *hashcat_ctx, hiprtcProgram *prog, const char *
 
   if (HIPRTC_err != HIPRTC_SUCCESS)
   {
-    event_log_error (hashcat_ctx, "hiprtcCreateProgram(): %s", hiprtc->hiprtcGetErrorString (HIPRTC_err));
+    event_log_error (supercrack_ctx, "hiprtcCreateProgram(): %s", hiprtc->hiprtcGetErrorString (HIPRTC_err));
 
     return -1;
   }
@@ -105,9 +105,9 @@ int hc_hiprtcCreateProgram (void *hashcat_ctx, hiprtcProgram *prog, const char *
   return 0;
 }
 
-int hc_hiprtcDestroyProgram (void *hashcat_ctx, hiprtcProgram *prog)
+int hc_hiprtcDestroyProgram (void *supercrack_ctx, hiprtcProgram *prog)
 {
-  backend_ctx_t *backend_ctx = ((hashcat_ctx_t *) hashcat_ctx)->backend_ctx;
+  backend_ctx_t *backend_ctx = ((supercrack_ctx_t *) supercrack_ctx)->backend_ctx;
 
   HIPRTC_PTR *hiprtc = (HIPRTC_PTR *) backend_ctx->hiprtc;
 
@@ -115,7 +115,7 @@ int hc_hiprtcDestroyProgram (void *hashcat_ctx, hiprtcProgram *prog)
 
   if (HIPRTC_err != HIPRTC_SUCCESS)
   {
-    event_log_error (hashcat_ctx, "hiprtcDestroyProgram(): %s", hiprtc->hiprtcGetErrorString (HIPRTC_err));
+    event_log_error (supercrack_ctx, "hiprtcDestroyProgram(): %s", hiprtc->hiprtcGetErrorString (HIPRTC_err));
 
     return -1;
   }
@@ -123,9 +123,9 @@ int hc_hiprtcDestroyProgram (void *hashcat_ctx, hiprtcProgram *prog)
   return 0;
 }
 
-int hc_hiprtcCompileProgram (void *hashcat_ctx, hiprtcProgram prog, int numOptions, const char * const *options)
+int hc_hiprtcCompileProgram (void *supercrack_ctx, hiprtcProgram prog, int numOptions, const char * const *options)
 {
-  backend_ctx_t *backend_ctx = ((hashcat_ctx_t *) hashcat_ctx)->backend_ctx;
+  backend_ctx_t *backend_ctx = ((supercrack_ctx_t *) supercrack_ctx)->backend_ctx;
 
   HIPRTC_PTR *hiprtc = (HIPRTC_PTR *) backend_ctx->hiprtc;
 
@@ -133,7 +133,7 @@ int hc_hiprtcCompileProgram (void *hashcat_ctx, hiprtcProgram prog, int numOptio
 
   if (HIPRTC_err != HIPRTC_SUCCESS)
   {
-    event_log_error (hashcat_ctx, "hiprtcCompileProgram(): %s", hiprtc->hiprtcGetErrorString (HIPRTC_err));
+    event_log_error (supercrack_ctx, "hiprtcCompileProgram(): %s", hiprtc->hiprtcGetErrorString (HIPRTC_err));
 
     return -1;
   }
@@ -141,9 +141,9 @@ int hc_hiprtcCompileProgram (void *hashcat_ctx, hiprtcProgram prog, int numOptio
   return 0;
 }
 
-int hc_hiprtcGetProgramLogSize (void *hashcat_ctx, hiprtcProgram prog, size_t *logSizeRet)
+int hc_hiprtcGetProgramLogSize (void *supercrack_ctx, hiprtcProgram prog, size_t *logSizeRet)
 {
-  backend_ctx_t *backend_ctx = ((hashcat_ctx_t *) hashcat_ctx)->backend_ctx;
+  backend_ctx_t *backend_ctx = ((supercrack_ctx_t *) supercrack_ctx)->backend_ctx;
 
   HIPRTC_PTR *hiprtc = (HIPRTC_PTR *) backend_ctx->hiprtc;
 
@@ -151,7 +151,7 @@ int hc_hiprtcGetProgramLogSize (void *hashcat_ctx, hiprtcProgram prog, size_t *l
 
   if (HIPRTC_err != HIPRTC_SUCCESS)
   {
-    event_log_error (hashcat_ctx, "hiprtcGetProgramLogSize(): %s", hiprtc->hiprtcGetErrorString (HIPRTC_err));
+    event_log_error (supercrack_ctx, "hiprtcGetProgramLogSize(): %s", hiprtc->hiprtcGetErrorString (HIPRTC_err));
 
     return -1;
   }
@@ -159,9 +159,9 @@ int hc_hiprtcGetProgramLogSize (void *hashcat_ctx, hiprtcProgram prog, size_t *l
   return 0;
 }
 
-int hc_hiprtcGetProgramLog (void *hashcat_ctx, hiprtcProgram prog, char *log)
+int hc_hiprtcGetProgramLog (void *supercrack_ctx, hiprtcProgram prog, char *log)
 {
-  backend_ctx_t *backend_ctx = ((hashcat_ctx_t *) hashcat_ctx)->backend_ctx;
+  backend_ctx_t *backend_ctx = ((supercrack_ctx_t *) supercrack_ctx)->backend_ctx;
 
   HIPRTC_PTR *hiprtc = (HIPRTC_PTR *) backend_ctx->hiprtc;
 
@@ -169,7 +169,7 @@ int hc_hiprtcGetProgramLog (void *hashcat_ctx, hiprtcProgram prog, char *log)
 
   if (HIPRTC_err != HIPRTC_SUCCESS)
   {
-    event_log_error (hashcat_ctx, "hiprtcGetProgramLog(): %s", hiprtc->hiprtcGetErrorString (HIPRTC_err));
+    event_log_error (supercrack_ctx, "hiprtcGetProgramLog(): %s", hiprtc->hiprtcGetErrorString (HIPRTC_err));
 
     return -1;
   }
@@ -177,9 +177,9 @@ int hc_hiprtcGetProgramLog (void *hashcat_ctx, hiprtcProgram prog, char *log)
   return 0;
 }
 
-int hc_hiprtcGetCodeSize (void *hashcat_ctx, hiprtcProgram prog, size_t *codeSizeRet)
+int hc_hiprtcGetCodeSize (void *supercrack_ctx, hiprtcProgram prog, size_t *codeSizeRet)
 {
-  backend_ctx_t *backend_ctx = ((hashcat_ctx_t *) hashcat_ctx)->backend_ctx;
+  backend_ctx_t *backend_ctx = ((supercrack_ctx_t *) supercrack_ctx)->backend_ctx;
 
   HIPRTC_PTR *hiprtc = (HIPRTC_PTR *) backend_ctx->hiprtc;
 
@@ -187,7 +187,7 @@ int hc_hiprtcGetCodeSize (void *hashcat_ctx, hiprtcProgram prog, size_t *codeSiz
 
   if (HIPRTC_err != HIPRTC_SUCCESS)
   {
-    event_log_error (hashcat_ctx, "hiprtcGetCodeSize(): %s", hiprtc->hiprtcGetErrorString (HIPRTC_err));
+    event_log_error (supercrack_ctx, "hiprtcGetCodeSize(): %s", hiprtc->hiprtcGetErrorString (HIPRTC_err));
 
     return -1;
   }
@@ -195,9 +195,9 @@ int hc_hiprtcGetCodeSize (void *hashcat_ctx, hiprtcProgram prog, size_t *codeSiz
   return 0;
 }
 
-int hc_hiprtcGetCode (void *hashcat_ctx, hiprtcProgram prog, char *code)
+int hc_hiprtcGetCode (void *supercrack_ctx, hiprtcProgram prog, char *code)
 {
-  backend_ctx_t *backend_ctx = ((hashcat_ctx_t *) hashcat_ctx)->backend_ctx;
+  backend_ctx_t *backend_ctx = ((supercrack_ctx_t *) supercrack_ctx)->backend_ctx;
 
   HIPRTC_PTR *hiprtc = (HIPRTC_PTR *) backend_ctx->hiprtc;
 
@@ -205,7 +205,7 @@ int hc_hiprtcGetCode (void *hashcat_ctx, hiprtcProgram prog, char *code)
 
   if (HIPRTC_err != HIPRTC_SUCCESS)
   {
-    event_log_error (hashcat_ctx, "hiprtcGetCode(): %s", hiprtc->hiprtcGetErrorString (HIPRTC_err));
+    event_log_error (supercrack_ctx, "hiprtcGetCode(): %s", hiprtc->hiprtcGetErrorString (HIPRTC_err));
 
     return -1;
   }

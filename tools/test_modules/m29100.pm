@@ -20,7 +20,7 @@ sub module_generate_hash
   my $word = shift;
   my $salt = shift || get_random_flask_salt ();
 
-  # https://github.com/hashcat/hashcat/issues/3239
+  # https://github.com/supercrack/supercrack/issues/3239
   #first = HMACSHA1(key=secret, message="cookie-session").digest() // "cookie-session" is a constant; digest is raw digest bytes
   #second = HMACSHA1(key=first, message=message).digest()
 

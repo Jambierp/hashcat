@@ -12,7 +12,7 @@
  * Based on Steve Reid's public domain cast.c
  *
  * atom - changed S boxes from constant mem to shared mem and some
- *        other fitting to match hashcat source structures
+ *        other fitting to match supercrack source structures
  */
 
 #include "inc_vendor.h"

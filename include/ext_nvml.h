@@ -217,20 +217,20 @@ typedef struct hm_nvml_lib
 
 typedef hm_nvml_lib_t NVML_PTR;
 
-int nvml_init (void *hashcat_ctx);
-void nvml_close (void *hashcat_ctx);
+int nvml_init (void *supercrack_ctx);
+void nvml_close (void *supercrack_ctx);
 const char *hm_NVML_nvmlErrorString (NVML_PTR *nvml, const nvmlReturn_t nvml_rc);
 
-int hm_NVML_nvmlInit (void *hashcat_ctx);
-int hm_NVML_nvmlShutdown (void *hashcat_ctx);
-int hm_NVML_nvmlDeviceGetCount (void *hashcat_ctx, unsigned int *deviceCount);
-int hm_NVML_nvmlDeviceGetHandleByIndex (void *hashcat_ctx, unsigned int device_index, nvmlDevice_t *device);
-int hm_NVML_nvmlDeviceGetTemperature (void *hashcat_ctx, nvmlDevice_t device, nvmlTemperatureSensors_t sensorType, unsigned int *temp);
-int hm_NVML_nvmlDeviceGetFanSpeed (void *hashcat_ctx, nvmlDevice_t device, unsigned int *speed);
-int hm_NVML_nvmlDeviceGetUtilizationRates (void *hashcat_ctx, nvmlDevice_t device, nvmlUtilization_t *utilization);
-int hm_NVML_nvmlDeviceGetClockInfo (void *hashcat_ctx, nvmlDevice_t device, nvmlClockType_t type, unsigned int *clockfreq);
-int hm_NVML_nvmlDeviceGetTemperatureThreshold (void *hashcat_ctx, nvmlDevice_t device, nvmlTemperatureThresholds_t thresholdType, unsigned int *temp);
-int hm_NVML_nvmlDeviceGetCurrPcieLinkWidth (void *hashcat_ctx, nvmlDevice_t device, unsigned int *currLinkWidth);
-int hm_NVML_nvmlDeviceGetPciInfo (void *hashcat_ctx, nvmlDevice_t device, nvmlPciInfo_t *pci);
+int hm_NVML_nvmlInit (void *supercrack_ctx);
+int hm_NVML_nvmlShutdown (void *supercrack_ctx);
+int hm_NVML_nvmlDeviceGetCount (void *supercrack_ctx, unsigned int *deviceCount);
+int hm_NVML_nvmlDeviceGetHandleByIndex (void *supercrack_ctx, unsigned int device_index, nvmlDevice_t *device);
+int hm_NVML_nvmlDeviceGetTemperature (void *supercrack_ctx, nvmlDevice_t device, nvmlTemperatureSensors_t sensorType, unsigned int *temp);
+int hm_NVML_nvmlDeviceGetFanSpeed (void *supercrack_ctx, nvmlDevice_t device, unsigned int *speed);
+int hm_NVML_nvmlDeviceGetUtilizationRates (void *supercrack_ctx, nvmlDevice_t device, nvmlUtilization_t *utilization);
+int hm_NVML_nvmlDeviceGetClockInfo (void *supercrack_ctx, nvmlDevice_t device, nvmlClockType_t type, unsigned int *clockfreq);
+int hm_NVML_nvmlDeviceGetTemperatureThreshold (void *supercrack_ctx, nvmlDevice_t device, nvmlTemperatureThresholds_t thresholdType, unsigned int *temp);
+int hm_NVML_nvmlDeviceGetCurrPcieLinkWidth (void *supercrack_ctx, nvmlDevice_t device, unsigned int *currLinkWidth);
+int hm_NVML_nvmlDeviceGetPciInfo (void *supercrack_ctx, nvmlDevice_t device, nvmlPciInfo_t *pci);
 
 #endif // HC_NVML_H

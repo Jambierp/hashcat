@@ -1,4 +1,4 @@
-# Compiling hashcat with msys2.
+# Compiling supercrack with msys2.
 
 Tested on a Windows 10 20H2 x64 machine.
 
@@ -6,7 +6,7 @@ Tested on a Windows 10 20H2 x64 machine.
 
 Go to https://www.msys2.org/ and follow the instructions on the main page (steps 1 to 7).
 
-Install additional dependencies required to compile hashcat by running the following commands
+Install additional dependencies required to compile supercrack by running the following commands
 
 ```
 $ pacman -S git
@@ -17,30 +17,30 @@ $ pacman -S libiconv-devel
 
 ### Building ###
 
-Once all that is done, type the following command to copy the latest master revision of hashcat repository into msys64\home\username\hashcat
+Once all that is done, type the following command to copy the latest master revision of supercrack repository into msys64\home\username\supercrack
 
 ```
-$ git clone https://github.com/hashcat/hashcat.git
+$ git clone https://github.com/supercrack/supercrack.git
 ```
 
 Switch to the newly created folder by running
 
 ```
-$ cd hashcat
+$ cd supercrack
 ```
 
-Now type "make" to start compiling hashcat
+Now type "make" to start compiling supercrack
 
 ```
 $ make
 ```
 
-The process may take a while, please be patient. Once it's finished, run hashcat by typing "./hashcat.exe"
+The process may take a while, please be patient. Once it's finished, run supercrack by typing "./supercrack.exe"
 
 ```
-$ ./hashcat.exe
+$ ./supercrack.exe
 ```
 
 ### Notes ###
 
-While hashcat will run fine from msys shell, running it from a windows shell will require msys-iconv-2.dll and msys-2.0.dll to be in the same folder with hashcat.exe (the files can be found in msys64\usr\bin).
+While supercrack will run fine from msys shell, running it from a windows shell will require msys-iconv-2.dll and msys-2.0.dll to be in the same folder with supercrack.exe (the files can be found in msys64\usr\bin).

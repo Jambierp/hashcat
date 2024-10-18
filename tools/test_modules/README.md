@@ -1,4 +1,4 @@
-### Hashcat test modules ###
+### Supercrack test modules ###
 
 Each module provides the functions `module_constraints`, `module_generate_hash` and `module_verify_hash`.
 

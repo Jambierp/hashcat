@@ -26,9 +26,9 @@ static const u32   OPTI_TYPE         = OPTI_TYPE_NOT_SALTED;
 static const u64   OPTS_TYPE         = OPTS_TYPE_STOCK_MODULE
                                      | OPTS_TYPE_PT_GENERATE_LE;
 static const u32   SALT_TYPE         = SALT_TYPE_NONE;
-static const char *ST_PASS           = "5KcL859EUnBDtVG76134U6DZWnVmpE996emJnWmTLRW2hashcat";
+static const char *ST_PASS           = "5KcL859EUnBDtVG76134U6DZWnVmpE996emJnWmTLRW2supercrack";
 static const char *ST_HASH           = "1L9nr4GX4Zmd7gDL1UT75QPUqxSgNTvdHb";
-static const char *BENCHMARK_MASK    = "?1?1?1?1?1?1?1EUnBDtVG76134U6DZWnVmpE996emJnWmTLRW2hashcat";
+static const char *BENCHMARK_MASK    = "?1?1?1?1?1?1?1EUnBDtVG76134U6DZWnVmpE996emJnWmTLRW2supercrack";
 static const char *BENCHMARK_CHARSET = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
 static const u32   PUBKEY_MAXLEN     = 64; // our max is actually always 25 (21 + 4)
 static const u32   WIF_LEN           = 51;

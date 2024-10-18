@@ -11,8 +11,8 @@ env:
     OpenCL/
     rules/
     example*
-    hashcat*
-    libhashcat*
+    supercrack*
+    libsupercrack*
 
 on:
   push:
@@ -57,7 +57,7 @@ jobs:
       - name: Generate artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: hashcat-linux-${{ matrix.shared == 0 && 'static' || 'shared' }}
+          name: supercrack-linux-${{ matrix.shared == 0 && 'static' || 'shared' }}
           path: ${{ env.include_paths }}
 
   build-macos:
@@ -76,7 +76,7 @@ jobs:
       - name: Generate artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: hashcat-macos-${{ matrix.shared == 0 && 'static' || 'shared' }}
+          name: supercrack-macos-${{ matrix.shared == 0 && 'static' || 'shared' }}
           path: ${{ env.include_paths }}
 
   build-windows:
@@ -106,5 +106,5 @@ jobs:
       - name: Generate artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: hashcat-windows-${{ matrix.shared == 0 && 'static' || 'shared' }}
+          name: supercrack-windows-${{ matrix.shared == 0 && 'static' || 'shared' }}
           path: ${{ env.include_paths }}

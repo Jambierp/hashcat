@@ -24,7 +24,7 @@ static const u32   OPTI_TYPE         = OPTI_TYPE_NOT_SALTED;
 static const u64   OPTS_TYPE         = OPTS_TYPE_STOCK_MODULE
                                      | OPTS_TYPE_PT_GENERATE_LE;
 static const u32   SALT_TYPE         = SALT_TYPE_NONE;
-static const char *ST_PASS           = "KyhashcatpL2CQmMUDVMVuEXqdLSvfQ6TBjkUuyttSvBa7GMiuLi";
+static const char *ST_PASS           = "KysupercrackpL2CQmMUDVMVuEXqdLSvfQ6TBjkUuyttSvBa7GMiuLi";
 static const char *ST_HASH           = "bc1qxd76a5zamfyw0g2d2rxkdh0zt9m0uzmxmwjf0q";
 static const char *BENCHMARK_MASK    = "?1?1?1?1?1?1?1atpL2CQmMUDVMVuEXqdLSvfQ6TBjkUuyttSvBa7GMiuLi";
 static const char *BENCHMARK_CHARSET = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";

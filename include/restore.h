@@ -18,12 +18,12 @@
 #define RESTORE_VERSION_MIN 600
 #define RESTORE_VERSION_CUR 611
 
-int cycle_restore (hashcat_ctx_t *hashcat_ctx);
+int cycle_restore (supercrack_ctx_t *supercrack_ctx);
 
-void unlink_restore (hashcat_ctx_t *hashcat_ctx);
+void unlink_restore (supercrack_ctx_t *supercrack_ctx);
 
-int restore_ctx_init (hashcat_ctx_t *hashcat_ctx, int argc, char **argv);
+int restore_ctx_init (supercrack_ctx_t *supercrack_ctx, int argc, char **argv);
 
-void restore_ctx_destroy (hashcat_ctx_t *hashcat_ctx);
+void restore_ctx_destroy (supercrack_ctx_t *supercrack_ctx);
 
 #endif // HC_RESTORE_H

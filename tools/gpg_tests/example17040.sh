@@ -1,13 +1,13 @@
 #!/bin/bash
-FILE="./hashcat.exe"
+FILE="./supercrack.exe"
 if [[ -f "$FILE" ]]; then
-    echo "we found hashcat.exe binary so use that" #wsl
+    echo "we found supercrack.exe binary so use that" #wsl
 else
-    FILE="./hashcat"
+    FILE="./supercrack"
     if [[ -f "$FILE" ]]; then
-        echo "we found ./hashcat binary so use that" #linux
+        echo "we found ./supercrack binary so use that" #linux
     else
-        echo "could not find hashcat binary, compile it first using make"
+        echo "could not find supercrack binary, compile it first using make"
         exit
     fi
 fi

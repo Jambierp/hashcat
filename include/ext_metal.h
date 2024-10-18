@@ -71,47 +71,47 @@ typedef struct hc_metal
 
 typedef hc_metal_t MTL_PTR;
 
-int  mtl_init                       (void *hashcat_ctx);
-void mtl_close                      (void *hashcat_ctx);
+int  mtl_init                       (void *supercrack_ctx);
+void mtl_close                      (void *supercrack_ctx);
 
-int  hc_mtlRuntimeGetVersionString  (void *hashcat_ctx, char *runtimeVersion_str, size_t *size);
+int  hc_mtlRuntimeGetVersionString  (void *supercrack_ctx, char *runtimeVersion_str, size_t *size);
 
-int  hc_mtlDeviceGetCount           (void *hashcat_ctx, int *count);
-int  hc_mtlDeviceGet                (void *hashcat_ctx, mtl_device_id *metal_device, int ordinal);
-int  hc_mtlDeviceGetName            (void *hashcat_ctx, char *name, size_t len, mtl_device_id metal_device);
-int  hc_mtlDeviceGetAttribute       (void *hashcat_ctx, int *pi, metalDeviceAttribute_t attrib, mtl_device_id metal_device);
-int  hc_mtlDeviceTotalMem           (void *hashcat_ctx, size_t *bytes, mtl_device_id metal_device);
-int  hc_mtlDeviceMaxMemAlloc        (void *hashcat_ctx, size_t *bytes, mtl_device_id metal_device);
-int  hc_mtlMemGetInfo               (void *hashcat_ctx, size_t *mem_free, size_t *mem_total);
+int  hc_mtlDeviceGetCount           (void *supercrack_ctx, int *count);
+int  hc_mtlDeviceGet                (void *supercrack_ctx, mtl_device_id *metal_device, int ordinal);
+int  hc_mtlDeviceGetName            (void *supercrack_ctx, char *name, size_t len, mtl_device_id metal_device);
+int  hc_mtlDeviceGetAttribute       (void *supercrack_ctx, int *pi, metalDeviceAttribute_t attrib, mtl_device_id metal_device);
+int  hc_mtlDeviceTotalMem           (void *supercrack_ctx, size_t *bytes, mtl_device_id metal_device);
+int  hc_mtlDeviceMaxMemAlloc        (void *supercrack_ctx, size_t *bytes, mtl_device_id metal_device);
+int  hc_mtlMemGetInfo               (void *supercrack_ctx, size_t *mem_free, size_t *mem_total);
 
-int  hc_mtlCreateCommandQueue       (void *hashcat_ctx, mtl_device_id metal_device, mtl_command_queue *command_queue);
-int  hc_mtlCreateBuffer             (void *hashcat_ctx, mtl_device_id metal_device, size_t size, void *ptr, mtl_mem *metal_buffer);
+int  hc_mtlCreateCommandQueue       (void *supercrack_ctx, mtl_device_id metal_device, mtl_command_queue *command_queue);
+int  hc_mtlCreateBuffer             (void *supercrack_ctx, mtl_device_id metal_device, size_t size, void *ptr, mtl_mem *metal_buffer);
 
-int  hc_mtlCreateKernel             (void *hashcat_ctx, mtl_device_id metal_device, mtl_library metal_library, const char *func_name, mtl_function *metal_function, mtl_pipeline *metal_pipeline);
+int  hc_mtlCreateKernel             (void *supercrack_ctx, mtl_device_id metal_device, mtl_library metal_library, const char *func_name, mtl_function *metal_function, mtl_pipeline *metal_pipeline);
 
-int  hc_mtlGetMaxTotalThreadsPerThreadgroup (void *hashcat_ctx, mtl_pipeline metal_pipeline, unsigned int *maxTotalThreadsPerThreadgroup);
-int  hc_mtlGetThreadExecutionWidth  (void *hashcat_ctx, mtl_pipeline metal_pipeline, unsigned int *threadExecutionWidth);
+int  hc_mtlGetMaxTotalThreadsPerThreadgroup (void *supercrack_ctx, mtl_pipeline metal_pipeline, unsigned int *maxTotalThreadsPerThreadgroup);
+int  hc_mtlGetThreadExecutionWidth  (void *supercrack_ctx, mtl_pipeline metal_pipeline, unsigned int *threadExecutionWidth);
 
 // copy buffer
-int  hc_mtlMemcpyDtoD               (void *hashcat_ctx, mtl_command_queue command_queue, mtl_mem buf_dst, size_t buf_dst_off, mtl_mem buf_src, size_t buf_src_off, size_t buf_size);
+int  hc_mtlMemcpyDtoD               (void *supercrack_ctx, mtl_command_queue command_queue, mtl_mem buf_dst, size_t buf_dst_off, mtl_mem buf_src, size_t buf_src_off, size_t buf_size);
 // write
-int  hc_mtlMemcpyHtoD               (void *hashcat_ctx, mtl_command_queue command_queue, mtl_mem buf_dst, size_t buf_dst_off, const void *buf_src, size_t buf_size);
+int  hc_mtlMemcpyHtoD               (void *supercrack_ctx, mtl_command_queue command_queue, mtl_mem buf_dst, size_t buf_dst_off, const void *buf_src, size_t buf_size);
 // read
-int  hc_mtlMemcpyDtoH               (void *hashcat_ctx, mtl_command_queue command_queue, void *buf_dst, mtl_mem buf_src, size_t buf_src_off, size_t buf_size);
+int  hc_mtlMemcpyDtoH               (void *supercrack_ctx, mtl_command_queue command_queue, void *buf_dst, mtl_mem buf_src, size_t buf_src_off, size_t buf_size);
 
-int  hc_mtlReleaseMemObject         (void *hashcat_ctx, mtl_mem metal_buffer);
-int  hc_mtlReleaseFunction          (void *hashcat_ctx, mtl_function metal_function);
-int  hc_mtlReleaseLibrary           (void *hashcat_ctx, mtl_function metal_library);
-int  hc_mtlReleaseCommandQueue      (void *hashcat_ctx, mtl_command_queue command_queue);
-int  hc_mtlReleaseDevice            (void *hashcat_ctx, mtl_device_id metal_device);
+int  hc_mtlReleaseMemObject         (void *supercrack_ctx, mtl_mem metal_buffer);
+int  hc_mtlReleaseFunction          (void *supercrack_ctx, mtl_function metal_function);
+int  hc_mtlReleaseLibrary           (void *supercrack_ctx, mtl_function metal_library);
+int  hc_mtlReleaseCommandQueue      (void *supercrack_ctx, mtl_command_queue command_queue);
+int  hc_mtlReleaseDevice            (void *supercrack_ctx, mtl_device_id metal_device);
 
-int  hc_mtlCreateLibraryWithSource  (void *hashcat_ctx, mtl_device_id metal_device, const char *kernel_sources, const char *build_options_buf, const char *include_path, mtl_library *metal_library);
-int  hc_mtlCreateLibraryWithFile    (void *hashcat_ctx, mtl_device_id metal_device, const char *cached_file, mtl_library *metal_library);
+int  hc_mtlCreateLibraryWithSource  (void *supercrack_ctx, mtl_device_id metal_device, const char *kernel_sources, const char *build_options_buf, const char *include_path, mtl_library *metal_library);
+int  hc_mtlCreateLibraryWithFile    (void *supercrack_ctx, mtl_device_id metal_device, const char *cached_file, mtl_library *metal_library);
 
-int  hc_mtlEncodeComputeCommand_pre (void *hashcat_ctx, mtl_pipeline metal_pipeline, mtl_command_queue metal_command_queue, mtl_command_buffer *metal_command_buffer, mtl_command_encoder *metal_command_encoder);
-int  hc_mtlSetCommandEncoderArg     (void *hashcat_ctx, mtl_command_encoder metal_command_encoder, size_t off, size_t idx, mtl_mem buf, void *host_data, size_t host_data_size);
+int  hc_mtlEncodeComputeCommand_pre (void *supercrack_ctx, mtl_pipeline metal_pipeline, mtl_command_queue metal_command_queue, mtl_command_buffer *metal_command_buffer, mtl_command_encoder *metal_command_encoder);
+int  hc_mtlSetCommandEncoderArg     (void *supercrack_ctx, mtl_command_encoder metal_command_encoder, size_t off, size_t idx, mtl_mem buf, void *host_data, size_t host_data_size);
 
-int  hc_mtlEncodeComputeCommand     (void *hashcat_ctx, mtl_command_encoder metal_command_encoder, mtl_command_buffer metal_command_buffer, size_t global_work_size, size_t local_work_size, double *ms);
+int  hc_mtlEncodeComputeCommand     (void *supercrack_ctx, mtl_command_encoder metal_command_encoder, mtl_command_buffer metal_command_buffer, size_t global_work_size, size_t local_work_size, double *ms);
 
 #endif // __APPLE__
 

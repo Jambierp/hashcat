@@ -74,16 +74,16 @@ void hc_signal (void (callback) (int));
 #endif
 */
 
-int mycracked (hashcat_ctx_t *hashcat_ctx);
-int myabort_runtime (hashcat_ctx_t *hashcat_ctx);
-int myabort_checkpoint (hashcat_ctx_t *hashcat_ctx);
-int myabort_finish (hashcat_ctx_t *hashcat_ctx);
-int myabort (hashcat_ctx_t *hashcat_ctx);
-int myquit (hashcat_ctx_t *hashcat_ctx);
-int bypass (hashcat_ctx_t *hashcat_ctx);
-int SuspendThreads (hashcat_ctx_t *hashcat_ctx);
-int ResumeThreads (hashcat_ctx_t *hashcat_ctx);
-int stop_at_checkpoint (hashcat_ctx_t *hashcat_ctx);
-int finish_after_attack (hashcat_ctx_t *hashcat_ctx);
+int mycracked (supercrack_ctx_t *supercrack_ctx);
+int myabort_runtime (supercrack_ctx_t *supercrack_ctx);
+int myabort_checkpoint (supercrack_ctx_t *supercrack_ctx);
+int myabort_finish (supercrack_ctx_t *supercrack_ctx);
+int myabort (supercrack_ctx_t *supercrack_ctx);
+int myquit (supercrack_ctx_t *supercrack_ctx);
+int bypass (supercrack_ctx_t *supercrack_ctx);
+int SuspendThreads (supercrack_ctx_t *supercrack_ctx);
+int ResumeThreads (supercrack_ctx_t *supercrack_ctx);
+int stop_at_checkpoint (supercrack_ctx_t *supercrack_ctx);
+int finish_after_attack (supercrack_ctx_t *supercrack_ctx);
 
 #endif // HC_THREAD_H

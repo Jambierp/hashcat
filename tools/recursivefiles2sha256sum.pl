@@ -1,13 +1,13 @@
 #!/usr/bin/env perl
 
 ##
-## This script was created to be used in conjunction with Hashcat mode 29700 (Keepass in keyfile only mode).
+## This script was created to be used in conjunction with Supercrack mode 29700 (Keepass in keyfile only mode).
 ## This can be useful if you have a partition and forgot which of the files was used as the keyfile.
 ##
 ## Example use (if your target drive is mounted to /mnt/sda1 and (optionally) another one to /mnt/sda2):
 ##
 ## $ perl recursivefiles2sha256sum /mnt/sda1 /mnt/sda2 > wordlist.dict
-## $ ./hashcat kdbxdb.hash wordlist.dict
+## $ ./supercrack kdbxdb.hash wordlist.dict
 ##
 ## Note that the redirection operator > also works on Windows cmd.exe.
 ## To run perl in Windows use strawberry perl

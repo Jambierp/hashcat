@@ -7,7 +7,7 @@
            |_____|     /___________/     |_____|  /_____/        /_______|
                  :                             :                         :
 
-hashcat v6.2.6
+supercrack v6.2.6
 ==============
 
 AMD GPUs on Linux require "AMDGPU" (21.50 or later) and "ROCm" (5.0 or later)

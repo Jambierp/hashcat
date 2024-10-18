@@ -1,11 +1,11 @@
 *.exe
 *.bin
 *.app
-hashcat
-hashcat.exe
-libhashcat.so.*
-libhashcat*.dylib
-hashcat.dll
+supercrack
+supercrack.exe
+libsupercrack.so.*
+libsupercrack*.dylib
+supercrack.dll
 *.debugfile
 *.potfile
 *.restore

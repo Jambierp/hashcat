@@ -23,7 +23,7 @@ static const u32   OPTI_TYPE      = OPTI_TYPE_ZERO_BYTE;
 static const u64   OPTS_TYPE      = OPTS_TYPE_STOCK_MODULE
                                   | OPTS_TYPE_PT_GENERATE_LE;
 static const u32   SALT_TYPE      = SALT_TYPE_EMBEDDED;
-static const char *ST_PASS        = "hashcat";
+static const char *ST_PASS        = "supercrack";
 static const char *ST_HASH        = "$encdv$3$1$91b9babb3820c527$1ff4cb6657adad34$d9067c4d059879dfee2edeb3999871973d422ff5fa868c51b025d07f644187889dc5509ec75d4a120184d619d10d02b138d64ba82f9d0936162c9e64d97771de3e74d6e52e5ab9b900c25fb446e14cbe3ef1fa34328a13f9473c669f22d7020bc036d9e99194c959e4c5ba885d6f9ff9ccc2299d67b26e68b850a02363fb2646";
 
 u32         module_attack_exec    (MAYBE_UNUSED const hashconfig_t *hashconfig, MAYBE_UNUSED const user_options_t *user_options, MAYBE_UNUSED const user_options_extra_t *user_options_extra) { return ATTACK_EXEC;     }

@@ -11,9 +11,9 @@
 
 #include "dynloader.h"
 
-int hip_init (void *hashcat_ctx)
+int hip_init (void *supercrack_ctx)
 {
-  backend_ctx_t *backend_ctx = ((hashcat_ctx_t *) hashcat_ctx)->backend_ctx;
+  backend_ctx_t *backend_ctx = ((supercrack_ctx_t *) supercrack_ctx)->backend_ctx;
 
   HIP_PTR *hip = (HIP_PTR *) backend_ctx->hip;
 
@@ -38,11 +38,11 @@ int hip_init (void *hashcat_ctx)
       if ((noerr) != -1) { \
         if (!(ptr)->name) { \
           if ((noerr) == 1) { \
-            event_log_error (hashcat_ctx, "%s is missing from %s shared library.", #name, #libname); \
+            event_log_error (supercrack_ctx, "%s is missing from %s shared library.", #name, #libname); \
             return -1; \
           } \
           if ((noerr) != 1) { \
-            event_log_warning (hashcat_ctx, "%s is missing from %s shared library.", #name, #libname); \
+            event_log_warning (supercrack_ctx, "%s is missing from %s shared library.", #name, #libname); \
             return 0; \
           } \
         } \
@@ -96,9 +96,9 @@ int hip_init (void *hashcat_ctx)
   return 0;
 }
 
-void hip_close (void *hashcat_ctx)
+void hip_close (void *supercrack_ctx)
 {
-  backend_ctx_t *backend_ctx = ((hashcat_ctx_t *) hashcat_ctx)->backend_ctx;
+  backend_ctx_t *backend_ctx = ((supercrack_ctx_t *) supercrack_ctx)->backend_ctx;
 
   HIP_PTR *hip = (HIP_PTR *) backend_ctx->hip;
 
@@ -115,9 +115,9 @@ void hip_close (void *hashcat_ctx)
   }
 }
 
-int hc_hipCtxCreate (void *hashcat_ctx, hipCtx_t *pctx, unsigned int flags, hipDevice_t dev)
+int hc_hipCtxCreate (void *supercrack_ctx, hipCtx_t *pctx, unsigned int flags, hipDevice_t dev)
 {
-  backend_ctx_t *backend_ctx = ((hashcat_ctx_t *) hashcat_ctx)->backend_ctx;
+  backend_ctx_t *backend_ctx = ((supercrack_ctx_t *) supercrack_ctx)->backend_ctx;
 
   HIP_PTR *hip = (HIP_PTR *) backend_ctx->hip;
 
@@ -129,11 +129,11 @@ int hc_hipCtxCreate (void *hashcat_ctx, hipCtx_t *pctx, unsigned int flags, hipD
 
     if (hip->hipGetErrorString (HIP_err, &pStr) == hipSuccess)
     {
-      event_log_error (hashcat_ctx, "hipCtxCreate(): %s", pStr);
+      event_log_error (supercrack_ctx, "hipCtxCreate(): %s", pStr);
     }
     else
     {
-      event_log_error (hashcat_ctx, "hipCtxCreate(): %d", HIP_err);
+      event_log_error (supercrack_ctx, "hipCtxCreate(): %d", HIP_err);
     }
 
     return -1;
@@ -142,9 +142,9 @@ int hc_hipCtxCreate (void *hashcat_ctx, hipCtx_t *pctx, unsigned int flags, hipD
   return 0;
 }
 
-int hc_hipCtxDestroy (void *hashcat_ctx, hipCtx_t ctx)
+int hc_hipCtxDestroy (void *supercrack_ctx, hipCtx_t ctx)
 {
-  backend_ctx_t *backend_ctx = ((hashcat_ctx_t *) hashcat_ctx)->backend_ctx;
+  backend_ctx_t *backend_ctx = ((supercrack_ctx_t *) supercrack_ctx)->backend_ctx;
 
   HIP_PTR *hip = (HIP_PTR *) backend_ctx->hip;
 
@@ -156,11 +156,11 @@ int hc_hipCtxDestroy (void *hashcat_ctx, hipCtx_t ctx)
 
     if (hip->hipGetErrorString (HIP_err, &pStr) == hipSuccess)
     {
-      event_log_error (hashcat_ctx, "hipCtxDestroy(): %s", pStr);
+      event_log_error (supercrack_ctx, "hipCtxDestroy(): %s", pStr);
     }
     else
     {
-      event_log_error (hashcat_ctx, "hipCtxDestroy(): %d", HIP_err);
+      event_log_error (supercrack_ctx, "hipCtxDestroy(): %d", HIP_err);
     }
 
     return -1;
@@ -169,9 +169,9 @@ int hc_hipCtxDestroy (void *hashcat_ctx, hipCtx_t ctx)
   return 0;
 }
 
-int hc_hipCtxPopCurrent (void *hashcat_ctx, hipCtx_t *pctx)
+int hc_hipCtxPopCurrent (void *supercrack_ctx, hipCtx_t *pctx)
 {
-  backend_ctx_t *backend_ctx = ((hashcat_ctx_t *) hashcat_ctx)->backend_ctx;
+  backend_ctx_t *backend_ctx = ((supercrack_ctx_t *) supercrack_ctx)->backend_ctx;
 
   HIP_PTR *hip = (HIP_PTR *) backend_ctx->hip;
 
@@ -183,11 +183,11 @@ int hc_hipCtxPopCurrent (void *hashcat_ctx, hipCtx_t *pctx)
 
     if (hip->hipGetErrorString (HIP_err, &pStr) == hipSuccess)
     {
-      event_log_error (hashcat_ctx, "hipCtxPopCurrent(): %s", pStr);
+      event_log_error (supercrack_ctx, "hipCtxPopCurrent(): %s", pStr);
     }
     else
     {
-      event_log_error (hashcat_ctx, "hipCtxPopCurrent(): %d", HIP_err);
+      event_log_error (supercrack_ctx, "hipCtxPopCurrent(): %d", HIP_err);
     }
 
     return -1;
@@ -196,9 +196,9 @@ int hc_hipCtxPopCurrent (void *hashcat_ctx, hipCtx_t *pctx)
   return 0;
 }
 
-int hc_hipCtxPushCurrent (void *hashcat_ctx, hipCtx_t ctx)
+int hc_hipCtxPushCurrent (void *supercrack_ctx, hipCtx_t ctx)
 {
-  backend_ctx_t *backend_ctx = ((hashcat_ctx_t *) hashcat_ctx)->backend_ctx;
+  backend_ctx_t *backend_ctx = ((supercrack_ctx_t *) supercrack_ctx)->backend_ctx;
 
   HIP_PTR *hip = (HIP_PTR *) backend_ctx->hip;
 
@@ -210,11 +210,11 @@ int hc_hipCtxPushCurrent (void *hashcat_ctx, hipCtx_t ctx)
 
     if (hip->hipGetErrorString (HIP_err, &pStr) == hipSuccess)
     {
-      event_log_error (hashcat_ctx, "hipCtxPushCurrent(): %s", pStr);
+      event_log_error (supercrack_ctx, "hipCtxPushCurrent(): %s", pStr);
     }
     else
     {
-      event_log_error (hashcat_ctx, "hipCtxPushCurrent(): %d", HIP_err);
+      event_log_error (supercrack_ctx, "hipCtxPushCurrent(): %d", HIP_err);
     }
 
     return -1;
@@ -223,9 +223,9 @@ int hc_hipCtxPushCurrent (void *hashcat_ctx, hipCtx_t ctx)
   return 0;
 }
 
-int hc_hipCtxSetCurrent (void *hashcat_ctx, hipCtx_t ctx)
+int hc_hipCtxSetCurrent (void *supercrack_ctx, hipCtx_t ctx)
 {
-  backend_ctx_t *backend_ctx = ((hashcat_ctx_t *) hashcat_ctx)->backend_ctx;
+  backend_ctx_t *backend_ctx = ((supercrack_ctx_t *) supercrack_ctx)->backend_ctx;
 
   HIP_PTR *hip = (HIP_PTR *) backend_ctx->hip;
 
@@ -237,11 +237,11 @@ int hc_hipCtxSetCurrent (void *hashcat_ctx, hipCtx_t ctx)
 
     if (hip->hipGetErrorString (HIP_err, &pStr) == hipSuccess)
     {
-      event_log_error (hashcat_ctx, "hipCtxSetCurrent(): %s", pStr);
+      event_log_error (supercrack_ctx, "hipCtxSetCurrent(): %s", pStr);
     }
     else
     {
-      event_log_error (hashcat_ctx, "hipCtxSetCurrent(): %d", HIP_err);
+      event_log_error (supercrack_ctx, "hipCtxSetCurrent(): %d", HIP_err);
     }
 
     return -1;
@@ -250,9 +250,9 @@ int hc_hipCtxSetCurrent (void *hashcat_ctx, hipCtx_t ctx)
   return 0;
 }
 
-int hc_hipCtxSynchronize (void *hashcat_ctx)
+int hc_hipCtxSynchronize (void *supercrack_ctx)
 {
-  backend_ctx_t *backend_ctx = ((hashcat_ctx_t *) hashcat_ctx)->backend_ctx;
+  backend_ctx_t *backend_ctx = ((supercrack_ctx_t *) supercrack_ctx)->backend_ctx;
 
   HIP_PTR *hip = (HIP_PTR *) backend_ctx->hip;
 
@@ -264,11 +264,11 @@ int hc_hipCtxSynchronize (void *hashcat_ctx)
 
     if (hip->hipGetErrorString (HIP_err, &pStr) == hipSuccess)
     {
-      event_log_error (hashcat_ctx, "hipCtxSynchronize(): %s", pStr);
+      event_log_error (supercrack_ctx, "hipCtxSynchronize(): %s", pStr);
     }
     else
     {
-      event_log_error (hashcat_ctx, "hipCtxSynchronize(): %d", HIP_err);
+      event_log_error (supercrack_ctx, "hipCtxSynchronize(): %d", HIP_err);
     }
 
     return -1;
@@ -277,9 +277,9 @@ int hc_hipCtxSynchronize (void *hashcat_ctx)
   return 0;
 }
 
-int hc_hipDeviceGet (void *hashcat_ctx, hipDevice_t* device, int ordinal)
+int hc_hipDeviceGet (void *supercrack_ctx, hipDevice_t* device, int ordinal)
 {
-  backend_ctx_t *backend_ctx = ((hashcat_ctx_t *) hashcat_ctx)->backend_ctx;
+  backend_ctx_t *backend_ctx = ((supercrack_ctx_t *) supercrack_ctx)->backend_ctx;
 
   HIP_PTR *hip = (HIP_PTR *) backend_ctx->hip;
 
@@ -291,11 +291,11 @@ int hc_hipDeviceGet (void *hashcat_ctx, hipDevice_t* device, int ordinal)
 
     if (hip->hipGetErrorString (HIP_err, &pStr) == hipSuccess)
     {
-      event_log_error (hashcat_ctx, "hipDeviceGet(): %s", pStr);
+      event_log_error (supercrack_ctx, "hipDeviceGet(): %s", pStr);
     }
     else
     {
-      event_log_error (hashcat_ctx, "hipDeviceGet(): %d", HIP_err);
+      event_log_error (supercrack_ctx, "hipDeviceGet(): %d", HIP_err);
     }
 
     return -1;
@@ -304,9 +304,9 @@ int hc_hipDeviceGet (void *hashcat_ctx, hipDevice_t* device, int ordinal)
   return 0;
 }
 
-int hc_hipDeviceGetAttribute (void *hashcat_ctx, int *pi, hipDeviceAttribute_t attrib, hipDevice_t dev)
+int hc_hipDeviceGetAttribute (void *supercrack_ctx, int *pi, hipDeviceAttribute_t attrib, hipDevice_t dev)
 {
-  backend_ctx_t *backend_ctx = ((hashcat_ctx_t *) hashcat_ctx)->backend_ctx;
+  backend_ctx_t *backend_ctx = ((supercrack_ctx_t *) supercrack_ctx)->backend_ctx;
 
   HIP_PTR *hip = (HIP_PTR *) backend_ctx->hip;
 
@@ -318,11 +318,11 @@ int hc_hipDeviceGetAttribute (void *hashcat_ctx, int *pi, hipDeviceAttribute_t a
 
     if (hip->hipGetErrorString (HIP_err, &pStr) == hipSuccess)
     {
-      event_log_error (hashcat_ctx, "hipDeviceGetAttribute(): %s", pStr);
+      event_log_error (supercrack_ctx, "hipDeviceGetAttribute(): %s", pStr);
     }
     else
     {
-      event_log_error (hashcat_ctx, "hipDeviceGetAttribute(): %d", HIP_err);
+      event_log_error (supercrack_ctx, "hipDeviceGetAttribute(): %d", HIP_err);
     }
 
     return -1;
@@ -331,9 +331,9 @@ int hc_hipDeviceGetAttribute (void *hashcat_ctx, int *pi, hipDeviceAttribute_t a
   return 0;
 }
 
-int hc_hipDeviceGetCount (void *hashcat_ctx, int *count)
+int hc_hipDeviceGetCount (void *supercrack_ctx, int *count)
 {
-  backend_ctx_t *backend_ctx = ((hashcat_ctx_t *) hashcat_ctx)->backend_ctx;
+  backend_ctx_t *backend_ctx = ((supercrack_ctx_t *) supercrack_ctx)->backend_ctx;
 
   HIP_PTR *hip = (HIP_PTR *) backend_ctx->hip;
 
@@ -345,11 +345,11 @@ int hc_hipDeviceGetCount (void *hashcat_ctx, int *count)
 
     if (hip->hipGetErrorString (HIP_err, &pStr) == hipSuccess)
     {
-      event_log_error (hashcat_ctx, "hipDeviceGetCount(): %s", pStr);
+      event_log_error (supercrack_ctx, "hipDeviceGetCount(): %s", pStr);
     }
     else
     {
-      event_log_error (hashcat_ctx, "hipDeviceGetCount(): %d", HIP_err);
+      event_log_error (supercrack_ctx, "hipDeviceGetCount(): %d", HIP_err);
     }
 
     return -1;
@@ -358,9 +358,9 @@ int hc_hipDeviceGetCount (void *hashcat_ctx, int *count)
   return 0;
 }
 
-int hc_hipDeviceGetName (void *hashcat_ctx, char *name, int len, hipDevice_t dev)
+int hc_hipDeviceGetName (void *supercrack_ctx, char *name, int len, hipDevice_t dev)
 {
-  backend_ctx_t *backend_ctx = ((hashcat_ctx_t *) hashcat_ctx)->backend_ctx;
+  backend_ctx_t *backend_ctx = ((supercrack_ctx_t *) supercrack_ctx)->backend_ctx;
 
   HIP_PTR *hip = (HIP_PTR *) backend_ctx->hip;
 
@@ -372,11 +372,11 @@ int hc_hipDeviceGetName (void *hashcat_ctx, char *name, int len, hipDevice_t dev
 
     if (hip->hipGetErrorString (HIP_err, &pStr) == hipSuccess)
     {
-      event_log_error (hashcat_ctx, "hipDeviceGetName(): %s", pStr);
+      event_log_error (supercrack_ctx, "hipDeviceGetName(): %s", pStr);
     }
     else
     {
-      event_log_error (hashcat_ctx, "hipDeviceGetName(): %d", HIP_err);
+      event_log_error (supercrack_ctx, "hipDeviceGetName(): %d", HIP_err);
     }
 
     return -1;
@@ -385,9 +385,9 @@ int hc_hipDeviceGetName (void *hashcat_ctx, char *name, int len, hipDevice_t dev
   return 0;
 }
 
-int hc_hipDeviceTotalMem (void *hashcat_ctx, size_t *bytes, hipDevice_t dev)
+int hc_hipDeviceTotalMem (void *supercrack_ctx, size_t *bytes, hipDevice_t dev)
 {
-  backend_ctx_t *backend_ctx = ((hashcat_ctx_t *) hashcat_ctx)->backend_ctx;
+  backend_ctx_t *backend_ctx = ((supercrack_ctx_t *) supercrack_ctx)->backend_ctx;
 
   HIP_PTR *hip = (HIP_PTR *) backend_ctx->hip;
 
@@ -399,11 +399,11 @@ int hc_hipDeviceTotalMem (void *hashcat_ctx, size_t *bytes, hipDevice_t dev)
 
     if (hip->hipGetErrorString (HIP_err, &pStr) == hipSuccess)
     {
-      event_log_error (hashcat_ctx, "hipDeviceTotalMem(): %s", pStr);
+      event_log_error (supercrack_ctx, "hipDeviceTotalMem(): %s", pStr);
     }
     else
     {
-      event_log_error (hashcat_ctx, "hipDeviceTotalMem(): %d", HIP_err);
+      event_log_error (supercrack_ctx, "hipDeviceTotalMem(): %d", HIP_err);
     }
 
     return -1;
@@ -412,9 +412,9 @@ int hc_hipDeviceTotalMem (void *hashcat_ctx, size_t *bytes, hipDevice_t dev)
   return 0;
 }
 
-int hc_hipDriverGetVersion (void *hashcat_ctx, int *driverVersion)
+int hc_hipDriverGetVersion (void *supercrack_ctx, int *driverVersion)
 {
-  backend_ctx_t *backend_ctx = ((hashcat_ctx_t *) hashcat_ctx)->backend_ctx;
+  backend_ctx_t *backend_ctx = ((supercrack_ctx_t *) supercrack_ctx)->backend_ctx;
 
   HIP_PTR *hip = (HIP_PTR *) backend_ctx->hip;
 
@@ -426,11 +426,11 @@ int hc_hipDriverGetVersion (void *hashcat_ctx, int *driverVersion)
 
     if (hip->hipGetErrorString (HIP_err, &pStr) == hipSuccess)
     {
-      event_log_error (hashcat_ctx, "hipDriverGetVersion(): %s", pStr);
+      event_log_error (supercrack_ctx, "hipDriverGetVersion(): %s", pStr);
     }
     else
     {
-      event_log_error (hashcat_ctx, "hipDriverGetVersion(): %d", HIP_err);
+      event_log_error (supercrack_ctx, "hipDriverGetVersion(): %d", HIP_err);
     }
 
     return -1;
@@ -439,9 +439,9 @@ int hc_hipDriverGetVersion (void *hashcat_ctx, int *driverVersion)
   return 0;
 }
 
-int hc_hipEventCreate (void *hashcat_ctx, hipEvent_t *phEvent, unsigned int Flags)
+int hc_hipEventCreate (void *supercrack_ctx, hipEvent_t *phEvent, unsigned int Flags)
 {
-  backend_ctx_t *backend_ctx = ((hashcat_ctx_t *) hashcat_ctx)->backend_ctx;
+  backend_ctx_t *backend_ctx = ((supercrack_ctx_t *) supercrack_ctx)->backend_ctx;
 
   HIP_PTR *hip = (HIP_PTR *) backend_ctx->hip;
 
@@ -453,11 +453,11 @@ int hc_hipEventCreate (void *hashcat_ctx, hipEvent_t *phEvent, unsigned int Flag
 
     if (hip->hipGetErrorString (HIP_err, &pStr) == hipSuccess)
     {
-      event_log_error (hashcat_ctx, "hipEventCreate(): %s", pStr);
+      event_log_error (supercrack_ctx, "hipEventCreate(): %s", pStr);
     }
     else
     {
-      event_log_error (hashcat_ctx, "hipEventCreate(): %d", HIP_err);
+      event_log_error (supercrack_ctx, "hipEventCreate(): %d", HIP_err);
     }
 
     return -1;
@@ -466,9 +466,9 @@ int hc_hipEventCreate (void *hashcat_ctx, hipEvent_t *phEvent, unsigned int Flag
   return 0;
 }
 
-int hc_hipEventDestroy (void *hashcat_ctx, hipEvent_t hEvent)
+int hc_hipEventDestroy (void *supercrack_ctx, hipEvent_t hEvent)
 {
-  backend_ctx_t *backend_ctx = ((hashcat_ctx_t *) hashcat_ctx)->backend_ctx;
+  backend_ctx_t *backend_ctx = ((supercrack_ctx_t *) supercrack_ctx)->backend_ctx;
 
   HIP_PTR *hip = (HIP_PTR *) backend_ctx->hip;
 
@@ -480,11 +480,11 @@ int hc_hipEventDestroy (void *hashcat_ctx, hipEvent_t hEvent)
 
     if (hip->hipGetErrorString (HIP_err, &pStr) == hipSuccess)
     {
-      event_log_error (hashcat_ctx, "hipEventDestroy(): %s", pStr);
+      event_log_error (supercrack_ctx, "hipEventDestroy(): %s", pStr);
     }
     else
     {
-      event_log_error (hashcat_ctx, "hipEventDestroy(): %d", HIP_err);
+      event_log_error (supercrack_ctx, "hipEventDestroy(): %d", HIP_err);
     }
 
     return -1;
@@ -493,9 +493,9 @@ int hc_hipEventDestroy (void *hashcat_ctx, hipEvent_t hEvent)
   return 0;
 }
 
-int hc_hipEventElapsedTime (void *hashcat_ctx, float *pMilliseconds, hipEvent_t hStart, hipEvent_t hEnd)
+int hc_hipEventElapsedTime (void *supercrack_ctx, float *pMilliseconds, hipEvent_t hStart, hipEvent_t hEnd)
 {
-  backend_ctx_t *backend_ctx = ((hashcat_ctx_t *) hashcat_ctx)->backend_ctx;
+  backend_ctx_t *backend_ctx = ((supercrack_ctx_t *) supercrack_ctx)->backend_ctx;
 
   HIP_PTR *hip = (HIP_PTR *) backend_ctx->hip;
 
@@ -507,11 +507,11 @@ int hc_hipEventElapsedTime (void *hashcat_ctx, float *pMilliseconds, hipEvent_t 
 
     if (hip->hipGetErrorString (HIP_err, &pStr) == hipSuccess)
     {
-      event_log_error (hashcat_ctx, "hipEventElapsedTime(): %s", pStr);
+      event_log_error (supercrack_ctx, "hipEventElapsedTime(): %s", pStr);
     }
     else
     {
-      event_log_error (hashcat_ctx, "hipEventElapsedTime(): %d", HIP_err);
+      event_log_error (supercrack_ctx, "hipEventElapsedTime(): %d", HIP_err);
     }
 
     return -1;
@@ -520,9 +520,9 @@ int hc_hipEventElapsedTime (void *hashcat_ctx, float *pMilliseconds, hipEvent_t 
   return 0;
 }
 
-int hc_hipEventRecord (void *hashcat_ctx, hipEvent_t hEvent, hipStream_t hStream)
+int hc_hipEventRecord (void *supercrack_ctx, hipEvent_t hEvent, hipStream_t hStream)
 {
-  backend_ctx_t *backend_ctx = ((hashcat_ctx_t *) hashcat_ctx)->backend_ctx;
+  backend_ctx_t *backend_ctx = ((supercrack_ctx_t *) supercrack_ctx)->backend_ctx;
 
   HIP_PTR *hip = (HIP_PTR *) backend_ctx->hip;
 
@@ -534,11 +534,11 @@ int hc_hipEventRecord (void *hashcat_ctx, hipEvent_t hEvent, hipStream_t hStream
 
     if (hip->hipGetErrorString (HIP_err, &pStr) == hipSuccess)
     {
-      event_log_error (hashcat_ctx, "hipEventRecord(): %s", pStr);
+      event_log_error (supercrack_ctx, "hipEventRecord(): %s", pStr);
     }
     else
     {
-      event_log_error (hashcat_ctx, "hipEventRecord(): %d", HIP_err);
+      event_log_error (supercrack_ctx, "hipEventRecord(): %d", HIP_err);
     }
 
     return -1;
@@ -547,9 +547,9 @@ int hc_hipEventRecord (void *hashcat_ctx, hipEvent_t hEvent, hipStream_t hStream
   return 0;
 }
 
-int hc_hipEventSynchronize (void *hashcat_ctx, hipEvent_t hEvent)
+int hc_hipEventSynchronize (void *supercrack_ctx, hipEvent_t hEvent)
 {
-  backend_ctx_t *backend_ctx = ((hashcat_ctx_t *) hashcat_ctx)->backend_ctx;
+  backend_ctx_t *backend_ctx = ((supercrack_ctx_t *) supercrack_ctx)->backend_ctx;
 
   HIP_PTR *hip = (HIP_PTR *) backend_ctx->hip;
 
@@ -561,11 +561,11 @@ int hc_hipEventSynchronize (void *hashcat_ctx, hipEvent_t hEvent)
 
     if (hip->hipGetErrorString (HIP_err, &pStr) == hipSuccess)
     {
-      event_log_error (hashcat_ctx, "hipEventSynchronize(): %s", pStr);
+      event_log_error (supercrack_ctx, "hipEventSynchronize(): %s", pStr);
     }
     else
     {
-      event_log_error (hashcat_ctx, "hipEventSynchronize(): %d", HIP_err);
+      event_log_error (supercrack_ctx, "hipEventSynchronize(): %d", HIP_err);
     }
 
     return -1;
@@ -574,9 +574,9 @@ int hc_hipEventSynchronize (void *hashcat_ctx, hipEvent_t hEvent)
   return 0;
 }
 
-int hc_hipFuncGetAttribute (void *hashcat_ctx, int *pi, hipFunction_attribute attrib, hipFunction_t hfunc)
+int hc_hipFuncGetAttribute (void *supercrack_ctx, int *pi, hipFunction_attribute attrib, hipFunction_t hfunc)
 {
-  backend_ctx_t *backend_ctx = ((hashcat_ctx_t *) hashcat_ctx)->backend_ctx;
+  backend_ctx_t *backend_ctx = ((supercrack_ctx_t *) supercrack_ctx)->backend_ctx;
 
   HIP_PTR *hip = (HIP_PTR *) backend_ctx->hip;
 
@@ -588,11 +588,11 @@ int hc_hipFuncGetAttribute (void *hashcat_ctx, int *pi, hipFunction_attribute at
 
     if (hip->hipGetErrorString (HIP_err, &pStr) == hipSuccess)
     {
-      event_log_error (hashcat_ctx, "hipFuncGetAttribute(): %s", pStr);
+      event_log_error (supercrack_ctx, "hipFuncGetAttribute(): %s", pStr);
     }
     else
     {
-      event_log_error (hashcat_ctx, "hipFuncGetAttribute(): %d", HIP_err);
+      event_log_error (supercrack_ctx, "hipFuncGetAttribute(): %d", HIP_err);
     }
 
     return -1;
@@ -601,9 +601,9 @@ int hc_hipFuncGetAttribute (void *hashcat_ctx, int *pi, hipFunction_attribute at
   return 0;
 }
 
-int hc_hipLaunchKernel (void *hashcat_ctx, hipFunction_t f, unsigned int gridDimX, unsigned int gridDimY, unsigned int gridDimZ, unsigned int blockDimX, unsigned int blockDimY, unsigned int blockDimZ, unsigned int sharedMemBytes, hipStream_t hStream, void **kernelParams, void **extra)
+int hc_hipLaunchKernel (void *supercrack_ctx, hipFunction_t f, unsigned int gridDimX, unsigned int gridDimY, unsigned int gridDimZ, unsigned int blockDimX, unsigned int blockDimY, unsigned int blockDimZ, unsigned int sharedMemBytes, hipStream_t hStream, void **kernelParams, void **extra)
 {
-  backend_ctx_t *backend_ctx = ((hashcat_ctx_t *) hashcat_ctx)->backend_ctx;
+  backend_ctx_t *backend_ctx = ((supercrack_ctx_t *) supercrack_ctx)->backend_ctx;
 
   HIP_PTR *hip = (HIP_PTR *) backend_ctx->hip;
 
@@ -615,11 +615,11 @@ int hc_hipLaunchKernel (void *hashcat_ctx, hipFunction_t f, unsigned int gridDim
 
     if (hip->hipGetErrorString (HIP_err, &pStr) == hipSuccess)
     {
-      event_log_error (hashcat_ctx, "hipLaunchKernel(): %s", pStr);
+      event_log_error (supercrack_ctx, "hipLaunchKernel(): %s", pStr);
     }
     else
     {
-      event_log_error (hashcat_ctx, "hipLaunchKernel(): %d", HIP_err);
+      event_log_error (supercrack_ctx, "hipLaunchKernel(): %d", HIP_err);
     }
 
     return -1;
@@ -628,9 +628,9 @@ int hc_hipLaunchKernel (void *hashcat_ctx, hipFunction_t f, unsigned int gridDim
   return 0;
 }
 
-int hc_hipInit (void *hashcat_ctx, unsigned int Flags)
+int hc_hipInit (void *supercrack_ctx, unsigned int Flags)
 {
-  backend_ctx_t *backend_ctx = ((hashcat_ctx_t *) hashcat_ctx)->backend_ctx;
+  backend_ctx_t *backend_ctx = ((supercrack_ctx_t *) supercrack_ctx)->backend_ctx;
 
   HIP_PTR *hip = (HIP_PTR *) backend_ctx->hip;
 
@@ -642,11 +642,11 @@ int hc_hipInit (void *hashcat_ctx, unsigned int Flags)
 
     if (hip->hipGetErrorString (HIP_err, &pStr) == hipSuccess)
     {
-      event_log_error (hashcat_ctx, "hipInit(): %s", pStr);
+      event_log_error (supercrack_ctx, "hipInit(): %s", pStr);
     }
     else
     {
-      event_log_error (hashcat_ctx, "hipInit(): %d", HIP_err);
+      event_log_error (supercrack_ctx, "hipInit(): %d", HIP_err);
     }
 
     return -1;
@@ -655,9 +655,9 @@ int hc_hipInit (void *hashcat_ctx, unsigned int Flags)
   return 0;
 }
 
-int hc_hipMemAlloc (void *hashcat_ctx, hipDeviceptr_t *dptr, size_t bytesize)
+int hc_hipMemAlloc (void *supercrack_ctx, hipDeviceptr_t *dptr, size_t bytesize)
 {
-  backend_ctx_t *backend_ctx = ((hashcat_ctx_t *) hashcat_ctx)->backend_ctx;
+  backend_ctx_t *backend_ctx = ((supercrack_ctx_t *) supercrack_ctx)->backend_ctx;
 
   HIP_PTR *hip = (HIP_PTR *) backend_ctx->hip;
 
@@ -669,11 +669,11 @@ int hc_hipMemAlloc (void *hashcat_ctx, hipDeviceptr_t *dptr, size_t bytesize)
 
     if (hip->hipGetErrorString (HIP_err, &pStr) == hipSuccess)
     {
-      event_log_error (hashcat_ctx, "hipMemAlloc(): %s", pStr);
+      event_log_error (supercrack_ctx, "hipMemAlloc(): %s", pStr);
     }
     else
     {
-      event_log_error (hashcat_ctx, "hipMemAlloc(): %d", HIP_err);
+      event_log_error (supercrack_ctx, "hipMemAlloc(): %d", HIP_err);
     }
 
     return -1;
@@ -682,9 +682,9 @@ int hc_hipMemAlloc (void *hashcat_ctx, hipDeviceptr_t *dptr, size_t bytesize)
   return 0;
 }
 
-int hc_hipMemFree (void *hashcat_ctx, hipDeviceptr_t dptr)
+int hc_hipMemFree (void *supercrack_ctx, hipDeviceptr_t dptr)
 {
-  backend_ctx_t *backend_ctx = ((hashcat_ctx_t *) hashcat_ctx)->backend_ctx;
+  backend_ctx_t *backend_ctx = ((supercrack_ctx_t *) supercrack_ctx)->backend_ctx;
 
   HIP_PTR *hip = (HIP_PTR *) backend_ctx->hip;
 
@@ -696,11 +696,11 @@ int hc_hipMemFree (void *hashcat_ctx, hipDeviceptr_t dptr)
 
     if (hip->hipGetErrorString (HIP_err, &pStr) == hipSuccess)
     {
-      event_log_error (hashcat_ctx, "hipMemFree(): %s", pStr);
+      event_log_error (supercrack_ctx, "hipMemFree(): %s", pStr);
     }
     else
     {
-      event_log_error (hashcat_ctx, "hipMemFree(): %d", HIP_err);
+      event_log_error (supercrack_ctx, "hipMemFree(): %d", HIP_err);
     }
 
     return -1;
@@ -709,9 +709,9 @@ int hc_hipMemFree (void *hashcat_ctx, hipDeviceptr_t dptr)
   return 0;
 }
 
-int hc_hipMemGetInfo (void *hashcat_ctx, size_t *free, size_t *total)
+int hc_hipMemGetInfo (void *supercrack_ctx, size_t *free, size_t *total)
 {
-  backend_ctx_t *backend_ctx = ((hashcat_ctx_t *) hashcat_ctx)->backend_ctx;
+  backend_ctx_t *backend_ctx = ((supercrack_ctx_t *) supercrack_ctx)->backend_ctx;
 
   HIP_PTR *hip = (HIP_PTR *) backend_ctx->hip;
 
@@ -723,11 +723,11 @@ int hc_hipMemGetInfo (void *hashcat_ctx, size_t *free, size_t *total)
 
     if (hip->hipGetErrorString (HIP_err, &pStr) == hipSuccess)
     {
-      event_log_error (hashcat_ctx, "hipMemGetInfo(): %s", pStr);
+      event_log_error (supercrack_ctx, "hipMemGetInfo(): %s", pStr);
     }
     else
     {
-      event_log_error (hashcat_ctx, "hipMemGetInfo(): %d", HIP_err);
+      event_log_error (supercrack_ctx, "hipMemGetInfo(): %d", HIP_err);
     }
 
     return -1;
@@ -736,9 +736,9 @@ int hc_hipMemGetInfo (void *hashcat_ctx, size_t *free, size_t *total)
   return 0;
 }
 
-int hc_hipMemcpyDtoHAsync (void *hashcat_ctx, void *dstHost, hipDeviceptr_t srcDevice, size_t ByteCount, hipStream_t hStream)
+int hc_hipMemcpyDtoHAsync (void *supercrack_ctx, void *dstHost, hipDeviceptr_t srcDevice, size_t ByteCount, hipStream_t hStream)
 {
-  backend_ctx_t *backend_ctx = ((hashcat_ctx_t *) hashcat_ctx)->backend_ctx;
+  backend_ctx_t *backend_ctx = ((supercrack_ctx_t *) supercrack_ctx)->backend_ctx;
 
   HIP_PTR *hip = (HIP_PTR *) backend_ctx->hip;
 
@@ -750,11 +750,11 @@ int hc_hipMemcpyDtoHAsync (void *hashcat_ctx, void *dstHost, hipDeviceptr_t srcD
 
     if (hip->hipGetErrorString (HIP_err, &pStr) == hipSuccess)
     {
-      event_log_error (hashcat_ctx, "hipMemcpyDtoHAsync(): %s", pStr);
+      event_log_error (supercrack_ctx, "hipMemcpyDtoHAsync(): %s", pStr);
     }
     else
     {
-      event_log_error (hashcat_ctx, "hipMemcpyDtoHAsync(): %d", HIP_err);
+      event_log_error (supercrack_ctx, "hipMemcpyDtoHAsync(): %d", HIP_err);
     }
 
     return -1;
@@ -763,9 +763,9 @@ int hc_hipMemcpyDtoHAsync (void *hashcat_ctx, void *dstHost, hipDeviceptr_t srcD
   return 0;
 }
 
-int hc_hipMemcpyDtoDAsync (void *hashcat_ctx, hipDeviceptr_t dstDevice, hipDeviceptr_t srcDevice, size_t ByteCount, hipStream_t hStream)
+int hc_hipMemcpyDtoDAsync (void *supercrack_ctx, hipDeviceptr_t dstDevice, hipDeviceptr_t srcDevice, size_t ByteCount, hipStream_t hStream)
 {
-  backend_ctx_t *backend_ctx = ((hashcat_ctx_t *) hashcat_ctx)->backend_ctx;
+  backend_ctx_t *backend_ctx = ((supercrack_ctx_t *) supercrack_ctx)->backend_ctx;
 
   HIP_PTR *hip = (HIP_PTR *) backend_ctx->hip;
 
@@ -777,11 +777,11 @@ int hc_hipMemcpyDtoDAsync (void *hashcat_ctx, hipDeviceptr_t dstDevice, hipDevic
 
     if (hip->hipGetErrorString (HIP_err, &pStr) == hipSuccess)
     {
-      event_log_error (hashcat_ctx, "hipMemcpyDtoDAsync(): %s", pStr);
+      event_log_error (supercrack_ctx, "hipMemcpyDtoDAsync(): %s", pStr);
     }
     else
     {
-      event_log_error (hashcat_ctx, "hipMemcpyDtoDAsync(): %d", HIP_err);
+      event_log_error (supercrack_ctx, "hipMemcpyDtoDAsync(): %d", HIP_err);
     }
 
     return -1;
@@ -790,9 +790,9 @@ int hc_hipMemcpyDtoDAsync (void *hashcat_ctx, hipDeviceptr_t dstDevice, hipDevic
   return 0;
 }
 
-int hc_hipMemcpyHtoDAsync (void *hashcat_ctx, hipDeviceptr_t dstDevice, const void *srcHost, size_t ByteCount, hipStream_t hStream)
+int hc_hipMemcpyHtoDAsync (void *supercrack_ctx, hipDeviceptr_t dstDevice, const void *srcHost, size_t ByteCount, hipStream_t hStream)
 {
-  backend_ctx_t *backend_ctx = ((hashcat_ctx_t *) hashcat_ctx)->backend_ctx;
+  backend_ctx_t *backend_ctx = ((supercrack_ctx_t *) supercrack_ctx)->backend_ctx;
 
   HIP_PTR *hip = (HIP_PTR *) backend_ctx->hip;
 
@@ -804,11 +804,11 @@ int hc_hipMemcpyHtoDAsync (void *hashcat_ctx, hipDeviceptr_t dstDevice, const vo
 
     if (hip->hipGetErrorString (HIP_err, &pStr) == hipSuccess)
     {
-      event_log_error (hashcat_ctx, "hipMemcpyHtoDAsync(): %s", pStr);
+      event_log_error (supercrack_ctx, "hipMemcpyHtoDAsync(): %s", pStr);
     }
     else
     {
-      event_log_error (hashcat_ctx, "hipMemcpyHtoDAsync(): %d", HIP_err);
+      event_log_error (supercrack_ctx, "hipMemcpyHtoDAsync(): %d", HIP_err);
     }
 
     return -1;
@@ -817,9 +817,9 @@ int hc_hipMemcpyHtoDAsync (void *hashcat_ctx, hipDeviceptr_t dstDevice, const vo
   return 0;
 }
 
-int hc_hipMemsetD32Async (void *hashcat_ctx, hipDeviceptr_t dstDevice, unsigned int ui, size_t N, hipStream_t hStream)
+int hc_hipMemsetD32Async (void *supercrack_ctx, hipDeviceptr_t dstDevice, unsigned int ui, size_t N, hipStream_t hStream)
 {
-  backend_ctx_t *backend_ctx = ((hashcat_ctx_t *) hashcat_ctx)->backend_ctx;
+  backend_ctx_t *backend_ctx = ((supercrack_ctx_t *) supercrack_ctx)->backend_ctx;
 
   HIP_PTR *hip = (HIP_PTR *) backend_ctx->hip;
 
@@ -831,11 +831,11 @@ int hc_hipMemsetD32Async (void *hashcat_ctx, hipDeviceptr_t dstDevice, unsigned 
 
     if (hip->hipGetErrorString (HIP_err, &pStr) == hipSuccess)
     {
-      event_log_error (hashcat_ctx, "hipMemsetD32Async(): %s", pStr);
+      event_log_error (supercrack_ctx, "hipMemsetD32Async(): %s", pStr);
     }
     else
     {
-      event_log_error (hashcat_ctx, "hipMemsetD32Async(): %d", HIP_err);
+      event_log_error (supercrack_ctx, "hipMemsetD32Async(): %d", HIP_err);
     }
 
     return -1;
@@ -844,9 +844,9 @@ int hc_hipMemsetD32Async (void *hashcat_ctx, hipDeviceptr_t dstDevice, unsigned 
   return 0;
 }
 
-int hc_hipMemsetD8Async (void *hashcat_ctx, hipDeviceptr_t dstDevice, unsigned char uc, size_t N, hipStream_t hStream)
+int hc_hipMemsetD8Async (void *supercrack_ctx, hipDeviceptr_t dstDevice, unsigned char uc, size_t N, hipStream_t hStream)
 {
-  backend_ctx_t *backend_ctx = ((hashcat_ctx_t *) hashcat_ctx)->backend_ctx;
+  backend_ctx_t *backend_ctx = ((supercrack_ctx_t *) supercrack_ctx)->backend_ctx;
 
   HIP_PTR *hip = (HIP_PTR *) backend_ctx->hip;
 
@@ -858,11 +858,11 @@ int hc_hipMemsetD8Async (void *hashcat_ctx, hipDeviceptr_t dstDevice, unsigned c
 
     if (hip->hipGetErrorString (HIP_err, &pStr) == hipSuccess)
     {
-      event_log_error (hashcat_ctx, "hipMemsetD8Async(): %s", pStr);
+      event_log_error (supercrack_ctx, "hipMemsetD8Async(): %s", pStr);
     }
     else
     {
-      event_log_error (hashcat_ctx, "hipMemsetD8Async(): %d", HIP_err);
+      event_log_error (supercrack_ctx, "hipMemsetD8Async(): %d", HIP_err);
     }
 
     return -1;
@@ -871,9 +871,9 @@ int hc_hipMemsetD8Async (void *hashcat_ctx, hipDeviceptr_t dstDevice, unsigned c
   return 0;
 }
 
-int hc_hipModuleGetFunction (void *hashcat_ctx, hipFunction_t *hfunc, hipModule_t hmod, const char *name)
+int hc_hipModuleGetFunction (void *supercrack_ctx, hipFunction_t *hfunc, hipModule_t hmod, const char *name)
 {
-  backend_ctx_t *backend_ctx = ((hashcat_ctx_t *) hashcat_ctx)->backend_ctx;
+  backend_ctx_t *backend_ctx = ((supercrack_ctx_t *) supercrack_ctx)->backend_ctx;
 
   HIP_PTR *hip = (HIP_PTR *) backend_ctx->hip;
 
@@ -885,11 +885,11 @@ int hc_hipModuleGetFunction (void *hashcat_ctx, hipFunction_t *hfunc, hipModule_
 
     if (hip->hipGetErrorString (HIP_err, &pStr) == hipSuccess)
     {
-      event_log_error (hashcat_ctx, "hipModuleGetFunction(): %s", pStr);
+      event_log_error (supercrack_ctx, "hipModuleGetFunction(): %s", pStr);
     }
     else
     {
-      event_log_error (hashcat_ctx, "hipModuleGetFunction(): %d", HIP_err);
+      event_log_error (supercrack_ctx, "hipModuleGetFunction(): %d", HIP_err);
     }
 
     return -1;
@@ -898,9 +898,9 @@ int hc_hipModuleGetFunction (void *hashcat_ctx, hipFunction_t *hfunc, hipModule_
   return 0;
 }
 
-int hc_hipModuleGetGlobal (void *hashcat_ctx, hipDeviceptr_t *dptr, size_t *bytes, hipModule_t hmod, const char *name)
+int hc_hipModuleGetGlobal (void *supercrack_ctx, hipDeviceptr_t *dptr, size_t *bytes, hipModule_t hmod, const char *name)
 {
-  backend_ctx_t *backend_ctx = ((hashcat_ctx_t *) hashcat_ctx)->backend_ctx;
+  backend_ctx_t *backend_ctx = ((supercrack_ctx_t *) supercrack_ctx)->backend_ctx;
 
   HIP_PTR *hip = (HIP_PTR *) backend_ctx->hip;
 
@@ -912,11 +912,11 @@ int hc_hipModuleGetGlobal (void *hashcat_ctx, hipDeviceptr_t *dptr, size_t *byte
 
     if (hip->hipGetErrorString (HIP_err, &pStr) == hipSuccess)
     {
-      event_log_error (hashcat_ctx, "hipModuleGetGlobal(): %s", pStr);
+      event_log_error (supercrack_ctx, "hipModuleGetGlobal(): %s", pStr);
     }
     else
     {
-      event_log_error (hashcat_ctx, "hipModuleGetGlobal(): %d", HIP_err);
+      event_log_error (supercrack_ctx, "hipModuleGetGlobal(): %d", HIP_err);
     }
 
     return -1;
@@ -925,9 +925,9 @@ int hc_hipModuleGetGlobal (void *hashcat_ctx, hipDeviceptr_t *dptr, size_t *byte
   return 0;
 }
 
-int hc_hipModuleLoadDataEx (void *hashcat_ctx, hipModule_t *module, const void *image, unsigned int numOptions, hipJitOption *options, void **optionValues)
+int hc_hipModuleLoadDataEx (void *supercrack_ctx, hipModule_t *module, const void *image, unsigned int numOptions, hipJitOption *options, void **optionValues)
 {
-  backend_ctx_t *backend_ctx = ((hashcat_ctx_t *) hashcat_ctx)->backend_ctx;
+  backend_ctx_t *backend_ctx = ((supercrack_ctx_t *) supercrack_ctx)->backend_ctx;
 
   HIP_PTR *hip = (HIP_PTR *) backend_ctx->hip;
 
@@ -939,11 +939,11 @@ int hc_hipModuleLoadDataEx (void *hashcat_ctx, hipModule_t *module, const void *
 
     if (hip->hipGetErrorString (HIP_err, &pStr) == hipSuccess)
     {
-      event_log_error (hashcat_ctx, "hipModuleLoadDataEx(): %s", pStr);
+      event_log_error (supercrack_ctx, "hipModuleLoadDataEx(): %s", pStr);
     }
     else
     {
-      event_log_error (hashcat_ctx, "hipModuleLoadDataEx(): %d", HIP_err);
+      event_log_error (supercrack_ctx, "hipModuleLoadDataEx(): %d", HIP_err);
     }
 
     return -1;
@@ -952,9 +952,9 @@ int hc_hipModuleLoadDataEx (void *hashcat_ctx, hipModule_t *module, const void *
   return 0;
 }
 
-int hc_hipModuleUnload (void *hashcat_ctx, hipModule_t hmod)
+int hc_hipModuleUnload (void *supercrack_ctx, hipModule_t hmod)
 {
-  backend_ctx_t *backend_ctx = ((hashcat_ctx_t *) hashcat_ctx)->backend_ctx;
+  backend_ctx_t *backend_ctx = ((supercrack_ctx_t *) supercrack_ctx)->backend_ctx;
 
   HIP_PTR *hip = (HIP_PTR *) backend_ctx->hip;
 
@@ -966,11 +966,11 @@ int hc_hipModuleUnload (void *hashcat_ctx, hipModule_t hmod)
 
     if (hip->hipGetErrorString (HIP_err, &pStr) == hipSuccess)
     {
-      event_log_error (hashcat_ctx, "hipModuleUnload(): %s", pStr);
+      event_log_error (supercrack_ctx, "hipModuleUnload(): %s", pStr);
     }
     else
     {
-      event_log_error (hashcat_ctx, "hipModuleUnload(): %d", HIP_err);
+      event_log_error (supercrack_ctx, "hipModuleUnload(): %d", HIP_err);
     }
 
     return -1;
@@ -979,9 +979,9 @@ int hc_hipModuleUnload (void *hashcat_ctx, hipModule_t hmod)
   return 0;
 }
 
-int hc_hipRuntimeGetVersion (void *hashcat_ctx, int *runtimeVersion)
+int hc_hipRuntimeGetVersion (void *supercrack_ctx, int *runtimeVersion)
 {
-  backend_ctx_t *backend_ctx = ((hashcat_ctx_t *) hashcat_ctx)->backend_ctx;
+  backend_ctx_t *backend_ctx = ((supercrack_ctx_t *) supercrack_ctx)->backend_ctx;
 
   HIP_PTR *hip = (HIP_PTR *) backend_ctx->hip;
 
@@ -993,11 +993,11 @@ int hc_hipRuntimeGetVersion (void *hashcat_ctx, int *runtimeVersion)
 
     if (hip->hipGetErrorString (HIP_err, &pStr) == hipSuccess)
     {
-      event_log_error (hashcat_ctx, "hipRuntimeGetVersion(): %s", pStr);
+      event_log_error (supercrack_ctx, "hipRuntimeGetVersion(): %s", pStr);
     }
     else
     {
-      event_log_error (hashcat_ctx, "hipRuntimeGetVersion(): %d", HIP_err);
+      event_log_error (supercrack_ctx, "hipRuntimeGetVersion(): %d", HIP_err);
     }
 
     return -1;
@@ -1006,9 +1006,9 @@ int hc_hipRuntimeGetVersion (void *hashcat_ctx, int *runtimeVersion)
   return 0;
 }
 
-int hc_hipStreamCreate (void *hashcat_ctx, hipStream_t *phStream, unsigned int Flags)
+int hc_hipStreamCreate (void *supercrack_ctx, hipStream_t *phStream, unsigned int Flags)
 {
-  backend_ctx_t *backend_ctx = ((hashcat_ctx_t *) hashcat_ctx)->backend_ctx;
+  backend_ctx_t *backend_ctx = ((supercrack_ctx_t *) supercrack_ctx)->backend_ctx;
 
   HIP_PTR *hip = (HIP_PTR *) backend_ctx->hip;
 
@@ -1020,11 +1020,11 @@ int hc_hipStreamCreate (void *hashcat_ctx, hipStream_t *phStream, unsigned int F
 
     if (hip->hipGetErrorString (HIP_err, &pStr) == hipSuccess)
     {
-      event_log_error (hashcat_ctx, "hipStreamCreate(): %s", pStr);
+      event_log_error (supercrack_ctx, "hipStreamCreate(): %s", pStr);
     }
     else
     {
-      event_log_error (hashcat_ctx, "hipStreamCreate(): %d", HIP_err);
+      event_log_error (supercrack_ctx, "hipStreamCreate(): %d", HIP_err);
     }
 
     return -1;
@@ -1033,9 +1033,9 @@ int hc_hipStreamCreate (void *hashcat_ctx, hipStream_t *phStream, unsigned int F
   return 0;
 }
 
-int hc_hipStreamDestroy (void *hashcat_ctx, hipStream_t hStream)
+int hc_hipStreamDestroy (void *supercrack_ctx, hipStream_t hStream)
 {
-  backend_ctx_t *backend_ctx = ((hashcat_ctx_t *) hashcat_ctx)->backend_ctx;
+  backend_ctx_t *backend_ctx = ((supercrack_ctx_t *) supercrack_ctx)->backend_ctx;
 
   HIP_PTR *hip = (HIP_PTR *) backend_ctx->hip;
 
@@ -1047,11 +1047,11 @@ int hc_hipStreamDestroy (void *hashcat_ctx, hipStream_t hStream)
 
     if (hip->hipGetErrorString (HIP_err, &pStr) == hipSuccess)
     {
-      event_log_error (hashcat_ctx, "hipStreamDestroy(): %s", pStr);
+      event_log_error (supercrack_ctx, "hipStreamDestroy(): %s", pStr);
     }
     else
     {
-      event_log_error (hashcat_ctx, "hipStreamDestroy(): %d", HIP_err);
+      event_log_error (supercrack_ctx, "hipStreamDestroy(): %d", HIP_err);
     }
 
     return -1;
@@ -1060,9 +1060,9 @@ int hc_hipStreamDestroy (void *hashcat_ctx, hipStream_t hStream)
   return 0;
 }
 
-int hc_hipStreamSynchronize (void *hashcat_ctx, hipStream_t hStream)
+int hc_hipStreamSynchronize (void *supercrack_ctx, hipStream_t hStream)
 {
-  backend_ctx_t *backend_ctx = ((hashcat_ctx_t *) hashcat_ctx)->backend_ctx;
+  backend_ctx_t *backend_ctx = ((supercrack_ctx_t *) supercrack_ctx)->backend_ctx;
 
   HIP_PTR *hip = (HIP_PTR *) backend_ctx->hip;
 
@@ -1074,11 +1074,11 @@ int hc_hipStreamSynchronize (void *hashcat_ctx, hipStream_t hStream)
 
     if (hip->hipGetErrorString (HIP_err, &pStr) == hipSuccess)
     {
-      event_log_error (hashcat_ctx, "hipStreamSynchronize(): %s", pStr);
+      event_log_error (supercrack_ctx, "hipStreamSynchronize(): %s", pStr);
     }
     else
     {
-      event_log_error (hashcat_ctx, "hipStreamSynchronize(): %d", HIP_err);
+      event_log_error (supercrack_ctx, "hipStreamSynchronize(): %d", HIP_err);
     }
 
     return -1;

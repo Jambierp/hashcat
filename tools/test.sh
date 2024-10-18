@@ -198,11 +198,11 @@ function init()
       mkdir -p "${luks_tests_folder}"
     fi
 
-    luks_first_test_file="${luks_tests_folder}/hashcat_ripemd160_aes_cbc-essiv_128.luks"
+    luks_first_test_file="${luks_tests_folder}/supercrack_ripemd160_aes_cbc-essiv_128.luks"
 
     if [ ! -f "${luks_first_test_file}" ]; then
-      luks_tests="hashcat_luks_testfiles.7z"
-      luks_tests_url="https://hashcat.net/misc/example_hashes/${luks_tests}"
+      luks_tests="supercrack_luks_testfiles.7z"
+      luks_tests_url="https://supercrack.net/misc/example_hashes/${luks_tests}"
 
       cd "${TDIR}" || exit
 
@@ -217,7 +217,7 @@ function init()
       echo "ATTENTION: the luks test files (for -m ${hash_type}) are currently missing on your system."
       echo "They will be fetched from ${luks_tests_url}"
       echo "Note: this needs to be done only once and could take a little bit to download/extract."
-      echo "These luks test files are not shipped directly with hashcat because the file sizes are"
+      echo "These luks test files are not shipped directly with supercrack because the file sizes are"
       echo "particularly large and therefore a bandwidth burner for users who do not run these tests."
       echo ""
 
@@ -2504,15 +2504,15 @@ function cryptoloop_test()
   CMD="unset"
 
   mkdir -p ${OUTD}/cl_tests
-  chmod u+x "${TDIR}/cryptoloop2hashcat.py"
+  chmod u+x "${TDIR}/cryptoloop2supercrack.py"
 
   case $hashType in
 
     14511)
       case $keySize in
         128|192|256)
-          eval \"${TDIR}/cryptoloop2hashcat.py\" --source \"${TDIR}/cl_tests/hashcat_sha1_aes_${keySize}.img\" --hash sha1 --cipher aes --keysize ${keySize} > ${OUTD}/cl_tests/hashcat_sha1_aes_${keySize}.hash
-          CMD="./${BIN} ${OPTS} -a 3 -m 14500 ${OUTD}/cl_tests/hashcat_sha1_aes_${keySize}.hash hashca?l"
+          eval \"${TDIR}/cryptoloop2supercrack.py\" --source \"${TDIR}/cl_tests/supercrack_sha1_aes_${keySize}.img\" --hash sha1 --cipher aes --keysize ${keySize} > ${OUTD}/cl_tests/supercrack_sha1_aes_${keySize}.hash
+          CMD="./${BIN} ${OPTS} -a 3 -m 14500 ${OUTD}/cl_tests/supercrack_sha1_aes_${keySize}.hash hashca?l"
           ;;
       esac
       ;;
@@ -2520,8 +2520,8 @@ function cryptoloop_test()
     14512)
       case $keySize in
         128|192|256)
-          eval \"${TDIR}/cryptoloop2hashcat.py\" --source \"${TDIR}/cl_tests/hashcat_sha1_serpent_${keySize}.img\" --hash sha1 --cipher serpent --keysize ${keySize} > ${OUTD}/cl_tests/hashcat_sha1_serpent_${keySize}.hash
-          CMD="./${BIN} ${OPTS} -a 3 -m 14500 ${OUTD}/cl_tests/hashcat_sha1_serpent_${keySize}.hash hashca?l"
+          eval \"${TDIR}/cryptoloop2supercrack.py\" --source \"${TDIR}/cl_tests/supercrack_sha1_serpent_${keySize}.img\" --hash sha1 --cipher serpent --keysize ${keySize} > ${OUTD}/cl_tests/supercrack_sha1_serpent_${keySize}.hash
+          CMD="./${BIN} ${OPTS} -a 3 -m 14500 ${OUTD}/cl_tests/supercrack_sha1_serpent_${keySize}.hash hashca?l"
           ;;
       esac
       ;;
@@ -2529,8 +2529,8 @@ function cryptoloop_test()
     14513)
       case $keySize in
         128|192|256)
-          eval \"${TDIR}/cryptoloop2hashcat.py\" --source \"${TDIR}/cl_tests/hashcat_sha1_twofish_${keySize}.img\" --hash sha1 --cipher twofish --keysize ${keySize} > ${OUTD}/cl_tests/hashcat_sha1_twofish_${keySize}.hash
-          CMD="./${BIN} ${OPTS} -a 3 -m 14500 ${OUTD}/cl_tests/hashcat_sha1_twofish_${keySize}.hash hashca?l"
+          eval \"${TDIR}/cryptoloop2supercrack.py\" --source \"${TDIR}/cl_tests/supercrack_sha1_twofish_${keySize}.img\" --hash sha1 --cipher twofish --keysize ${keySize} > ${OUTD}/cl_tests/supercrack_sha1_twofish_${keySize}.hash
+          CMD="./${BIN} ${OPTS} -a 3 -m 14500 ${OUTD}/cl_tests/supercrack_sha1_twofish_${keySize}.hash hashca?l"
           ;;
       esac
       ;;
@@ -2538,8 +2538,8 @@ function cryptoloop_test()
     14521)
       case $keySize in
         128|192|256)
-          eval \"${TDIR}/cryptoloop2hashcat.py\" --source \"${TDIR}/cl_tests/hashcat_sha256_aes_${keySize}.img\" --hash sha256 --cipher aes --keysize ${keySize} > ${OUTD}/cl_tests/hashcat_sha256_aes_${keySize}.hash
-          CMD="./${BIN} ${OPTS} -a 3 -m 14500 ${OUTD}/cl_tests/hashcat_sha256_aes_${keySize}.hash hashca?l"
+          eval \"${TDIR}/cryptoloop2supercrack.py\" --source \"${TDIR}/cl_tests/supercrack_sha256_aes_${keySize}.img\" --hash sha256 --cipher aes --keysize ${keySize} > ${OUTD}/cl_tests/supercrack_sha256_aes_${keySize}.hash
+          CMD="./${BIN} ${OPTS} -a 3 -m 14500 ${OUTD}/cl_tests/supercrack_sha256_aes_${keySize}.hash hashca?l"
           ;;
       esac
       ;;
@@ -2547,8 +2547,8 @@ function cryptoloop_test()
     14522)
       case $keySize in
         128|192|256)
-          eval \"${TDIR}/cryptoloop2hashcat.py\" --source \"${TDIR}/cl_tests/hashcat_sha256_serpent_${keySize}.img\" --hash sha256 --cipher serpent --keysize ${keySize} > ${OUTD}/cl_tests/hashcat_sha256_serpent_${keySize}.hash
-          CMD="./${BIN} ${OPTS} -a 3 -m 14500 ${OUTD}/cl_tests/hashcat_sha256_serpent_${keySize}.hash hashca?l"
+          eval \"${TDIR}/cryptoloop2supercrack.py\" --source \"${TDIR}/cl_tests/supercrack_sha256_serpent_${keySize}.img\" --hash sha256 --cipher serpent --keysize ${keySize} > ${OUTD}/cl_tests/supercrack_sha256_serpent_${keySize}.hash
+          CMD="./${BIN} ${OPTS} -a 3 -m 14500 ${OUTD}/cl_tests/supercrack_sha256_serpent_${keySize}.hash hashca?l"
           ;;
       esac
       ;;
@@ -2556,8 +2556,8 @@ function cryptoloop_test()
     14523)
       case $keySize in
         128|192|256)
-          eval \"${TDIR}/cryptoloop2hashcat.py\" --source \"${TDIR}/cl_tests/hashcat_sha256_twofish_${keySize}.img\" --hash sha256 --cipher twofish --keysize ${keySize} > ${OUTD}/cl_tests/hashcat_sha256_twofish_${keySize}.hash
-          CMD="./${BIN} ${OPTS} -a 3 -m 14500 ${OUTD}/cl_tests/hashcat_sha256_twofish_${keySize}.hash hashca?l"
+          eval \"${TDIR}/cryptoloop2supercrack.py\" --source \"${TDIR}/cl_tests/supercrack_sha256_twofish_${keySize}.img\" --hash sha256 --cipher twofish --keysize ${keySize} > ${OUTD}/cl_tests/supercrack_sha256_twofish_${keySize}.hash
+          CMD="./${BIN} ${OPTS} -a 3 -m 14500 ${OUTD}/cl_tests/supercrack_sha256_twofish_${keySize}.hash hashca?l"
           ;;
       esac
       ;;
@@ -2565,8 +2565,8 @@ function cryptoloop_test()
     14531)
       case $keySize in
         128|192|256)
-          eval \"${TDIR}/cryptoloop2hashcat.py\" --source \"${TDIR}/cl_tests/hashcat_sha512_aes_${keySize}.img\" --hash sha512 --cipher aes --keysize ${keySize} > ${OUTD}/cl_tests/hashcat_sha512_aes_${keySize}.hash
-          CMD="./${BIN} ${OPTS} -a 3 -m 14500 ${OUTD}/cl_tests/hashcat_sha512_aes_${keySize}.hash hashca?l"
+          eval \"${TDIR}/cryptoloop2supercrack.py\" --source \"${TDIR}/cl_tests/supercrack_sha512_aes_${keySize}.img\" --hash sha512 --cipher aes --keysize ${keySize} > ${OUTD}/cl_tests/supercrack_sha512_aes_${keySize}.hash
+          CMD="./${BIN} ${OPTS} -a 3 -m 14500 ${OUTD}/cl_tests/supercrack_sha512_aes_${keySize}.hash hashca?l"
           ;;
       esac
       ;;
@@ -2574,8 +2574,8 @@ function cryptoloop_test()
     14532)
       case $keySize in
         128|192|256)
-          eval \"${TDIR}/cryptoloop2hashcat.py\" --source \"${TDIR}/cl_tests/hashcat_sha512_serpent_${keySize}.img\" --hash sha512 --cipher serpent --keysize ${keySize} > ${OUTD}/cl_tests/hashcat_sha512_serpent_${keySize}.hash
-          CMD="./${BIN} ${OPTS} -a 3 -m 14500 ${OUTD}/cl_tests/hashcat_sha512_serpent_${keySize}.hash hashca?l"
+          eval \"${TDIR}/cryptoloop2supercrack.py\" --source \"${TDIR}/cl_tests/supercrack_sha512_serpent_${keySize}.img\" --hash sha512 --cipher serpent --keysize ${keySize} > ${OUTD}/cl_tests/supercrack_sha512_serpent_${keySize}.hash
+          CMD="./${BIN} ${OPTS} -a 3 -m 14500 ${OUTD}/cl_tests/supercrack_sha512_serpent_${keySize}.hash hashca?l"
           ;;
       esac
       ;;
@@ -2583,8 +2583,8 @@ function cryptoloop_test()
     14533)
       case $keySize in
         128|192|256)
-          eval \"${TDIR}/cryptoloop2hashcat.py\" --source \"${TDIR}/cl_tests/hashcat_sha512_twofish_${keySize}.img\" --hash sha512 --cipher twofish --keysize ${keySize} > ${OUTD}/cl_tests/hashcat_sha512_twofish_${keySize}.hash
-          CMD="./${BIN} ${OPTS} -a 3 -m 14500 ${OUTD}/cl_tests/hashcat_sha512_twofish_${keySize}.hash hashca?l"
+          eval \"${TDIR}/cryptoloop2supercrack.py\" --source \"${TDIR}/cl_tests/supercrack_sha512_twofish_${keySize}.img\" --hash sha512 --cipher twofish --keysize ${keySize} > ${OUTD}/cl_tests/supercrack_sha512_twofish_${keySize}.hash
+          CMD="./${BIN} ${OPTS} -a 3 -m 14500 ${OUTD}/cl_tests/supercrack_sha512_twofish_${keySize}.hash hashca?l"
           ;;
       esac
       ;;
@@ -2592,8 +2592,8 @@ function cryptoloop_test()
     14541)
       case $keySize in
         128|192|256)
-          eval \"${TDIR}/cryptoloop2hashcat.py\" --source \"${TDIR}/cl_tests/hashcat_ripemd160_aes_${keySize}.img\" --hash ripemd160 --cipher aes --keysize ${keySize} > ${OUTD}/cl_tests/hashcat_ripemd160_aes_${keySize}.hash
-          CMD="./${BIN} ${OPTS} -a 3 -m 14500 ${OUTD}/cl_tests/hashcat_ripemd160_aes_${keySize}.hash hashca?l"
+          eval \"${TDIR}/cryptoloop2supercrack.py\" --source \"${TDIR}/cl_tests/supercrack_ripemd160_aes_${keySize}.img\" --hash ripemd160 --cipher aes --keysize ${keySize} > ${OUTD}/cl_tests/supercrack_ripemd160_aes_${keySize}.hash
+          CMD="./${BIN} ${OPTS} -a 3 -m 14500 ${OUTD}/cl_tests/supercrack_ripemd160_aes_${keySize}.hash hashca?l"
           ;;
       esac
       ;;
@@ -2601,8 +2601,8 @@ function cryptoloop_test()
     14542)
       case $keySize in
         128|192|256)
-          eval \"${TDIR}/cryptoloop2hashcat.py\" --source \"${TDIR}/cl_tests/hashcat_ripemd160_serpent_${keySize}.img\" --hash ripemd160 --cipher serpent --keysize ${keySize} > ${OUTD}/cl_tests/hashcat_ripemd160_serpent_${keySize}.hash
-          CMD="./${BIN} ${OPTS} -a 3 -m 14500 ${OUTD}/cl_tests/hashcat_ripemd160_serpent_${keySize}.hash hashca?l"
+          eval \"${TDIR}/cryptoloop2supercrack.py\" --source \"${TDIR}/cl_tests/supercrack_ripemd160_serpent_${keySize}.img\" --hash ripemd160 --cipher serpent --keysize ${keySize} > ${OUTD}/cl_tests/supercrack_ripemd160_serpent_${keySize}.hash
+          CMD="./${BIN} ${OPTS} -a 3 -m 14500 ${OUTD}/cl_tests/supercrack_ripemd160_serpent_${keySize}.hash hashca?l"
           ;;
       esac
       ;;
@@ -2610,8 +2610,8 @@ function cryptoloop_test()
     14543)
       case $keySize in
         128|192|256)
-          eval \"${TDIR}/cryptoloop2hashcat.py\" --source \"${TDIR}/cl_tests/hashcat_ripemd160_twofish_${keySize}.img\" --hash ripemd160 --cipher twofish --keysize ${keySize} > ${OUTD}/cl_tests/hashcat_ripemd160_twofish_${keySize}.hash
-          CMD="./${BIN} ${OPTS} -a 3 -m 14500 ${OUTD}/cl_tests/hashcat_ripemd160_twofish_${keySize}.hash hashca?l"
+          eval \"${TDIR}/cryptoloop2supercrack.py\" --source \"${TDIR}/cl_tests/supercrack_ripemd160_twofish_${keySize}.img\" --hash ripemd160 --cipher twofish --keysize ${keySize} > ${OUTD}/cl_tests/supercrack_ripemd160_twofish_${keySize}.hash
+          CMD="./${BIN} ${OPTS} -a 3 -m 14500 ${OUTD}/cl_tests/supercrack_ripemd160_twofish_${keySize}.hash hashca?l"
           ;;
       esac
       ;;
@@ -2619,8 +2619,8 @@ function cryptoloop_test()
     14551)
       case $keySize in
         128|192|256)
-          eval \"${TDIR}/cryptoloop2hashcat.py\" --source \"${TDIR}/cl_tests/hashcat_whirlpool_aes_${keySize}.img\" --hash whirlpool --cipher aes --keysize ${keySize} > ${OUTD}/cl_tests/hashcat_whirlpool_aes_${keySize}.hash
-          CMD="./${BIN} ${OPTS} -a 3 -m 14500 ${OUTD}/cl_tests/hashcat_whirlpool_aes_${keySize}.hash hashca?l"
+          eval \"${TDIR}/cryptoloop2supercrack.py\" --source \"${TDIR}/cl_tests/supercrack_whirlpool_aes_${keySize}.img\" --hash whirlpool --cipher aes --keysize ${keySize} > ${OUTD}/cl_tests/supercrack_whirlpool_aes_${keySize}.hash
+          CMD="./${BIN} ${OPTS} -a 3 -m 14500 ${OUTD}/cl_tests/supercrack_whirlpool_aes_${keySize}.hash hashca?l"
           ;;
       esac
       ;;
@@ -2628,8 +2628,8 @@ function cryptoloop_test()
     14552)
       case $keySize in
         128|192|256)
-          eval \"${TDIR}/cryptoloop2hashcat.py\" --source \"${TDIR}/cl_tests/hashcat_whirlpool_serpent_${keySize}.img\" --hash whirlpool --cipher serpent --keysize ${keySize} > ${OUTD}/cl_tests/hashcat_whirlpool_serpent_${keySize}.hash
-          CMD="./${BIN} ${OPTS} -a 3 -m 14500 ${OUTD}/cl_tests/hashcat_whirlpool_serpent_${keySize}.hash hashca?l"
+          eval \"${TDIR}/cryptoloop2supercrack.py\" --source \"${TDIR}/cl_tests/supercrack_whirlpool_serpent_${keySize}.img\" --hash whirlpool --cipher serpent --keysize ${keySize} > ${OUTD}/cl_tests/supercrack_whirlpool_serpent_${keySize}.hash
+          CMD="./${BIN} ${OPTS} -a 3 -m 14500 ${OUTD}/cl_tests/supercrack_whirlpool_serpent_${keySize}.hash hashca?l"
           ;;
       esac
       ;;
@@ -2637,8 +2637,8 @@ function cryptoloop_test()
     14553)
       case $keySize in
         128|192|256)
-          eval \"${TDIR}/cryptoloop2hashcat.py --source ${TDIR}/cl_tests/hashcat_whirlpool_twofish_${keySize}.img\" --hash whirlpool --cipher twofish --keysize ${keySize} > ${OUTD}/cl_tests/hashcat_whirlpool_twofish_${keySize}.hash
-          CMD="./${BIN} ${OPTS} -a 3 -m 14500 ${OUTD}/cl_tests/hashcat_whirlpool_twofish_${keySize}.hash hashca?l"
+          eval \"${TDIR}/cryptoloop2supercrack.py --source ${TDIR}/cl_tests/supercrack_whirlpool_twofish_${keySize}.img\" --hash whirlpool --cipher twofish --keysize ${keySize} > ${OUTD}/cl_tests/supercrack_whirlpool_twofish_${keySize}.hash
+          CMD="./${BIN} ${OPTS} -a 3 -m 14500 ${OUTD}/cl_tests/supercrack_whirlpool_twofish_${keySize}.hash hashca?l"
           ;;
       esac
       ;;
@@ -2687,20 +2687,20 @@ function truecrypt_test()
   CMD="unset"
 
   mkdir -p ${OUTD}/tc_tests
-  chmod u+x "${TDIR}/truecrypt2hashcat.py"
+  chmod u+x "${TDIR}/truecrypt2supercrack.py"
 
   case $hashType in
 
     6211)
       case $tcMode in
         0)
-          CMD="./${BIN} ${OPTS} -a 3 -m 6211 '${TDIR}/tc_tests/hashcat_ripemd160_aes.tc' hashca?l"
+          CMD="./${BIN} ${OPTS} -a 3 -m 6211 '${TDIR}/tc_tests/supercrack_ripemd160_aes.tc' hashca?l"
           ;;
         1)
-          CMD="./${BIN} ${OPTS} -a 3 -m 6211 '${TDIR}/tc_tests/hashcat_ripemd160_serpent.tc' hashca?l"
+          CMD="./${BIN} ${OPTS} -a 3 -m 6211 '${TDIR}/tc_tests/supercrack_ripemd160_serpent.tc' hashca?l"
           ;;
         2)
-          CMD="./${BIN} ${OPTS} -a 3 -m 6211 '${TDIR}/tc_tests/hashcat_ripemd160_twofish.tc' hashca?l"
+          CMD="./${BIN} ${OPTS} -a 3 -m 6211 '${TDIR}/tc_tests/supercrack_ripemd160_twofish.tc' hashca?l"
           ;;
       esac
       ;;
@@ -2708,13 +2708,13 @@ function truecrypt_test()
     6212)
       case $tcMode in
         0)
-          CMD="./${BIN} ${OPTS} -a 3 -m 6212 '${TDIR}/tc_tests/hashcat_ripemd160_aes-twofish.tc' hashca?l"
+          CMD="./${BIN} ${OPTS} -a 3 -m 6212 '${TDIR}/tc_tests/supercrack_ripemd160_aes-twofish.tc' hashca?l"
           ;;
         1)
-          CMD="./${BIN} ${OPTS} -a 3 -m 6212 '${TDIR}/tc_tests/hashcat_ripemd160_serpent-aes.tc' hashca?l"
+          CMD="./${BIN} ${OPTS} -a 3 -m 6212 '${TDIR}/tc_tests/supercrack_ripemd160_serpent-aes.tc' hashca?l"
           ;;
         2)
-          CMD="./${BIN} ${OPTS} -a 3 -m 6212 '${TDIR}/tc_tests/hashcat_ripemd160_twofish-serpent.tc' hashca?l"
+          CMD="./${BIN} ${OPTS} -a 3 -m 6212 '${TDIR}/tc_tests/supercrack_ripemd160_twofish-serpent.tc' hashca?l"
           ;;
       esac
       ;;
@@ -2722,10 +2722,10 @@ function truecrypt_test()
     6213)
       case $tcMode in
         0)
-          CMD="./${BIN} ${OPTS} -a 3 -m 6213 '${TDIR}/tc_tests/hashcat_ripemd160_aes-twofish-serpent.tc' hashca?l"
+          CMD="./${BIN} ${OPTS} -a 3 -m 6213 '${TDIR}/tc_tests/supercrack_ripemd160_aes-twofish-serpent.tc' hashca?l"
           ;;
         1)
-          CMD="./${BIN} ${OPTS} -a 3 -m 6213 '${TDIR}/tc_tests/hashcat_ripemd160_serpent-twofish-aes.tc' hashca?l"
+          CMD="./${BIN} ${OPTS} -a 3 -m 6213 '${TDIR}/tc_tests/supercrack_ripemd160_serpent-twofish-aes.tc' hashca?l"
           ;;
       esac
       ;;
@@ -2733,13 +2733,13 @@ function truecrypt_test()
     6221)
       case $tcMode in
         0)
-          CMD="./${BIN} ${OPTS} -a 3 -m 6221 '${TDIR}/tc_tests/hashcat_sha512_aes.tc' hashca?l"
+          CMD="./${BIN} ${OPTS} -a 3 -m 6221 '${TDIR}/tc_tests/supercrack_sha512_aes.tc' hashca?l"
           ;;
         1)
-          CMD="./${BIN} ${OPTS} -a 3 -m 6221 '${TDIR}/tc_tests/hashcat_sha512_serpent.tc' hashca?l"
+          CMD="./${BIN} ${OPTS} -a 3 -m 6221 '${TDIR}/tc_tests/supercrack_sha512_serpent.tc' hashca?l"
           ;;
         2)
-          CMD="./${BIN} ${OPTS} -a 3 -m 6221 '${TDIR}/tc_tests/hashcat_sha512_twofish.tc' hashca?l"
+          CMD="./${BIN} ${OPTS} -a 3 -m 6221 '${TDIR}/tc_tests/supercrack_sha512_twofish.tc' hashca?l"
           ;;
       esac
       ;;
@@ -2747,13 +2747,13 @@ function truecrypt_test()
     6222)
       case $tcMode in
         0)
-          CMD="./${BIN} ${OPTS} -a 3 -m 6222 '${TDIR}/tc_tests/hashcat_sha512_aes-twofish.tc' hashca?l"
+          CMD="./${BIN} ${OPTS} -a 3 -m 6222 '${TDIR}/tc_tests/supercrack_sha512_aes-twofish.tc' hashca?l"
           ;;
         1)
-          CMD="./${BIN} ${OPTS} -a 3 -m 6222 '${TDIR}/tc_tests/hashcat_sha512_serpent-aes.tc' hashca?l"
+          CMD="./${BIN} ${OPTS} -a 3 -m 6222 '${TDIR}/tc_tests/supercrack_sha512_serpent-aes.tc' hashca?l"
           ;;
         2)
-          CMD="./${BIN} ${OPTS} -a 3 -m 6222 '${TDIR}/tc_tests/hashcat_sha512_twofish-serpent.tc' hashca?l"
+          CMD="./${BIN} ${OPTS} -a 3 -m 6222 '${TDIR}/tc_tests/supercrack_sha512_twofish-serpent.tc' hashca?l"
           ;;
       esac
       ;;
@@ -2761,10 +2761,10 @@ function truecrypt_test()
     6223)
       case $tcMode in
         0)
-          CMD="./${BIN} ${OPTS} -a 3 -m 6223 '${TDIR}/tc_tests/hashcat_sha512_aes-twofish-serpent.tc' hashca?l"
+          CMD="./${BIN} ${OPTS} -a 3 -m 6223 '${TDIR}/tc_tests/supercrack_sha512_aes-twofish-serpent.tc' hashca?l"
           ;;
         1)
-          CMD="./${BIN} ${OPTS} -a 3 -m 6223 '${TDIR}/tc_tests/hashcat_sha512_serpent-twofish-aes.tc' hashca?l"
+          CMD="./${BIN} ${OPTS} -a 3 -m 6223 '${TDIR}/tc_tests/supercrack_sha512_serpent-twofish-aes.tc' hashca?l"
           ;;
       esac
       ;;
@@ -2772,13 +2772,13 @@ function truecrypt_test()
     6231)
       case $tcMode in
         0)
-          CMD="./${BIN} ${OPTS} -a 3 -m 6231 '${TDIR}/tc_tests/hashcat_whirlpool_aes.tc' hashca?l"
+          CMD="./${BIN} ${OPTS} -a 3 -m 6231 '${TDIR}/tc_tests/supercrack_whirlpool_aes.tc' hashca?l"
           ;;
         1)
-          CMD="./${BIN} ${OPTS} -a 3 -m 6231 '${TDIR}/tc_tests/hashcat_whirlpool_serpent.tc' hashca?l"
+          CMD="./${BIN} ${OPTS} -a 3 -m 6231 '${TDIR}/tc_tests/supercrack_whirlpool_serpent.tc' hashca?l"
           ;;
         2)
-          CMD="./${BIN} ${OPTS} -a 3 -m 6231 '${TDIR}/tc_tests/hashcat_whirlpool_twofish.tc' hashca?l"
+          CMD="./${BIN} ${OPTS} -a 3 -m 6231 '${TDIR}/tc_tests/supercrack_whirlpool_twofish.tc' hashca?l"
           ;;
       esac
       ;;
@@ -2786,13 +2786,13 @@ function truecrypt_test()
     6232)
       case $tcMode in
         0)
-          CMD="./${BIN} ${OPTS} -a 3 -m 6232 '${TDIR}/tc_tests/hashcat_whirlpool_aes-twofish.tc' hashca?l"
+          CMD="./${BIN} ${OPTS} -a 3 -m 6232 '${TDIR}/tc_tests/supercrack_whirlpool_aes-twofish.tc' hashca?l"
           ;;
         1)
-          CMD="./${BIN} ${OPTS} -a 3 -m 6232 '${TDIR}/tc_tests/hashcat_whirlpool_serpent-aes.tc' hashca?l"
+          CMD="./${BIN} ${OPTS} -a 3 -m 6232 '${TDIR}/tc_tests/supercrack_whirlpool_serpent-aes.tc' hashca?l"
           ;;
         2)
-          CMD="./${BIN} ${OPTS} -a 3 -m 6232 '${TDIR}/tc_tests/hashcat_whirlpool_twofish-serpent.tc' hashca?l"
+          CMD="./${BIN} ${OPTS} -a 3 -m 6232 '${TDIR}/tc_tests/supercrack_whirlpool_twofish-serpent.tc' hashca?l"
           ;;
       esac
       ;;
@@ -2800,10 +2800,10 @@ function truecrypt_test()
     6233)
       case $tcMode in
         0)
-          CMD="./${BIN} ${OPTS} -a 3 -m 6233 '${TDIR}/tc_tests/hashcat_whirlpool_aes-twofish-serpent.tc' hashca?l"
+          CMD="./${BIN} ${OPTS} -a 3 -m 6233 '${TDIR}/tc_tests/supercrack_whirlpool_aes-twofish-serpent.tc' hashca?l"
           ;;
         1)
-          CMD="./${BIN} ${OPTS} -a 3 -m 6233 '${TDIR}/tc_tests/hashcat_whirlpool_serpent-twofish-aes.tc' hashca?l"
+          CMD="./${BIN} ${OPTS} -a 3 -m 6233 '${TDIR}/tc_tests/supercrack_whirlpool_serpent-twofish-aes.tc' hashca?l"
           ;;
       esac
       ;;
@@ -2811,13 +2811,13 @@ function truecrypt_test()
     6241)
       case $tcMode in
         0)
-          CMD="./${BIN} ${OPTS} -a 3 -m 6241 '${TDIR}/tc_tests/hashcat_ripemd160_aes_boot.tc' hashca?l"
+          CMD="./${BIN} ${OPTS} -a 3 -m 6241 '${TDIR}/tc_tests/supercrack_ripemd160_aes_boot.tc' hashca?l"
           ;;
         1)
-          CMD="./${BIN} ${OPTS} -a 3 -m 6241 '${TDIR}/tc_tests/hashcat_ripemd160_serpent_boot.tc' hashca?l"
+          CMD="./${BIN} ${OPTS} -a 3 -m 6241 '${TDIR}/tc_tests/supercrack_ripemd160_serpent_boot.tc' hashca?l"
           ;;
         2)
-          CMD="./${BIN} ${OPTS} -a 3 -m 6241 '${TDIR}/tc_tests/hashcat_ripemd160_twofish_boot.tc' hashca?l"
+          CMD="./${BIN} ${OPTS} -a 3 -m 6241 '${TDIR}/tc_tests/supercrack_ripemd160_twofish_boot.tc' hashca?l"
           ;;
       esac
       ;;
@@ -2825,10 +2825,10 @@ function truecrypt_test()
     6242)
       case $tcMode in
         0)
-          CMD="./${BIN} ${OPTS} -a 3 -m 6242 '${TDIR}/tc_tests/hashcat_ripemd160_aes-twofish_boot.tc' hashca?l"
+          CMD="./${BIN} ${OPTS} -a 3 -m 6242 '${TDIR}/tc_tests/supercrack_ripemd160_aes-twofish_boot.tc' hashca?l"
           ;;
         1)
-          CMD="./${BIN} ${OPTS} -a 3 -m 6242 '${TDIR}/tc_tests/hashcat_ripemd160_serpent-aes_boot.tc' hashca?l"
+          CMD="./${BIN} ${OPTS} -a 3 -m 6242 '${TDIR}/tc_tests/supercrack_ripemd160_serpent-aes_boot.tc' hashca?l"
           ;;
       esac
       ;;
@@ -2836,7 +2836,7 @@ function truecrypt_test()
     6243)
       case $tcMode in
         0)
-          CMD="./${BIN} ${OPTS} -a 3 -m 6243 '${TDIR}/tc_tests/hashcat_ripemd160_aes-twofish-serpent_boot.tc' hashca?l"
+          CMD="./${BIN} ${OPTS} -a 3 -m 6243 '${TDIR}/tc_tests/supercrack_ripemd160_aes-twofish-serpent_boot.tc' hashca?l"
           ;;
       esac
       ;;
@@ -2844,16 +2844,16 @@ function truecrypt_test()
     29311)
       case $tcMode in
         0)
-          eval \"${TDIR}/truecrypt2hashcat.py\" \"${TDIR}/tc_tests/hashcat_ripemd160_aes.tc\" > ${OUTD}/tc_tests/hashcat_ripemd160_aes.hash
-          CMD="./${BIN} ${OPTS} -a 3 -m 29311 '${OUTD}/tc_tests/hashcat_ripemd160_aes.hash' hashca?l"
+          eval \"${TDIR}/truecrypt2supercrack.py\" \"${TDIR}/tc_tests/supercrack_ripemd160_aes.tc\" > ${OUTD}/tc_tests/supercrack_ripemd160_aes.hash
+          CMD="./${BIN} ${OPTS} -a 3 -m 29311 '${OUTD}/tc_tests/supercrack_ripemd160_aes.hash' hashca?l"
           ;;
         1)
-          eval \"${TDIR}/truecrypt2hashcat.py\" \"${TDIR}/tc_tests/hashcat_ripemd160_serpent.tc\" > ${OUTD}/tc_tests/hashcat_ripemd160_serpent.hash
-          CMD="./${BIN} ${OPTS} -a 3 -m 29311 '${OUTD}/tc_tests/hashcat_ripemd160_serpent.hash' hashca?l"
+          eval \"${TDIR}/truecrypt2supercrack.py\" \"${TDIR}/tc_tests/supercrack_ripemd160_serpent.tc\" > ${OUTD}/tc_tests/supercrack_ripemd160_serpent.hash
+          CMD="./${BIN} ${OPTS} -a 3 -m 29311 '${OUTD}/tc_tests/supercrack_ripemd160_serpent.hash' hashca?l"
           ;;
         2)
-          eval \"${TDIR}/truecrypt2hashcat.py\" \"${TDIR}/tc_tests/hashcat_ripemd160_twofish.tc\" > ${OUTD}/tc_tests/hashcat_ripemd160_twofish.hash
-          CMD="./${BIN} ${OPTS} -a 3 -m 29311 '${OUTD}/tc_tests/hashcat_ripemd160_twofish.hash' hashca?l"
+          eval \"${TDIR}/truecrypt2supercrack.py\" \"${TDIR}/tc_tests/supercrack_ripemd160_twofish.tc\" > ${OUTD}/tc_tests/supercrack_ripemd160_twofish.hash
+          CMD="./${BIN} ${OPTS} -a 3 -m 29311 '${OUTD}/tc_tests/supercrack_ripemd160_twofish.hash' hashca?l"
           ;;
       esac
       ;;
@@ -2861,16 +2861,16 @@ function truecrypt_test()
     29312)
       case $tcMode in
         0)
-          eval \"${TDIR}/truecrypt2hashcat.py\" \"${TDIR}/tc_tests/hashcat_ripemd160_aes-twofish.tc\" > ${OUTD}/tc_tests/hashcat_ripemd160_aes-twofish.hash
-          CMD="./${BIN} ${OPTS} -a 3 -m 29312 '${OUTD}/tc_tests/hashcat_ripemd160_aes-twofish.hash' hashca?l"
+          eval \"${TDIR}/truecrypt2supercrack.py\" \"${TDIR}/tc_tests/supercrack_ripemd160_aes-twofish.tc\" > ${OUTD}/tc_tests/supercrack_ripemd160_aes-twofish.hash
+          CMD="./${BIN} ${OPTS} -a 3 -m 29312 '${OUTD}/tc_tests/supercrack_ripemd160_aes-twofish.hash' hashca?l"
           ;;
         1)
-          eval \"${TDIR}/truecrypt2hashcat.py\" \"${TDIR}/tc_tests/hashcat_ripemd160_serpent-aes.tc\" > ${OUTD}/tc_tests/hashcat_ripemd160_serpent-aes.hash
-          CMD="./${BIN} ${OPTS} -a 3 -m 29312 '${OUTD}/tc_tests/hashcat_ripemd160_serpent-aes.hash' hashca?l"
+          eval \"${TDIR}/truecrypt2supercrack.py\" \"${TDIR}/tc_tests/supercrack_ripemd160_serpent-aes.tc\" > ${OUTD}/tc_tests/supercrack_ripemd160_serpent-aes.hash
+          CMD="./${BIN} ${OPTS} -a 3 -m 29312 '${OUTD}/tc_tests/supercrack_ripemd160_serpent-aes.hash' hashca?l"
           ;;
         2)
-          eval \"${TDIR}/truecrypt2hashcat.py\" \"${TDIR}/tc_tests/hashcat_ripemd160_twofish-serpent.tc\" > ${OUTD}/tc_tests/hashcat_ripemd160_twofish-serpent.hash
-          CMD="./${BIN} ${OPTS} -a 3 -m 29312 '${OUTD}/tc_tests/hashcat_ripemd160_twofish-serpent.hash' hashca?l"
+          eval \"${TDIR}/truecrypt2supercrack.py\" \"${TDIR}/tc_tests/supercrack_ripemd160_twofish-serpent.tc\" > ${OUTD}/tc_tests/supercrack_ripemd160_twofish-serpent.hash
+          CMD="./${BIN} ${OPTS} -a 3 -m 29312 '${OUTD}/tc_tests/supercrack_ripemd160_twofish-serpent.hash' hashca?l"
           ;;
       esac
       ;;
@@ -2878,12 +2878,12 @@ function truecrypt_test()
     29313)
       case $tcMode in
         0)
-          eval \"${TDIR}/truecrypt2hashcat.py\" \"${TDIR}/tc_tests/hashcat_ripemd160_aes-twofish-serpent.tc\" > ${OUTD}/tc_tests/hashcat_ripemd160_aes-twofish-serpent.hash
-          CMD="./${BIN} ${OPTS} -a 3 -m 29313 '${OUTD}/tc_tests/hashcat_ripemd160_aes-twofish-serpent.hash' hashca?l"
+          eval \"${TDIR}/truecrypt2supercrack.py\" \"${TDIR}/tc_tests/supercrack_ripemd160_aes-twofish-serpent.tc\" > ${OUTD}/tc_tests/supercrack_ripemd160_aes-twofish-serpent.hash
+          CMD="./${BIN} ${OPTS} -a 3 -m 29313 '${OUTD}/tc_tests/supercrack_ripemd160_aes-twofish-serpent.hash' hashca?l"
           ;;
         1)
-          eval \"${TDIR}/truecrypt2hashcat.py\" \"${TDIR}/tc_tests/hashcat_ripemd160_serpent-twofish-aes.tc\" > ${OUTD}/tc_tests/hashcat_ripemd160_serpent-twofish-aes.hash
-          CMD="./${BIN} ${OPTS} -a 3 -m 29313 '${OUTD}/tc_tests/hashcat_ripemd160_serpent-twofish-aes.hash' hashca?l"
+          eval \"${TDIR}/truecrypt2supercrack.py\" \"${TDIR}/tc_tests/supercrack_ripemd160_serpent-twofish-aes.tc\" > ${OUTD}/tc_tests/supercrack_ripemd160_serpent-twofish-aes.hash
+          CMD="./${BIN} ${OPTS} -a 3 -m 29313 '${OUTD}/tc_tests/supercrack_ripemd160_serpent-twofish-aes.hash' hashca?l"
           ;;
       esac
       ;;
@@ -2891,16 +2891,16 @@ function truecrypt_test()
     29321)
       case $tcMode in
         0)
-          eval \"${TDIR}/truecrypt2hashcat.py\" \"${TDIR}/tc_tests/hashcat_sha512_aes.tc\" > ${OUTD}/tc_tests/hashcat_sha512_aes.hash
-          CMD="./${BIN} ${OPTS} -a 3 -m 29321 '${OUTD}/tc_tests/hashcat_sha512_aes.hash' hashca?l"
+          eval \"${TDIR}/truecrypt2supercrack.py\" \"${TDIR}/tc_tests/supercrack_sha512_aes.tc\" > ${OUTD}/tc_tests/supercrack_sha512_aes.hash
+          CMD="./${BIN} ${OPTS} -a 3 -m 29321 '${OUTD}/tc_tests/supercrack_sha512_aes.hash' hashca?l"
           ;;
         1)
-          eval \"${TDIR}/truecrypt2hashcat.py\" \"${TDIR}/tc_tests/hashcat_sha512_serpent.tc\" > ${OUTD}/tc_tests/hashcat_sha512_serpent.hash
-          CMD="./${BIN} ${OPTS} -a 3 -m 29321 '${OUTD}/tc_tests/hashcat_sha512_serpent.hash' hashca?l"
+          eval \"${TDIR}/truecrypt2supercrack.py\" \"${TDIR}/tc_tests/supercrack_sha512_serpent.tc\" > ${OUTD}/tc_tests/supercrack_sha512_serpent.hash
+          CMD="./${BIN} ${OPTS} -a 3 -m 29321 '${OUTD}/tc_tests/supercrack_sha512_serpent.hash' hashca?l"
           ;;
         2)
-          eval \"${TDIR}/truecrypt2hashcat.py\" \"${TDIR}/tc_tests/hashcat_sha512_twofish.tc\" > ${OUTD}/tc_tests/hashcat_sha512_twofish.hash
-          CMD="./${BIN} ${OPTS} -a 3 -m 29321 '${OUTD}/tc_tests/hashcat_sha512_twofish.hash' hashca?l"
+          eval \"${TDIR}/truecrypt2supercrack.py\" \"${TDIR}/tc_tests/supercrack_sha512_twofish.tc\" > ${OUTD}/tc_tests/supercrack_sha512_twofish.hash
+          CMD="./${BIN} ${OPTS} -a 3 -m 29321 '${OUTD}/tc_tests/supercrack_sha512_twofish.hash' hashca?l"
           ;;
       esac
       ;;
@@ -2908,16 +2908,16 @@ function truecrypt_test()
     29322)
       case $tcMode in
         0)
-          eval \"${TDIR}/truecrypt2hashcat.py\" \"${TDIR}/tc_tests/hashcat_sha512_aes-twofish.tc\" > ${OUTD}/tc_tests/hashcat_sha512_aes-twofish.hash
-          CMD="./${BIN} ${OPTS} -a 3 -m 29322 '${OUTD}/tc_tests/hashcat_sha512_aes-twofish.hash' hashca?l"
+          eval \"${TDIR}/truecrypt2supercrack.py\" \"${TDIR}/tc_tests/supercrack_sha512_aes-twofish.tc\" > ${OUTD}/tc_tests/supercrack_sha512_aes-twofish.hash
+          CMD="./${BIN} ${OPTS} -a 3 -m 29322 '${OUTD}/tc_tests/supercrack_sha512_aes-twofish.hash' hashca?l"
           ;;
         1)
-          eval \"${TDIR}/truecrypt2hashcat.py\" \"${TDIR}/tc_tests/hashcat_sha512_serpent-aes.tc\" > ${OUTD}/tc_tests/hashcat_sha512_serpent-aes.hash
-          CMD="./${BIN} ${OPTS} -a 3 -m 29322 '${OUTD}/tc_tests/hashcat_sha512_serpent-aes.hash' hashca?l"
+          eval \"${TDIR}/truecrypt2supercrack.py\" \"${TDIR}/tc_tests/supercrack_sha512_serpent-aes.tc\" > ${OUTD}/tc_tests/supercrack_sha512_serpent-aes.hash
+          CMD="./${BIN} ${OPTS} -a 3 -m 29322 '${OUTD}/tc_tests/supercrack_sha512_serpent-aes.hash' hashca?l"
           ;;
         2)
-          eval \"${TDIR}/truecrypt2hashcat.py\" \"${TDIR}/tc_tests/hashcat_sha512_twofish-serpent.tc\" > ${OUTD}/tc_tests/hashcat_sha512_twofish-serpent.hash
-          CMD="./${BIN} ${OPTS} -a 3 -m 29322 '${OUTD}/tc_tests/hashcat_sha512_twofish-serpent.hash' hashca?l"
+          eval \"${TDIR}/truecrypt2supercrack.py\" \"${TDIR}/tc_tests/supercrack_sha512_twofish-serpent.tc\" > ${OUTD}/tc_tests/supercrack_sha512_twofish-serpent.hash
+          CMD="./${BIN} ${OPTS} -a 3 -m 29322 '${OUTD}/tc_tests/supercrack_sha512_twofish-serpent.hash' hashca?l"
           ;;
       esac
       ;;
@@ -2925,12 +2925,12 @@ function truecrypt_test()
     29323)
       case $tcMode in
         0)
-          eval \"${TDIR}/truecrypt2hashcat.py\" \"${TDIR}/tc_tests/hashcat_sha512_aes-twofish-serpent.tc\" > ${OUTD}/tc_tests/hashcat_sha512_aes-twofish-serpent.hash
-          CMD="./${BIN} ${OPTS} -a 3 -m 29323 '${OUTD}/tc_tests/hashcat_sha512_aes-twofish-serpent.hash' hashca?l"
+          eval \"${TDIR}/truecrypt2supercrack.py\" \"${TDIR}/tc_tests/supercrack_sha512_aes-twofish-serpent.tc\" > ${OUTD}/tc_tests/supercrack_sha512_aes-twofish-serpent.hash
+          CMD="./${BIN} ${OPTS} -a 3 -m 29323 '${OUTD}/tc_tests/supercrack_sha512_aes-twofish-serpent.hash' hashca?l"
           ;;
         1)
-          eval \"${TDIR}/truecrypt2hashcat.py\" \"${TDIR}/tc_tests/hashcat_sha512_serpent-twofish-aes.tc\" > ${OUTD}/tc_tests/hashcat_sha512_serpent-twofish-aes.hash
-          CMD="./${BIN} ${OPTS} -a 3 -m 29323 '${OUTD}/tc_tests/hashcat_sha512_serpent-twofish-aes.hash' hashca?l"
+          eval \"${TDIR}/truecrypt2supercrack.py\" \"${TDIR}/tc_tests/supercrack_sha512_serpent-twofish-aes.tc\" > ${OUTD}/tc_tests/supercrack_sha512_serpent-twofish-aes.hash
+          CMD="./${BIN} ${OPTS} -a 3 -m 29323 '${OUTD}/tc_tests/supercrack_sha512_serpent-twofish-aes.hash' hashca?l"
           ;;
       esac
       ;;
@@ -2938,16 +2938,16 @@ function truecrypt_test()
     29331)
       case $tcMode in
         0)
-          eval \"${TDIR}/truecrypt2hashcat.py\" \"${TDIR}/tc_tests/hashcat_whirlpool_aes.tc\" > ${OUTD}/tc_tests/hashcat_whirlpool_aes.hash
-          CMD="./${BIN} ${OPTS} -a 3 -m 29331 '${OUTD}/tc_tests/hashcat_whirlpool_aes.hash' hashca?l"
+          eval \"${TDIR}/truecrypt2supercrack.py\" \"${TDIR}/tc_tests/supercrack_whirlpool_aes.tc\" > ${OUTD}/tc_tests/supercrack_whirlpool_aes.hash
+          CMD="./${BIN} ${OPTS} -a 3 -m 29331 '${OUTD}/tc_tests/supercrack_whirlpool_aes.hash' hashca?l"
           ;;
         1)
-          eval \"${TDIR}/truecrypt2hashcat.py\" \"${TDIR}/tc_tests/hashcat_whirlpool_serpent.tc\" > ${OUTD}/tc_tests/hashcat_whirlpool_serpent.hash
-          CMD="./${BIN} ${OPTS} -a 3 -m 29331 '${OUTD}/tc_tests/hashcat_whirlpool_serpent.hash' hashca?l"
+          eval \"${TDIR}/truecrypt2supercrack.py\" \"${TDIR}/tc_tests/supercrack_whirlpool_serpent.tc\" > ${OUTD}/tc_tests/supercrack_whirlpool_serpent.hash
+          CMD="./${BIN} ${OPTS} -a 3 -m 29331 '${OUTD}/tc_tests/supercrack_whirlpool_serpent.hash' hashca?l"
           ;;
         2)
-          eval \"${TDIR}/truecrypt2hashcat.py\" \"${TDIR}/tc_tests/hashcat_whirlpool_twofish.tc\" > ${OUTD}/tc_tests/hashcat_whirlpool_twofish.hash
-          CMD="./${BIN} ${OPTS} -a 3 -m 29331 '${OUTD}/tc_tests/hashcat_whirlpool_twofish.hash' hashca?l"
+          eval \"${TDIR}/truecrypt2supercrack.py\" \"${TDIR}/tc_tests/supercrack_whirlpool_twofish.tc\" > ${OUTD}/tc_tests/supercrack_whirlpool_twofish.hash
+          CMD="./${BIN} ${OPTS} -a 3 -m 29331 '${OUTD}/tc_tests/supercrack_whirlpool_twofish.hash' hashca?l"
           ;;
       esac
       ;;
@@ -2955,16 +2955,16 @@ function truecrypt_test()
     29332)
       case $tcMode in
         0)
-          eval \"${TDIR}/truecrypt2hashcat.py\" \"${TDIR}/tc_tests/hashcat_whirlpool_aes-twofish.tc\" > ${OUTD}/tc_tests/hashcat_whirlpool_aes-twofish.hash
-          CMD="./${BIN} ${OPTS} -a 3 -m 29332 '${OUTD}/tc_tests/hashcat_whirlpool_aes-twofish.hash' hashca?l"
+          eval \"${TDIR}/truecrypt2supercrack.py\" \"${TDIR}/tc_tests/supercrack_whirlpool_aes-twofish.tc\" > ${OUTD}/tc_tests/supercrack_whirlpool_aes-twofish.hash
+          CMD="./${BIN} ${OPTS} -a 3 -m 29332 '${OUTD}/tc_tests/supercrack_whirlpool_aes-twofish.hash' hashca?l"
           ;;
         1)
-          eval \"${TDIR}/truecrypt2hashcat.py\" \"${TDIR}/tc_tests/hashcat_whirlpool_serpent-aes.tc\" > ${OUTD}/tc_tests/hashcat_whirlpool_serpent-aes.hash
-          CMD="./${BIN} ${OPTS} -a 3 -m 29332 '${OUTD}/tc_tests/hashcat_whirlpool_serpent-aes.hash' hashca?l"
+          eval \"${TDIR}/truecrypt2supercrack.py\" \"${TDIR}/tc_tests/supercrack_whirlpool_serpent-aes.tc\" > ${OUTD}/tc_tests/supercrack_whirlpool_serpent-aes.hash
+          CMD="./${BIN} ${OPTS} -a 3 -m 29332 '${OUTD}/tc_tests/supercrack_whirlpool_serpent-aes.hash' hashca?l"
           ;;
         2)
-          eval \"${TDIR}/truecrypt2hashcat.py\" \"${TDIR}/tc_tests/hashcat_whirlpool_twofish-serpent.tc\" > ${OUTD}/tc_tests/hashcat_whirlpool_twofish-serpent.hash
-          CMD="./${BIN} ${OPTS} -a 3 -m 29332 '${OUTD}/tc_tests/hashcat_whirlpool_twofish-serpent.hash' hashca?l"
+          eval \"${TDIR}/truecrypt2supercrack.py\" \"${TDIR}/tc_tests/supercrack_whirlpool_twofish-serpent.tc\" > ${OUTD}/tc_tests/supercrack_whirlpool_twofish-serpent.hash
+          CMD="./${BIN} ${OPTS} -a 3 -m 29332 '${OUTD}/tc_tests/supercrack_whirlpool_twofish-serpent.hash' hashca?l"
           ;;
       esac
       ;;
@@ -2972,12 +2972,12 @@ function truecrypt_test()
     29333)
       case $tcMode in
         0)
-          eval \"${TDIR}/truecrypt2hashcat.py\" \"${TDIR}/tc_tests/hashcat_whirlpool_aes-twofish-serpent.tc\" > ${OUTD}/tc_tests/hashcat_whirlpool_aes-twofish-serpent.hash
-          CMD="./${BIN} ${OPTS} -a 3 -m 29333 '${OUTD}/tc_tests/hashcat_whirlpool_aes-twofish-serpent.hash' hashca?l"
+          eval \"${TDIR}/truecrypt2supercrack.py\" \"${TDIR}/tc_tests/supercrack_whirlpool_aes-twofish-serpent.tc\" > ${OUTD}/tc_tests/supercrack_whirlpool_aes-twofish-serpent.hash
+          CMD="./${BIN} ${OPTS} -a 3 -m 29333 '${OUTD}/tc_tests/supercrack_whirlpool_aes-twofish-serpent.hash' hashca?l"
           ;;
         1)
-          eval \"${TDIR}/truecrypt2hashcat.py\" \"${TDIR}/tc_tests/hashcat_whirlpool_serpent-twofish-aes.tc\" > ${OUTD}/tc_tests/hashcat_whirlpool_serpent-twofish-aes.hash
-          CMD="./${BIN} ${OPTS} -a 3 -m 29333 '${OUTD}/tc_tests/hashcat_whirlpool_serpent-twofish-aes.hash' hashca?l"
+          eval \"${TDIR}/truecrypt2supercrack.py\" \"${TDIR}/tc_tests/supercrack_whirlpool_serpent-twofish-aes.tc\" > ${OUTD}/tc_tests/supercrack_whirlpool_serpent-twofish-aes.hash
+          CMD="./${BIN} ${OPTS} -a 3 -m 29333 '${OUTD}/tc_tests/supercrack_whirlpool_serpent-twofish-aes.hash' hashca?l"
           ;;
       esac
       ;;
@@ -2985,16 +2985,16 @@ function truecrypt_test()
     29341)
       case $tcMode in
         0)
-          eval \"${TDIR}/truecrypt2hashcat.py\" \"${TDIR}/tc_tests/hashcat_ripemd160_aes_boot.tc\" > ${OUTD}/tc_tests/hashcat_ripemd160_aes_boot.hash
-          CMD="./${BIN} ${OPTS} -a 3 -m 29341 '${OUTD}/tc_tests/hashcat_ripemd160_aes_boot.hash' hashca?l"
+          eval \"${TDIR}/truecrypt2supercrack.py\" \"${TDIR}/tc_tests/supercrack_ripemd160_aes_boot.tc\" > ${OUTD}/tc_tests/supercrack_ripemd160_aes_boot.hash
+          CMD="./${BIN} ${OPTS} -a 3 -m 29341 '${OUTD}/tc_tests/supercrack_ripemd160_aes_boot.hash' hashca?l"
           ;;
         1)
-          eval \"${TDIR}/truecrypt2hashcat.py\" \"${TDIR}/tc_tests/hashcat_ripemd160_serpent_boot.tc\" > ${OUTD}/tc_tests/hashcat_ripemd160_serpent_boot.hash
-          CMD="./${BIN} ${OPTS} -a 3 -m 29341 '${OUTD}/tc_tests/hashcat_ripemd160_serpent_boot.hash' hashca?l"
+          eval \"${TDIR}/truecrypt2supercrack.py\" \"${TDIR}/tc_tests/supercrack_ripemd160_serpent_boot.tc\" > ${OUTD}/tc_tests/supercrack_ripemd160_serpent_boot.hash
+          CMD="./${BIN} ${OPTS} -a 3 -m 29341 '${OUTD}/tc_tests/supercrack_ripemd160_serpent_boot.hash' hashca?l"
           ;;
         2)
-          eval \"${TDIR}/truecrypt2hashcat.py\" \"${TDIR}/tc_tests/hashcat_ripemd160_twofish_boot.tc\" > ${OUTD}/tc_tests/hashcat_ripemd160_twofish_boot.hash
-          CMD="./${BIN} ${OPTS} -a 3 -m 29341 '${OUTD}/tc_tests/hashcat_ripemd160_twofish_boot.hash' hashca?l"
+          eval \"${TDIR}/truecrypt2supercrack.py\" \"${TDIR}/tc_tests/supercrack_ripemd160_twofish_boot.tc\" > ${OUTD}/tc_tests/supercrack_ripemd160_twofish_boot.hash
+          CMD="./${BIN} ${OPTS} -a 3 -m 29341 '${OUTD}/tc_tests/supercrack_ripemd160_twofish_boot.hash' hashca?l"
           ;;
       esac
       ;;
@@ -3002,12 +3002,12 @@ function truecrypt_test()
     29342)
       case $tcMode in
         0)
-          eval \"${TDIR}/truecrypt2hashcat.py\" \"${TDIR}/tc_tests/hashcat_ripemd160_aes-twofish_boot.tc\" > ${OUTD}/tc_tests/hashcat_ripemd160_aes-twofish_boot.hash
-          CMD="./${BIN} ${OPTS} -a 3 -m 29342 '${OUTD}/tc_tests/hashcat_ripemd160_aes-twofish_boot.hash' hashca?l"
+          eval \"${TDIR}/truecrypt2supercrack.py\" \"${TDIR}/tc_tests/supercrack_ripemd160_aes-twofish_boot.tc\" > ${OUTD}/tc_tests/supercrack_ripemd160_aes-twofish_boot.hash
+          CMD="./${BIN} ${OPTS} -a 3 -m 29342 '${OUTD}/tc_tests/supercrack_ripemd160_aes-twofish_boot.hash' hashca?l"
           ;;
         1)
-          eval \"${TDIR}/truecrypt2hashcat.py\" \"${TDIR}/tc_tests/hashcat_ripemd160_serpent-aes_boot.tc\" > ${OUTD}/tc_tests/hashcat_ripemd160_serpent-aes_boot.hash
-          CMD="./${BIN} ${OPTS} -a 3 -m 29342 '${OUTD}/tc_tests/hashcat_ripemd160_serpent-aes_boot.hash' hashca?l"
+          eval \"${TDIR}/truecrypt2supercrack.py\" \"${TDIR}/tc_tests/supercrack_ripemd160_serpent-aes_boot.tc\" > ${OUTD}/tc_tests/supercrack_ripemd160_serpent-aes_boot.hash
+          CMD="./${BIN} ${OPTS} -a 3 -m 29342 '${OUTD}/tc_tests/supercrack_ripemd160_serpent-aes_boot.hash' hashca?l"
           ;;
       esac
       ;;
@@ -3015,8 +3015,8 @@ function truecrypt_test()
     29343)
       case $tcMode in
         0)
-          eval \"${TDIR}/truecrypt2hashcat.py\" \"${TDIR}/tc_tests/hashcat_ripemd160_aes-twofish-serpent_boot.tc\" > ${OUTD}/tc_tests/hashcat_ripemd160_aes-twofish-serpent_boot.hash
-          CMD="./${BIN} ${OPTS} -a 3 -m 29343 '${OUTD}/tc_tests/hashcat_ripemd160_aes-twofish-serpent_boot.hash' hashca?l"
+          eval \"${TDIR}/truecrypt2supercrack.py\" \"${TDIR}/tc_tests/supercrack_ripemd160_aes-twofish-serpent_boot.tc\" > ${OUTD}/tc_tests/supercrack_ripemd160_aes-twofish-serpent_boot.hash
+          CMD="./${BIN} ${OPTS} -a 3 -m 29343 '${OUTD}/tc_tests/supercrack_ripemd160_aes-twofish-serpent_boot.hash' hashca?l"
           ;;
       esac
       ;;
@@ -3058,7 +3058,7 @@ function truecrypt_test()
   fi
 }
 
-# Compose and execute hashcat command on a VeraCrypt test container
+# Compose and execute supercrack command on a VeraCrypt test container
 # Must not be called for hash types other than 137XY/294XY
 # $1: cipher variation, can be 0-6
 function veracrypt_test()
@@ -3105,7 +3105,7 @@ function veracrypt_test()
 
   [ -n "$cipher_cascade" ] || return
 
-  filename="${TDIR}/vc_tests/hashcat_${hash_function}_${cipher_cascade}.vc"
+  filename="${TDIR}/vc_tests/supercrack_${hash_function}_${cipher_cascade}.vc"
 
   # The hash-cipher combination might be invalid (e.g. RIPEMD-160 + Kuznyechik)
   [ -f "${filename}" ] || return
@@ -3117,10 +3117,10 @@ function veracrypt_test()
 
     294)
       mkdir -p ${OUTD}/vc_tests
-      chmod u+x "${TDIR}/veracrypt2hashcat.py"
+      chmod u+x "${TDIR}/veracrypt2supercrack.py"
 
-      eval \"${TDIR}/veracrypt2hashcat.py\" \"${TDIR}/vc_tests/hashcat_${hash_function}_${cipher_cascade}.vc\" > ${OUTD}/vc_tests/hashcat_${hash_function}_${cipher_cascade}.hash
-      CMD="./${BIN} ${OPTS} -a 3 -m ${hash_type} '${OUTD}/vc_tests/hashcat_${hash_function}_${cipher_cascade}.hash' hashc?lt"
+      eval \"${TDIR}/veracrypt2supercrack.py\" \"${TDIR}/vc_tests/supercrack_${hash_function}_${cipher_cascade}.vc\" > ${OUTD}/vc_tests/supercrack_${hash_function}_${cipher_cascade}.hash
+      CMD="./${BIN} ${OPTS} -a 3 -m ${hash_type} '${OUTD}/vc_tests/supercrack_${hash_function}_${cipher_cascade}.hash' hashc?lt"
       ;;
   esac
 
@@ -3171,7 +3171,7 @@ function luks_test()
   fi
 
   mkdir -p "${OUTD}/luks_tests"
-  chmod u+x "${TDIR}/luks2hashcat.py"
+  chmod u+x "${TDIR}/luks2supercrack.py"
 
   for luksMode in "cbc-essiv" "cbc-plain64" "xts-plain64"; do
     for luksKeySize in "128" "256" "512"; do
@@ -3279,8 +3279,8 @@ function luks_test()
       luksPassPartFile1="${OUTD}/${hashType}_dict1"
       luksPassPartFile2="${OUTD}/${hashType}_dict2"
 
-      luksContainer="${TDIR}/luks_tests/hashcat_${luksHash}_${luksCipher}_${luksMode}_${luksKeySize}.luks"
-      luksHashFile="${OUTD}/luks_tests/hashcat_${luksHash}_${luksCipher}_${luksMode}_${luksKeySize}.hash"
+      luksContainer="${TDIR}/luks_tests/supercrack_${luksHash}_${luksCipher}_${luksMode}_${luksKeySize}.luks"
+      luksHashFile="${OUTD}/luks_tests/supercrack_${luksHash}_${luksCipher}_${luksMode}_${luksKeySize}.hash"
 
       case $attackType in
         0)
@@ -3317,7 +3317,7 @@ function luks_test()
           ;;
       esac
 
-      eval \"${TDIR}/luks2hashcat.py\" \"${luksContainer}\" > "${luksHashFile}"
+      eval \"${TDIR}/luks2supercrack.py\" \"${luksContainer}\" > "${luksHashFile}"
 
       luksMode="${luksHash}-${luksCipher}-${luksMode}-${luksKeySize}"
 
@@ -3424,7 +3424,7 @@ function luks_legacy_test()
           esac
 
           luks_mode="${luks_h}-${luks_c}-${luks_m}-${luks_k}"
-          luks_file="${TDIR}/luks_tests/hashcat_${luks_h}_${luks_c}_${luks_m}_${luks_k}.luks"
+          luks_file="${TDIR}/luks_tests/supercrack_${luks_h}_${luks_c}_${luks_m}_${luks_k}.luks"
           luks_main_mask="?l"
           luks_mask="${luks_main_mask}"
 
@@ -3562,11 +3562,11 @@ OPTIONS:
 
   -P    Use pure kernels instead of optimized kernels (default : -O)
 
-  -s    Use this session name instead of the default one (default : "hashcat")
+  -s    Use this session name instead of the default one (default : "supercrack")
 
   -c    Disables markov-chains
 
-  -f    Use --force to ignore hashcat warnings (default : disabled)
+  -f    Use --force to ignore supercrack warnings (default : disabled)
 
   -r    Setup max runtime limit (default: 400)
 
@@ -3585,7 +3585,7 @@ EOF
   exit 1
 }
 
-BIN="hashcat"
+BIN="supercrack"
 MARKOV="enabled"
 ATTACK=0
 MODE=0

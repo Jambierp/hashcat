@@ -23,7 +23,7 @@ USE_SYSTEM_UNRAR        ?= 0
 
 UNAME                   := $(shell uname -s)
 
-# we need to strip the windows version number to be able to build hashcat on cygwin hosts
+# we need to strip the windows version number to be able to build supercrack on cygwin hosts
 UNAME                   := $(patsubst CYGWIN_NT-%,CYGWIN,$(UNAME))
 
 # same for msys
@@ -106,11 +106,11 @@ PREFIX                  ?= /usr/local
 
 INSTALL_FOLDER          ?= $(PREFIX)/bin
 SHARED_ROOT_FOLDER      ?= $(PREFIX)/share
-SHARED_FOLDER           ?= $(SHARED_ROOT_FOLDER)/hashcat
-DOCUMENT_FOLDER         ?= $(SHARED_ROOT_FOLDER)/doc/hashcat
+SHARED_FOLDER           ?= $(SHARED_ROOT_FOLDER)/supercrack
+DOCUMENT_FOLDER         ?= $(SHARED_ROOT_FOLDER)/doc/supercrack
 LIBRARY_FOLDER          ?= $(PREFIX)/lib
 LIBRARY_DEV_ROOT_FOLDER ?= $(PREFIX)/include
-LIBRARY_DEV_FOLDER      ?= $(LIBRARY_DEV_ROOT_FOLDER)/hashcat
+LIBRARY_DEV_FOLDER      ?= $(LIBRARY_DEV_ROOT_FOLDER)/supercrack
 
 ##
 ## Dependencies paths
@@ -152,21 +152,21 @@ endif
 ## Filenames for library and frontend
 ##
 
-HASHCAT_FRONTEND        := hashcat
-HASHCAT_LIBRARY         := libhashcat.so.$(VERSION_PURE)
+SUPERCRACK_FRONTEND        := supercrack
+SUPERCRACK_LIBRARY         := libsupercrack.so.$(VERSION_PURE)
 
 ifeq ($(UNAME),Darwin)
-HASHCAT_LIBRARY         := libhashcat.$(VERSION_PURE).dylib
+SUPERCRACK_LIBRARY         := libsupercrack.$(VERSION_PURE).dylib
 endif # Darwin
 
 ifeq ($(UNAME),CYGWIN)
-HASHCAT_FRONTEND        := hashcat.exe
-HASHCAT_LIBRARY         := hashcat.dll
+SUPERCRACK_FRONTEND        := supercrack.exe
+SUPERCRACK_LIBRARY         := supercrack.dll
 endif # CYGWIN
 
 ifeq ($(UNAME),MSYS2)
-HASHCAT_FRONTEND        := hashcat.exe
-HASHCAT_LIBRARY         := hashcat.dll
+SUPERCRACK_FRONTEND        := supercrack.exe
+SUPERCRACK_LIBRARY         := supercrack.dll
 endif # MSYS2
 
 ##
@@ -235,7 +235,7 @@ CFLAGS_UNRAR            += -Wno-unused-but-set-variable
 CFLAGS_UNRAR            += -Wno-deprecated-declarations
 #Not supported on macOS 12.3
 #CFLAGS_UNRAR            += -Wno-format-overflow
-#Added hashcat 7.0.0
+#Added supercrack 7.0.0
 #CFLAGS_UNRAR            += -Wno-class-memaccess
 CFLAGS_UNRAR            += -Wno-misleading-indentation
 endif
@@ -407,7 +407,7 @@ EMU_OBJS_ALL            += emu_inc_hash_md4 emu_inc_hash_md5 emu_inc_hash_ripemd
 EMU_OBJS_ALL            += emu_inc_cipher_aes emu_inc_cipher_camellia emu_inc_cipher_des emu_inc_cipher_kuznyechik emu_inc_cipher_serpent emu_inc_cipher_twofish
 EMU_OBJS_ALL            += emu_inc_hash_base58
 
-OBJS_ALL                := affinity autotune backend benchmark bitmap bitops combinator common convert cpt cpu_crc32 debugfile dictstat dispatch dynloader event ext_ADL ext_cuda ext_hip ext_nvapi ext_nvml ext_nvrtc ext_hiprtc ext_OpenCL ext_sysfs_amdgpu ext_sysfs_cpu ext_iokit ext_lzma filehandling folder hashcat hashes hlfmt hwmon induct interface keyboard_layout locking logfile loopback memory monitor mpsp outfile_check outfile pidfile potfile restore rp rp_cpu selftest slow_candidates shared status stdout straight terminal thread timer tuningdb usage user_options wordlist $(EMU_OBJS_ALL)
+OBJS_ALL                := affinity autotune backend benchmark bitmap bitops combinator common convert cpt cpu_crc32 debugfile dictstat dispatch dynloader event ext_ADL ext_cuda ext_hip ext_nvapi ext_nvml ext_nvrtc ext_hiprtc ext_OpenCL ext_sysfs_amdgpu ext_sysfs_cpu ext_iokit ext_lzma filehandling folder supercrack hashes hlfmt hwmon induct interface keyboard_layout locking logfile loopback memory monitor mpsp outfile_check outfile pidfile potfile restore rp rp_cpu selftest slow_candidates shared status stdout straight terminal thread timer tuningdb usage user_options wordlist $(EMU_OBJS_ALL)
 
 ifeq ($(ENABLE_BRAIN),1)
 OBJS_ALL                += brain
@@ -464,12 +464,12 @@ endif
 ##
 
 .PHONY: default
-default: $(HASHCAT_FRONTEND) modules
+default: $(SUPERCRACK_FRONTEND) modules
 
 .PHONY: clean
 clean:
-	$(RM) -f $(HASHCAT_FRONTEND)
-	$(RM) -f $(HASHCAT_LIBRARY)
+	$(RM) -f $(SUPERCRACK_FRONTEND)
+	$(RM) -f $(SUPERCRACK_LIBRARY)
 	$(RM) -rf modules/*.dSYM
 	$(RM) -f modules/*.dll
 	$(RM) -f modules/*.so
@@ -492,7 +492,7 @@ distclean: clean
 	$(RM) -f *.restore
 	$(RM) -f *.potfile
 	$(RM) -f *.out
-	$(RM) -f hashcat.dictstat2
+	$(RM) -f supercrack.dictstat2
 	$(RM) -f brain.*
 	$(RM) -rf test_[0-9]*
 	$(RM) -rf tools/luks_tests
@@ -516,9 +516,9 @@ endif
 
 .PHONY: install
 ifeq ($(SHARED),1)
-install: install_docs install_shared install_library install_library_dev install_tunings install_kernels install_modules install_hashcat
+install: install_docs install_shared install_library install_library_dev install_tunings install_kernels install_modules install_supercrack
 else
-install: install_docs install_shared                                     install_tunings install_kernels install_modules install_hashcat
+install: install_docs install_shared                                     install_tunings install_kernels install_modules install_supercrack
 endif
 
 # we need this extra target to make sure that for parallel builds (i.e. 2+ Makefile targets could possible run at the same time)
@@ -550,7 +550,7 @@ install_docs: install_make_shared_root
 	$(INSTALL) -m 755 example0.sh                                           $(DESTDIR)$(DOCUMENT_FOLDER)/
 	$(INSTALL) -m 755 example400.sh                                         $(DESTDIR)$(DOCUMENT_FOLDER)/
 	$(INSTALL) -m 755 example500.sh                                         $(DESTDIR)$(DOCUMENT_FOLDER)/
-	$(INSTALL) -m 644 extra/tab_completion/hashcat.sh                       $(DESTDIR)$(DOCUMENT_FOLDER)/extra/tab_completion/
+	$(INSTALL) -m 644 extra/tab_completion/supercrack.sh                       $(DESTDIR)$(DOCUMENT_FOLDER)/extra/tab_completion/
 	$(INSTALL) -m 644 extra/tab_completion/howto.txt                        $(DESTDIR)$(DOCUMENT_FOLDER)/extra/tab_completion/
 	$(INSTALL) -m 755 extra/tab_completion/install                          $(DESTDIR)$(DOCUMENT_FOLDER)/extra/tab_completion/
 	$(FIND) charsets/ -type d -exec $(INSTALL) -m 755 -d                    $(DESTDIR)$(DOCUMENT_FOLDER)/{} \;
@@ -564,14 +564,14 @@ install_docs: install_make_shared_root
 	$(FIND) rules/    -type d -exec $(INSTALL) -m 755 -d                    $(DESTDIR)$(DOCUMENT_FOLDER)/{} \;
 	$(FIND) rules/    -type f -exec $(INSTALL) -m 644 {}                    $(DESTDIR)$(DOCUMENT_FOLDER)/{} \;
 	$(FIND) tools/    -type f -name '*cat.p[ly]' -exec $(INSTALL) -m 755 {} $(DESTDIR)$(DOCUMENT_FOLDER)/{} \;
-	$(SED) $(SED_IN_PLACE) 's/\.\/hashcat/hashcat/'                         $(DESTDIR)$(DOCUMENT_FOLDER)/example0.sh
-	$(SED) $(SED_IN_PLACE) 's/\.\/hashcat/hashcat/'                         $(DESTDIR)$(DOCUMENT_FOLDER)/example400.sh
-	$(SED) $(SED_IN_PLACE) 's/\.\/hashcat/hashcat/'                         $(DESTDIR)$(DOCUMENT_FOLDER)/example500.sh
+	$(SED) $(SED_IN_PLACE) 's/\.\/supercrack/supercrack/'                         $(DESTDIR)$(DOCUMENT_FOLDER)/example0.sh
+	$(SED) $(SED_IN_PLACE) 's/\.\/supercrack/supercrack/'                         $(DESTDIR)$(DOCUMENT_FOLDER)/example400.sh
+	$(SED) $(SED_IN_PLACE) 's/\.\/supercrack/supercrack/'                         $(DESTDIR)$(DOCUMENT_FOLDER)/example500.sh
 
 .PHONY: install_shared
 install_shared: install_make_shared_root
 	$(INSTALL) -m 755 -d                                                    $(DESTDIR)$(SHARED_FOLDER)
-	$(INSTALL) -m 644 hashcat.hcstat2                                       $(DESTDIR)$(SHARED_FOLDER)/
+	$(INSTALL) -m 644 supercrack.hcstat2                                       $(DESTDIR)$(SHARED_FOLDER)/
 
 .PHONY: install_tunings
 install_tunings: install_shared
@@ -592,9 +592,9 @@ install_modules: install_shared modules
 	$(FIND) modules/  -mindepth 1 -type f -execdir $(INSTALL) -m 644 {}     $(DESTDIR)$(SHARED_FOLDER)/modules/{} \;
 
 .PHONY: install_library
-install_library: $(HASHCAT_LIBRARY)
+install_library: $(SUPERCRACK_LIBRARY)
 	$(INSTALL) -m 755 -d                                                    $(DESTDIR)$(LIBRARY_FOLDER)
-	$(INSTALL) -m 755 $(HASHCAT_LIBRARY)                                    $(DESTDIR)$(LIBRARY_FOLDER)/
+	$(INSTALL) -m 755 $(SUPERCRACK_LIBRARY)                                    $(DESTDIR)$(LIBRARY_FOLDER)/
 
 .PHONY: install_library_dev
 install_library_dev: install_make_library_dev_root
@@ -602,21 +602,21 @@ install_library_dev: install_make_library_dev_root
 	$(FIND) include/  -mindepth 1 -type d -execdir $(INSTALL) -m 755 -d     $(DESTDIR)$(LIBRARY_DEV_FOLDER)/{} \;
 	$(FIND) include/  -mindepth 1 -type f -execdir $(INSTALL) -m 644 {}     $(DESTDIR)$(LIBRARY_DEV_FOLDER)/{} \;
 
-.PHONY: install_hashcat
-install_hashcat: $(HASHCAT_FRONTEND)
+.PHONY: install_supercrack
+install_supercrack: $(SUPERCRACK_FRONTEND)
 	$(INSTALL) -m 755 -d                                                    $(DESTDIR)$(INSTALL_FOLDER)
-	$(INSTALL) -m 755 $(HASHCAT_FRONTEND)                                   $(DESTDIR)$(INSTALL_FOLDER)/
+	$(INSTALL) -m 755 $(SUPERCRACK_FRONTEND)                                   $(DESTDIR)$(INSTALL_FOLDER)/
 
 .PHONY: uninstall
 uninstall:
-	$(RM) -f  $(DESTDIR)$(INSTALL_FOLDER)/$(HASHCAT_FRONTEND)
-	$(RM) -f  $(DESTDIR)$(LIBRARY_FOLDER)/$(HASHCAT_LIBRARY)
+	$(RM) -f  $(DESTDIR)$(INSTALL_FOLDER)/$(SUPERCRACK_FRONTEND)
+	$(RM) -f  $(DESTDIR)$(LIBRARY_FOLDER)/$(SUPERCRACK_LIBRARY)
 	$(RM) -rf $(DESTDIR)$(LIBRARY_DEV_FOLDER)
 	$(RM) -rf $(DESTDIR)$(SHARED_FOLDER)
 	$(RM) -rf $(DESTDIR)$(DOCUMENT_FOLDER)
 
 ##
-## native compiled hashcat library and frontend
+## native compiled supercrack library and frontend
 ##
 
 obj/%.NATIVE.o: src/%.c
@@ -660,18 +660,18 @@ endif
 	$(AR) rcs $@ $^
 
 ifeq ($(UNAME),Darwin)
-$(HASHCAT_LIBRARY): $(NATIVE_OBJS)
-	$(CC)                     $^ -o $@                    $(LFLAGS_NATIVE) -shared -install_name $(DESTDIR)$(LIBRARY_FOLDER)/$(HASHCAT_LIBRARY) -current_version $(VERSION_PURE) -compatibility_version $(VERSION_PURE)
+$(SUPERCRACK_LIBRARY): $(NATIVE_OBJS)
+	$(CC)                     $^ -o $@                    $(LFLAGS_NATIVE) -shared -install_name $(DESTDIR)$(LIBRARY_FOLDER)/$(SUPERCRACK_LIBRARY) -current_version $(VERSION_PURE) -compatibility_version $(VERSION_PURE)
 else
-$(HASHCAT_LIBRARY): $(NATIVE_OBJS)
-	$(CC)                     $^ -o $@                    $(LFLAGS_NATIVE) -shared -Wl,-soname,$(HASHCAT_LIBRARY)
+$(SUPERCRACK_LIBRARY): $(NATIVE_OBJS)
+	$(CC)                     $^ -o $@                    $(LFLAGS_NATIVE) -shared -Wl,-soname,$(SUPERCRACK_LIBRARY)
 endif
 
 ifeq ($(SHARED),1)
-$(HASHCAT_FRONTEND): src/main.c $(HASHCAT_LIBRARY)
-	$(CC)    $(CCFLAGS) $(CFLAGS_NATIVE) $^ -o $@ $(HASHCAT_LIBRARY) $(LFLAGS_NATIVE) -DCOMPTIME=$(COMPTIME) -DVERSION_TAG=\"$(VERSION_TAG)\" -DINSTALL_FOLDER=\"$(INSTALL_FOLDER)\" -DSHARED_FOLDER=\"$(SHARED_FOLDER)\" -DDOCUMENT_FOLDER=\"$(DOCUMENT_FOLDER)\"
+$(SUPERCRACK_FRONTEND): src/main.c $(SUPERCRACK_LIBRARY)
+	$(CC)    $(CCFLAGS) $(CFLAGS_NATIVE) $^ -o $@ $(SUPERCRACK_LIBRARY) $(LFLAGS_NATIVE) -DCOMPTIME=$(COMPTIME) -DVERSION_TAG=\"$(VERSION_TAG)\" -DINSTALL_FOLDER=\"$(INSTALL_FOLDER)\" -DSHARED_FOLDER=\"$(SHARED_FOLDER)\" -DDOCUMENT_FOLDER=\"$(DOCUMENT_FOLDER)\"
 else
-$(HASHCAT_FRONTEND): src/main.c obj/combined.NATIVE.a
+$(SUPERCRACK_FRONTEND): src/main.c obj/combined.NATIVE.a
 	$(CC)    $(CCFLAGS) $(CFLAGS_NATIVE) $^ -o $@                    $(LFLAGS_NATIVE) -DCOMPTIME=$(COMPTIME) -DVERSION_TAG=\"$(VERSION_TAG)\" -DINSTALL_FOLDER=\"$(INSTALL_FOLDER)\" -DSHARED_FOLDER=\"$(SHARED_FOLDER)\" -DDOCUMENT_FOLDER=\"$(DOCUMENT_FOLDER)\"
 endif
 
@@ -702,7 +702,7 @@ endif
 $(MODULES_DISABLE): ;
 
 ifeq ($(SHARED),1)
-modules/module_%.$(MODULE_SUFFIX): src/modules/module_%.c $(HASHCAT_LIBRARY)
+modules/module_%.$(MODULE_SUFFIX): src/modules/module_%.c $(SUPERCRACK_LIBRARY)
 	$(CC)    $(CCFLAGS) $(CFLAGS_NATIVE) $^ -o $@ $(LFLAGS_NATIVE) -shared -fPIC -D MODULE_INTERFACE_VERSION_CURRENT=$(MODULE_INTERFACE_VERSION)
 else
 modules/module_%.$(MODULE_SUFFIX): src/modules/module_%.c obj/combined.NATIVE.a
@@ -786,7 +786,7 @@ ifeq ($(UNAME),Darwin)
 binaries: win
 
 .PHONY: host_win
-host_win:   hashcat.exe
+host_win:   supercrack.exe
 
 .PHONY: win
 win:   host_win   modules_win
@@ -795,8 +795,8 @@ else
 binaries: linux win
 
 .PHONY: host_linux host_win
-host_linux: hashcat.bin
-host_win:   hashcat.exe
+host_linux: supercrack.bin
+host_win:   supercrack.exe
 
 .PHONY: linux win
 linux: host_linux modules_linux
@@ -821,7 +821,7 @@ modules/module_%.dll: src/modules/module_%.c obj/combined.WIN.a
 	$(CC_WIN)    $(CCFLAGS) $(CFLAGS_CROSS_WIN)   $^ -o $@ $(LFLAGS_CROSS_WIN)   -shared -fPIC -D MODULE_INTERFACE_VERSION_CURRENT=$(MODULE_INTERFACE_VERSION)
 
 ##
-## cross compiled hashcat
+## cross compiled supercrack
 ##
 
 obj/%.LINUX.o: src/%.c
@@ -872,13 +872,13 @@ obj/combined.LINUX.a: $(LINUX_OBJS)
 obj/combined.WIN.a: $(WIN_OBJS)
 	$(AR_WIN) rcs $@ $^
 
-hashcat.bin: src/main.c obj/combined.LINUX.a
+supercrack.bin: src/main.c obj/combined.LINUX.a
 	$(CC_LINUX) $(CCFLAGS) $(CFLAGS_CROSS_LINUX)    -o $@ $^ $(LFLAGS_CROSS_LINUX) -DCOMPTIME=$(COMPTIME) -DVERSION_TAG=\"$(VERSION_TAG)\" -DINSTALL_FOLDER=\"$(INSTALL_FOLDER)\" -DSHARED_FOLDER=\"$(SHARED_FOLDER)\" -DDOCUMENT_FOLDER=\"$(DOCUMENT_FOLDER)\"
 
-hashcat.exe: src/main.c obj/combined.WIN.a $(WIN_ICONV)/lib/libiconv.a
+supercrack.exe: src/main.c obj/combined.WIN.a $(WIN_ICONV)/lib/libiconv.a
 	$(CC_WIN)   $(CCFLAGS) $(CFLAGS_CROSS_WIN)      -o $@ $^ $(LFLAGS_CROSS_WIN)   -DCOMPTIME=$(COMPTIME) -DVERSION_TAG=\"$(VERSION_TAG)\"
 
-hashcat.dll: src/main.c obj/combined.WIN.a $(WIN_ICONV)/lib/libiconv.a
+supercrack.dll: src/main.c obj/combined.WIN.a $(WIN_ICONV)/lib/libiconv.a
 	$(CC_WIN)   $(CCFLAGS) $(CFLAGS_CROSS_WIN)      -o $@ $^ $(LFLAGS_CROSS_WIN)   -DCOMPTIME=$(COMPTIME) -DVERSION_TAG=\"$(VERSION_TAG)\" -shared
 
 endif

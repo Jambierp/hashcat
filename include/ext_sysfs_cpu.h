@@ -46,12 +46,12 @@ typedef struct
 
 typedef hm_sysfs_cpu_lib_t SYSFS_CPU_PTR;
 
-bool sysfs_cpu_init (void *hashcat_ctx);
-void sysfs_cpu_close (void *hashcat_ctx);
+bool sysfs_cpu_init (void *supercrack_ctx);
+void sysfs_cpu_close (void *supercrack_ctx);
 char *hm_SYSFS_CPU_get_syspath_hwmon (void);
-int hm_SYSFS_CPU_get_temperature_current (void *hashcat_ctx, int *val);
+int hm_SYSFS_CPU_get_temperature_current (void *supercrack_ctx, int *val);
 
-bool read_proc_stat (void *hashcat_ctx, proc_stat_t *proc_stat);
-int hm_SYSFS_CPU_get_utilization_current (void *hashcat_ctx, int *val);
+bool read_proc_stat (void *supercrack_ctx, proc_stat_t *proc_stat);
+int hm_SYSFS_CPU_get_utilization_current (void *supercrack_ctx, int *val);
 
 #endif // HC_EXT_SYSFS_CPU_H

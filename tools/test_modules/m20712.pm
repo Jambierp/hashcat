@@ -18,7 +18,7 @@ sub module_generate_hash
   my $word = shift;
   my $salt = shift;
 
-  #$word = "hashcat";
+  #$word = "supercrack";
   #$salt = decode_base64 ("c2FsdHNhbHQ=");
 
   my $salt_b64 = encode_base64 ($salt, "");

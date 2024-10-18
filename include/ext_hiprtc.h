@@ -64,15 +64,15 @@ typedef hc_hiprtc_lib_t HIPRTC_PTR;
 
 int hiprtc_make_options_array_from_string (char *string, char **options);
 
-int  hiprtc_init                 (void *hashcat_ctx);
-void hiprtc_close                (void *hashcat_ctx);
+int  hiprtc_init                 (void *supercrack_ctx);
+void hiprtc_close                (void *supercrack_ctx);
 
-int hc_hiprtcCreateProgram       (void *hashcat_ctx, hiprtcProgram *prog, const char *src, const char *name, int numHeaders, const char * const *headers, const char * const *includeNames);
-int hc_hiprtcDestroyProgram      (void *hashcat_ctx, hiprtcProgram *prog);
-int hc_hiprtcCompileProgram      (void *hashcat_ctx, hiprtcProgram prog, int numOptions, const char * const *options);
-int hc_hiprtcGetProgramLogSize   (void *hashcat_ctx, hiprtcProgram prog, size_t *logSizeRet);
-int hc_hiprtcGetProgramLog       (void *hashcat_ctx, hiprtcProgram prog, char *log);
-int hc_hiprtcGetCodeSize         (void *hashcat_ctx, hiprtcProgram prog, size_t *codeSizeRet);
-int hc_hiprtcGetCode             (void *hashcat_ctx, hiprtcProgram prog, char *code);
+int hc_hiprtcCreateProgram       (void *supercrack_ctx, hiprtcProgram *prog, const char *src, const char *name, int numHeaders, const char * const *headers, const char * const *includeNames);
+int hc_hiprtcDestroyProgram      (void *supercrack_ctx, hiprtcProgram *prog);
+int hc_hiprtcCompileProgram      (void *supercrack_ctx, hiprtcProgram prog, int numOptions, const char * const *options);
+int hc_hiprtcGetProgramLogSize   (void *supercrack_ctx, hiprtcProgram prog, size_t *logSizeRet);
+int hc_hiprtcGetProgramLog       (void *supercrack_ctx, hiprtcProgram prog, char *log);
+int hc_hiprtcGetCodeSize         (void *supercrack_ctx, hiprtcProgram prog, size_t *codeSizeRet);
+int hc_hiprtcGetCode             (void *supercrack_ctx, hiprtcProgram prog, char *code);
 
 #endif // HC_EXT_HIPRTC_H

@@ -119,7 +119,7 @@ sub module_generate_hash
 
     $pt_bin = xor_len (substr ($ctr, 4, 8), $ct_bin, 8);
 
-    # we compare only 56 bit, see https://github.com/hashcat/hashcat/issues/3467
+    # we compare only 56 bit, see https://github.com/supercrack/supercrack/issues/3467
 
     if (substr ($pt_bin, 0, 7) eq "\xd2\xc3\xb4\xa1\x00\x00\x00")
     {

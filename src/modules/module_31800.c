@@ -26,8 +26,8 @@ static const u64   OPTS_TYPE      = OPTS_TYPE_STOCK_MODULE
                                   | OPTS_TYPE_PT_GENERATE_LE
                                   | OPTS_TYPE_DEEP_COMP_KERNEL;
 static const u32   SALT_TYPE      = SALT_TYPE_EMBEDDED;
-static const char *ST_PASS        = "hashcat";
-static const char *ST_HASH        = "$mobilekeychain$31800@hashcat.net$0226802599846590531367298686059042845608249051353268870564348733$fa53b7d424cdd36667dc12e585810729efc8ea9b2f8e5dd7a3ee72f7576a6788$100000$e1fea241e7b7c84535a0d53388bccbb9$dfd5f9ad6da1a72a47a3c04e03b02142b2fc301b3afff610669058527828a0e0388f5a2b0e6909813a5f9653c54f797adf0869107f4b875d4beb736cfbcec428ca19fc28346642fa32ec00f2ca4ad8dcf119af33cb247273e7b7427fd20eae8fb992779979a5e25aa465b3954794f62f4ea85355032efcd4e43ae3db6b14720d1dda963a384c37b521a92cef3494f77580edab210987ebcf2f0f7ed0220c0a4777be693e075b5f1e1302$995f3703b8ea4519f8cdc1cbded4d595";
+static const char *ST_PASS        = "supercrack";
+static const char *ST_HASH        = "$mobilekeychain$31800@supercrack.net$0226802599846590531367298686059042845608249051353268870564348733$fa53b7d424cdd36667dc12e585810729efc8ea9b2f8e5dd7a3ee72f7576a6788$100000$e1fea241e7b7c84535a0d53388bccbb9$dfd5f9ad6da1a72a47a3c04e03b02142b2fc301b3afff610669058527828a0e0388f5a2b0e6909813a5f9653c54f797adf0869107f4b875d4beb736cfbcec428ca19fc28346642fa32ec00f2ca4ad8dcf119af33cb247273e7b7427fd20eae8fb992779979a5e25aa465b3954794f62f4ea85355032efcd4e43ae3db6b14720d1dda963a384c37b521a92cef3494f77580edab210987ebcf2f0f7ed0220c0a4777be693e075b5f1e1302$995f3703b8ea4519f8cdc1cbded4d595";
 
 u32         module_attack_exec    (MAYBE_UNUSED const hashconfig_t *hashconfig, MAYBE_UNUSED const user_options_t *user_options, MAYBE_UNUSED const user_options_extra_t *user_options_extra) { return ATTACK_EXEC;     }
 u32         module_dgst_pos0      (MAYBE_UNUSED const hashconfig_t *hashconfig, MAYBE_UNUSED const user_options_t *user_options, MAYBE_UNUSED const user_options_extra_t *user_options_extra) { return DGST_POS0;       }
